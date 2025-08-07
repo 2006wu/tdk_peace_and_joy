@@ -1,0 +1,10 @@
+[0.010s] Invoking command in '/home/tdk/ros2_ws/build/navigation': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/opt/ros/humble /usr/bin/cmake --build /home/tdk/ros2_ws/build/navigation -- -j12 -l12
+[0.063s] [ 50%] [32mBuilding CXX object CMakeFiles/check_point_4.dir/src/check_point_4.cpp.o[0m
+[2.440s] [100%] [32m[1mLinking CXX executable check_point_4[0m
+[2.519s] /usr/bin/ld: /usr/lib/gcc/x86_64-linux-gnu/11/../../../x86_64-linux-gnu/Scrt1.o: in function `_start':
+[2.520s] (.text+0x1b): undefined reference to `main'
+[2.524s] collect2: error: ld returned 1 exit status
+[2.526s] gmake[2]: *** [CMakeFiles/check_point_4.dir/build.make:175: check_point_4] Error 1
+[2.526s] gmake[1]: *** [CMakeFiles/Makefile2:137: CMakeFiles/check_point_4.dir/all] Error 2
+[2.526s] gmake: *** [Makefile:146: all] Error 2
+[2.529s] Invoked command in '/home/tdk/ros2_ws/build/navigation' returned '2': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/opt/ros/humble /usr/bin/cmake --build /home/tdk/ros2_ws/build/navigation -- -j12 -l12

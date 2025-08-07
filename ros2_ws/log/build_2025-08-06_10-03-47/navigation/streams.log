@@ -1,0 +1,17 @@
+[0.010s] Invoking command in '/home/tdk/ros2_ws/build/navigation': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/opt/ros/humble /usr/bin/cmake --build /home/tdk/ros2_ws/build/navigation -- -j12 -l12
+[0.059s] [ 50%] [32mBuilding CXX object CMakeFiles/check_point_4.dir/src/check_point_4.cpp.o[0m
+[1.862s] [01m[K/home/tdk/ros2_ws/src/navigation/src/check_point_4.cpp:[m[K In member function ‘[01m[Kvoid SmoothPathGenerator::add_pose(double, double, double)[m[K’:
+[1.863s] [01m[K/home/tdk/ros2_ws/src/navigation/src/check_point_4.cpp:125:9:[m[K [01;31m[Kerror: [m[K‘[01m[Ktf2[m[K’ has not been declared
+[1.863s]   125 |         [01;31m[Ktf2[m[K::Quaternion q;
+[1.863s]       |         [01;31m[K^~~[m[K
+[1.866s] [01m[K/home/tdk/ros2_ws/src/navigation/src/check_point_4.cpp:126:9:[m[K [01;31m[Kerror: [m[K‘[01m[Kq[m[K’ was not declared in this scope
+[1.866s]   126 |         [01;31m[Kq[m[K.setRPY(0, 0, yaw);
+[1.866s]       |         [01;31m[K^[m[K
+[1.866s] [01m[K/home/tdk/ros2_ws/src/navigation/src/check_point_4.cpp:127:33:[m[K [01;31m[Kerror: [m[K‘[01m[Ktf2[m[K’ has not been declared
+[1.866s]   127 | ose.orientation = [01;31m[Ktf2[m[K::toMsg(q);
+[1.866s]       |                   [01;31m[K^~~[m[K
+[1.866s] 
+[2.448s] gmake[2]: *** [CMakeFiles/check_point_4.dir/build.make:76: CMakeFiles/check_point_4.dir/src/check_point_4.cpp.o] Error 1
+[2.448s] gmake[1]: *** [CMakeFiles/Makefile2:137: CMakeFiles/check_point_4.dir/all] Error 2
+[2.448s] gmake: *** [Makefile:146: all] Error 2
+[2.451s] Invoked command in '/home/tdk/ros2_ws/build/navigation' returned '2': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/opt/ros/humble /usr/bin/cmake --build /home/tdk/ros2_ws/build/navigation -- -j12 -l12

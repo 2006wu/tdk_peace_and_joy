@@ -1,0 +1,103 @@
+name: tdk-communication
+services:
+  ros-core:
+    image: osrf/ros:noetic-desktop-full
+    container_name: wu-ros-core
+    command: "rosmaster --core"
+    network_mode: host
+    working_dir: /catkin_ws
+    stop_grace_period: 1s
+    healthcheck:
+      # The healthcheck is required for ros1-bridge to wait until roscore is ready.
+      test: /ros_entrypoint.sh bash -c "rostopic list || exit 1"
+      interval: 3s
+      timeout: 10s
+      retries: 5
+
+  ros1-bridge:
+    build:
+      context: .
+      target: release
+    image: pomelo925/ttennis-humble:communication
+    container_name: wu-ros2-ros1-bridge-ws
+    environment:
+      - RMW_IMPLEMENTATION=rmw_cyclonedds_cpp
+      - ROS_DOMAIN_ID=23
+      #- ROS_MASTER_URI=http://192.168.50.133:11311 #x1
+      #- ROS_IP=192.168.50.133 #x1
+    stop_grace_period: 1s
+    depends_on:
+      ros-core:
+        # The healthcheck is required for ros1-bridge to wait until roscore is ready.
+        condition: service_healthy
+    command: >
+      bash -c "export ROS_MASTER_URI=http://localhost:11311 &&
+               source /ros2_humble/install/setup.bash &&
+               source /ros2_humble/install/ros1_bridge/share/ros1_bridge/local_setup.bash &&
+               ros2 run ros1_bridge dynamic_bridge --bridge-all-topics --ros-args --remap __node:=ros_bridge_main"
+
+    stdin_open: true
+    tty: true
+    network_mode: host
+    volumes:
+      # Mount local timezone into container. ( Readonly )
+      # Reference: https://stackoverflow.com/questions/57607381/how-do-i-change-timezone-in-a-docker-container
+      - /etc/timezone:/etc/timezone:ro
+      - /etc/localtime:/etc/localtime:ro
+      # Direct Rendering Infrastructure
+      - /dev/dri:/dev/dri
+      # Shared Memory
+      - /dev/shm:/dev/shm
+      - ~/tdk_peace_and_joy/ros2_ws:/ros2_ws/
+    working_dir: /ros2_ws
+
+  ros1:
+    image: osrf/ros:noetic-desktop-full
+    container_name: wu-ros1
+    stdin_open: true
+    tty: true
+    network_mode: host
+    privileged: true
+    volumes:
+      - ~/tdk_peace_and_joy/catkin_ws:/catkin_ws/
+      - /dev/bus/usb:/dev/bus/usb
+    working_dir: /catkin_ws
+    stop_grace_period: 1s
+    depends_on:
+      ros-core:
+        condition: service_healthy
+    command: /bin/bash -c "
+            source /opt/ros/noetic/setup.bash && 
+            source /catkin_ws/devel/setup.bash && 
+            cd /catkin_ws &&
+            sudo chmod 777 /dev/ttyACM0 &&
+            roslaunch rosserial_server stm32.launch"
+        
+
+  ros2:
+    image: osrf/ros:humble-desktop-full
+    container_name: wu-ros2
+    environment:
+      - RMW_IMPLEMENTATION=rmw_cyclonedds_cpp
+      - ROS_DOMAIN_ID=23
+      - DISPLAY=${DISPLAY}
+      - QT_X11_NO_MITSHM=1
+      #- ROS_MASTER_URI=http://192.168.50.133:11311 #x1
+      #- ROS_IP=192.168.50.133 #x1
+    stdin_open: true
+    tty: true
+    network_mode: host
+    privileged: true
+    stop_grace_period: 1s
+    volumes:
+      # GUI 顯示相關
+      - /tmp/.X11-unix:/tmp/.X11-unix:rw      
+      - $HOME/.Xauthority:/root/.Xauthority:rw
+      # 共享內存
+      - /dev/shm:/dev/shm
+      # GPU 直連（必要時）
+      - /dev/dri:/dev/dri
+      # 你的 ROS2 workspace
+      - ~/tdk_peace_and_joy/ros2_ws:/ros2_ws/
+    working_dir: /ros2_ws
+    command: /bin/bash -c "apt update && apt install -y ros-humble-rmw-cyclonedds-cpp && source /opt/ros/humble/setup.bash && bash"

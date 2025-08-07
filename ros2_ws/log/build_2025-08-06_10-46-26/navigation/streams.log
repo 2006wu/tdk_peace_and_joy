@@ -1,0 +1,26 @@
+[0.010s] Invoking command in '/home/tdk/ros2_ws/build/navigation': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/opt/ros/humble /usr/bin/cmake --build /home/tdk/ros2_ws/build/navigation -- -j12 -l12
+[0.048s] [35m[1mConsolidate compiler generated dependencies of target check_point_4[0m
+[0.065s] [ 50%] [32mBuilding CXX object CMakeFiles/check_point_4.dir/src/check_point_4.cpp.o[0m
+[3.344s] [100%] [32m[1mLinking CXX executable check_point_4[0m
+[3.512s] [100%] Built target check_point_4
+[3.522s] Invoked command in '/home/tdk/ros2_ws/build/navigation' returned '0': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/opt/ros/humble /usr/bin/cmake --build /home/tdk/ros2_ws/build/navigation -- -j12 -l12
+[3.531s] Invoking command in '/home/tdk/ros2_ws/build/navigation': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/opt/ros/humble /usr/bin/cmake --install /home/tdk/ros2_ws/build/navigation
+[3.538s] -- Install configuration: ""
+[3.539s] -- Installing: /home/tdk/ros2_ws/install/navigation/lib/navigation/check_point_4
+[3.540s] -- Set runtime path of "/home/tdk/ros2_ws/install/navigation/lib/navigation/check_point_4" to ""
+[3.540s] -- Up-to-date: /home/tdk/ros2_ws/install/navigation/share/ament_index/resource_index/package_run_dependencies/navigation
+[3.540s] -- Up-to-date: /home/tdk/ros2_ws/install/navigation/share/ament_index/resource_index/parent_prefix_path/navigation
+[3.540s] -- Up-to-date: /home/tdk/ros2_ws/install/navigation/share/navigation/environment/ament_prefix_path.sh
+[3.540s] -- Up-to-date: /home/tdk/ros2_ws/install/navigation/share/navigation/environment/ament_prefix_path.dsv
+[3.540s] -- Up-to-date: /home/tdk/ros2_ws/install/navigation/share/navigation/environment/path.sh
+[3.540s] -- Up-to-date: /home/tdk/ros2_ws/install/navigation/share/navigation/environment/path.dsv
+[3.540s] -- Up-to-date: /home/tdk/ros2_ws/install/navigation/share/navigation/local_setup.bash
+[3.540s] -- Up-to-date: /home/tdk/ros2_ws/install/navigation/share/navigation/local_setup.sh
+[3.541s] -- Up-to-date: /home/tdk/ros2_ws/install/navigation/share/navigation/local_setup.zsh
+[3.541s] -- Up-to-date: /home/tdk/ros2_ws/install/navigation/share/navigation/local_setup.dsv
+[3.541s] -- Installing: /home/tdk/ros2_ws/install/navigation/share/navigation/package.dsv
+[3.541s] -- Up-to-date: /home/tdk/ros2_ws/install/navigation/share/ament_index/resource_index/packages/navigation
+[3.541s] -- Up-to-date: /home/tdk/ros2_ws/install/navigation/share/navigation/cmake/navigationConfig.cmake
+[3.541s] -- Up-to-date: /home/tdk/ros2_ws/install/navigation/share/navigation/cmake/navigationConfig-version.cmake
+[3.541s] -- Up-to-date: /home/tdk/ros2_ws/install/navigation/share/navigation/package.xml
+[3.543s] Invoked command in '/home/tdk/ros2_ws/build/navigation' returned '0': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/opt/ros/humble /usr/bin/cmake --install /home/tdk/ros2_ws/build/navigation
