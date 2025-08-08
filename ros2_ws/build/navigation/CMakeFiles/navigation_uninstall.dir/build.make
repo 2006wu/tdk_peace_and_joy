@@ -53,10 +53,10 @@ RM = /usr/bin/cmake -E rm -f
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = /home/tdk/ros2_ws/src/navigation
+CMAKE_SOURCE_DIR = /ros2_ws/src/navigation
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /home/tdk/ros2_ws/build/navigation
+CMAKE_BINARY_DIR = /ros2_ws/build/navigation
 
 # Utility rule file for navigation_uninstall.
 
@@ -67,7 +67,7 @@ include CMakeFiles/navigation_uninstall.dir/compiler_depend.make
 include CMakeFiles/navigation_uninstall.dir/progress.make
 
 CMakeFiles/navigation_uninstall:
-	/usr/bin/cmake -P /home/tdk/ros2_ws/build/navigation/ament_cmake_uninstall_target/ament_cmake_uninstall_target.cmake
+	/usr/bin/cmake -P /ros2_ws/build/navigation/ament_cmake_uninstall_target/ament_cmake_uninstall_target.cmake
 
 navigation_uninstall: CMakeFiles/navigation_uninstall
 navigation_uninstall: CMakeFiles/navigation_uninstall.dir/build.make
@@ -82,6 +82,6 @@ CMakeFiles/navigation_uninstall.dir/clean:
 .PHONY : CMakeFiles/navigation_uninstall.dir/clean
 
 CMakeFiles/navigation_uninstall.dir/depend:
-	cd /home/tdk/ros2_ws/build/navigation && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" /home/tdk/ros2_ws/src/navigation /home/tdk/ros2_ws/src/navigation /home/tdk/ros2_ws/build/navigation /home/tdk/ros2_ws/build/navigation /home/tdk/ros2_ws/build/navigation/CMakeFiles/navigation_uninstall.dir/DependInfo.cmake --color=$(COLOR)
+	cd /ros2_ws/build/navigation && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" /ros2_ws/src/navigation /ros2_ws/src/navigation /ros2_ws/build/navigation /ros2_ws/build/navigation /ros2_ws/build/navigation/CMakeFiles/navigation_uninstall.dir/DependInfo.cmake --color=$(COLOR)
 .PHONY : CMakeFiles/navigation_uninstall.dir/depend
 

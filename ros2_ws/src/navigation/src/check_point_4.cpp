@@ -1,141 +1,203 @@
 #include <rclcpp/rclcpp.hpp>
-#include <nav_msgs/msg/path.hpp>
-#include <geometry_msgs/msg/pose_stamped.hpp>
+#include <geometry_msgs/msg/twist.hpp>
 #include <fstream>
 #include <sstream>
 #include <vector>
 #include <cmath>
+#include <cstdlib>
 
 struct PathCommand {
-    double x, y;         // 下一點 (mm)
-    double radius;       // 半徑 (mm)，-1 表示直線
-    char direction;      // 'L', 'R', or '_'
-    double angle_deg;    // 轉幾度到下一點
+    double x, y, radius, angle;
 };
 
-class CurvedPathGenerator : public rclcpp::Node {
+class CurvedPathPublisher : public rclcpp::Node {
 public:
-    CurvedPathGenerator() : Node("curved_path_generator") {
-        pub_ = this->create_publisher<nav_msgs::msg::Path>("/path", 10);
-        timer_ = this->create_wall_timer(
-            std::chrono::milliseconds(500),
-            std::bind(&CurvedPathGenerator::publish_path, this));
-        load_commands("/home/tdk/ros2_ws/src/navigation/waypoints/center_path.csv");
-        build_path();
+    CurvedPathPublisher() : Node("curved_path_publisher") {
+        pub_ = this->create_publisher<geometry_msgs::msg::Twist>("cmd_vel", 10);
+
+        path_ = readPath("src/navigation/waypoints/center_path.csv");
+        if (path_.empty()) {
+            RCLCPP_ERROR(this->get_logger(), "❌ No valid path found.");
+            return;
+        }
+
+        simulateAndWrite(path_, "path.dat");         // 寫入 path.dat 給 Gnuplot
+        plotWithGnuplot("path.dat");                 // 呼叫 Gnuplot 畫圖
+
+        i_ = 1;
+        step_ = 0;
+        timer_ = this->create_wall_timer(std::chrono::milliseconds(50), std::bind(&CurvedPathPublisher::publishTwist, this));
     }
 
 private:
-    rclcpp::Publisher<nav_msgs::msg::Path>::SharedPtr pub_;
+    rclcpp::Publisher<geometry_msgs::msg::Twist>::SharedPtr pub_;
     rclcpp::TimerBase::SharedPtr timer_;
-    nav_msgs::msg::Path path_msg_;
-    std::vector<PathCommand> commands_;
 
-    void load_commands(const std::string &filename) {
+    std::vector<PathCommand> path_;
+    size_t i_ = 1;
+    int step_ = 0;
+    int max_step_ = 50;
+
+    double prev_x_, prev_y_, prev_theta_;
+
+    std::vector<PathCommand> readPath(const std::string& filename) {
+        std::vector<PathCommand> path;
         std::ifstream file(filename);
         std::string line;
+
         while (std::getline(file, line)) {
             if (line.empty() || line[0] == '#') continue;
             std::stringstream ss(line);
-            std::string x_str, y_str, r_str, d_str, a_str;
+            std::string x_str, y_str, r_str, _, a_str;
+
             std::getline(ss, x_str, ',');
             std::getline(ss, y_str, ',');
             std::getline(ss, r_str, ',');
-            std::getline(ss, d_str, ',');
+            //std::getline(ss, _, ',');  // 跳過方向欄位
             std::getline(ss, a_str, ',');
-            commands_.push_back({
-                std::stod(x_str),
-                std::stod(y_str),
-                std::stod(r_str),
-                d_str.empty() ? '_' : d_str[0],
-                std::stod(a_str)
-            });
-        }
-    }
 
-    void build_path() {
-        path_msg_.header.frame_id = "map";
-        if (commands_.size() < 2) return;
-
-        // 初始位置與方向（向右）
-        double x = commands_[0].x / 1000.0;
-        double y = commands_[0].y / 1000.0;
-        double yaw = 0.0;
-        add_pose(x, y, yaw);
-
-        for (size_t i = 1; i < commands_.size(); ++i) {
-            const auto &cmd = commands_[i];
-            double x1 = cmd.x / 1000.0;
-            double y1 = cmd.y / 1000.0;
-
-            if (cmd.radius < 0 || cmd.direction == '_') {
-                interpolate_line(x, y, x1, y1, yaw);
-                yaw = std::atan2(y1 - y, x1 - x);
-                x = x1;
-                y = y1;
-            } else {
-                interpolate_arc(x, y, yaw, cmd.radius / 1000.0, cmd.direction, cmd.angle_deg, x, y, yaw);
+            try {
+                double x = std::stod(x_str) / 1000.0;
+                double y = std::stod(y_str) / 1000.0;
+                double r = std::stod(r_str) / 1000.0;
+                double a = std::stod(a_str);
+                path.push_back({x, y, r, a});
+            } catch (...) {
+                RCLCPP_WARN(this->get_logger(), "⚠️ Invalid line: %s", line.c_str());
             }
         }
+        return path;
     }
 
-    void interpolate_line(double x0, double y0, double x1, double y1, double yaw) {
-        int steps = 30;
-        for (int i = 1; i <= steps; ++i) {
-            double t = static_cast<double>(i) / steps;
-            double x = x0 + t * (x1 - x0);
-            double y = y0 + t * (y1 - y0);
-            add_pose(x, y, yaw);
+    void publishTwist() {
+        if (i_ >= path_.size()) return;
+
+        const auto& p1 = path_[i_ - 1];
+        const auto& p2 = path_[i_];
+
+        double xi, yi, theta;
+
+        if (std::abs(p1.angle) < 1e-3) {
+            double t = static_cast<double>(step_) / max_step_;
+            xi = p1.x + (p2.x - p1.x) * t;
+            yi = p1.y + (p2.y - p1.y) * t;
+            theta = std::atan2(p2.y - p1.y, p2.x - p1.x);
+        } else {
+            double theta_rad = p1.angle * M_PI / 180.0;
+            double dx = p2.x - p1.x;
+            double dy = p2.y - p1.y;
+            double chord = std::hypot(dx, dy);
+            double r = std::abs(p1.radius);
+            double mid_x = (p1.x + p2.x) / 2.0;
+            double mid_y = (p1.y + p2.y) / 2.0;
+            double dir_x = -dy / chord;
+            double dir_y = dx / chord;
+            double h = std::sqrt(r * r - (chord * chord) / 4.0);
+            double cx = mid_x + dir_x * h * std::copysign(1.0, theta_rad);
+            double cy = mid_y + dir_y * h * std::copysign(1.0, theta_rad);
+
+            double start_angle = std::atan2(p1.y - cy, p1.x - cx);
+            double end_angle = std::atan2(p2.y - cy, p2.x - cx);
+            if (theta_rad > 0 && end_angle < start_angle) end_angle += 2 * M_PI;
+            if (theta_rad < 0 && end_angle > start_angle) end_angle -= 2 * M_PI;
+            double delta = end_angle - start_angle;
+            double t = static_cast<double>(step_) / max_step_;
+            double angle = start_angle + delta * t;
+            xi = cx + r * std::cos(angle);
+            yi = cy + r * std::sin(angle);
+            theta = angle + M_PI_2 * std::copysign(1.0, theta_rad);
+        }
+
+        if (step_ == 0) {
+            prev_x_ = xi;
+            prev_y_ = yi;
+            prev_theta_ = theta;
+        }
+
+        double dt = 0.05;
+        double vx = (xi - prev_x_) / dt;
+        double vy = (yi - prev_y_) / dt;
+        double omega = (theta - prev_theta_) / dt;
+
+        // give the message to STM
+        geometry_msgs::msg::Twist twist;
+        twist.linear.x = vx;
+        twist.linear.y = vy;
+        twist.angular.z = omega;
+        pub_->publish(twist);
+
+        prev_x_ = xi;
+        prev_y_ = yi;
+        prev_theta_ = theta;
+
+        step_++;
+        if (step_ > max_step_) {
+            step_ = 0;
+            i_++;
         }
     }
 
-    void interpolate_arc(double x0, double y0, double yaw_in, double radius,
-                         char direction, double angle_deg,
-                         double &x_out, double &y_out, double &yaw_out) {
-        double sign = (direction == 'L') ? 1.0 : -1.0;
-        double angle_rad = angle_deg * M_PI / 180.0 * sign;
+    void simulateAndWrite(const std::vector<PathCommand>& path, const std::string& datafile) {
+        std::ofstream out(datafile);
+        for (size_t i = 1; i < path.size(); ++i) {
+            const auto& p1 = path[i - 1];
+            const auto& p2 = path[i];
 
-        // 計算圓心
-        double cx = x0 + radius * std::cos(yaw_in + sign * M_PI_2);
-        double cy = y0 + radius * std::sin(yaw_in + sign * M_PI_2);
+            if (std::abs(p1.angle) < 1e-3) {
+                for (int s = 0; s <= 50; ++s) {
+                    double t = static_cast<double>(s) / 50;
+                    double xi = p1.x + (p2.x - p1.x) * t;
+                    double yi = p1.y + (p2.y - p1.y) * t;
+                    out << xi << " " << yi << "\n";
+                }
+            } else {
+                double theta_rad = p1.angle * M_PI / 180.0;
+                double dx = p2.x - p1.x;
+                double dy = p2.y - p1.y;
+                double chord = std::hypot(dx, dy);
+                double r = std::abs(p1.radius);
+                double mid_x = (p1.x + p2.x) / 2.0;
+                double mid_y = (p1.y + p2.y) / 2.0;
+                double dir_x = -dy / chord;
+                double dir_y = dx / chord;
+                double h = std::sqrt(r*r - (chord*chord)/4.0);
+                double cx = mid_x + dir_x * h * std::copysign(1.0, theta_rad);
+                double cy = mid_y + dir_y * h * std::copysign(1.0, theta_rad);
+                double start_angle = std::atan2(p1.y - cy, p1.x - cx);
+                double end_angle   = std::atan2(p2.y - cy, p2.x - cx);
+                if (theta_rad > 0 && end_angle < start_angle) end_angle += 2 * M_PI;
+                if (theta_rad < 0 && end_angle > start_angle) end_angle -= 2 * M_PI;
+                double delta_angle = end_angle - start_angle;
 
-        // 起始角與結束角（從圓心看）
-        double theta0 = std::atan2(y0 - cy, x0 - cx);
-        double theta1 = theta0 + angle_rad;
-
-        int steps = 30;
-        for (int i = 1; i <= steps; ++i) {
-            double t = static_cast<double>(i) / steps;
-            double theta = theta0 + t * angle_rad;
-            double x = cx + radius * std::cos(theta);
-            double y = cy + radius * std::sin(theta);
-            double tangent_yaw = theta + sign * M_PI_2;
-            add_pose(x, y, tangent_yaw);
+                for (int s = 0; s <= 50; ++s) {
+                    double t = static_cast<double>(s) / 50;
+                    double angle = start_angle + delta_angle * t;
+                    double xi = cx + r * std::cos(angle);
+                    double yi = cy + r * std::sin(angle);
+                    out << xi << " " << yi << "\n";
+                }
+            }
         }
-
-        x_out = cx + radius * std::cos(theta1);
-        y_out = cy + radius * std::sin(theta1);
-        yaw_out = yaw_in + angle_rad;
+        out.close();
     }
 
-    void add_pose(double x, double y, double yaw) {
-        geometry_msgs::msg::PoseStamped pose;
-        pose.header.frame_id = "map";
-        pose.pose.position.x = x;
-        pose.pose.position.y = y;
-        pose.pose.orientation.z = std::sin(yaw / 2.0);
-        pose.pose.orientation.w = std::cos(yaw / 2.0);
-        path_msg_.poses.push_back(pose);
-    }
-
-    void publish_path() {
-        path_msg_.header.stamp = this->now();
-        pub_->publish(path_msg_);
+    void plotWithGnuplot(const std::string& datafile) {
+        std::ofstream plt("plot_path.plt");
+        plt << "set title 'Robot Path'\n";
+        plt << "set xlabel 'X (m)'\n";
+        plt << "set ylabel 'Y (m)'\n";
+        plt << "set grid\n";
+        plt << "set size ratio -1\n";
+        plt << "plot '" << datafile << "' with linespoints title 'Path'\n";
+        plt << "pause 5\n";
+        plt.close();
+        system("gnuplot plot_path.plt");
     }
 };
 
-int main(int argc, char **argv) {
+int main(int argc, char* argv[]) {
     rclcpp::init(argc, argv);
-    rclcpp::spin(std::make_shared<CurvedPathGenerator>());
+    rclcpp::spin(std::make_shared<CurvedPathPublisher>());
     rclcpp::shutdown();
     return 0;
 }

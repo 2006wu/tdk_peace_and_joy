@@ -53,10 +53,10 @@ RM = /usr/bin/cmake -E rm -f
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = /home/tdk/ros2_ws/src/navigation
+CMAKE_SOURCE_DIR = /ros2_ws/src/navigation
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /home/tdk/ros2_ws/build/navigation
+CMAKE_BINARY_DIR = /ros2_ws/build/navigation
 
 # Utility rule file for uninstall.
 
@@ -78,6 +78,6 @@ CMakeFiles/uninstall.dir/clean:
 .PHONY : CMakeFiles/uninstall.dir/clean
 
 CMakeFiles/uninstall.dir/depend:
-	cd /home/tdk/ros2_ws/build/navigation && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" /home/tdk/ros2_ws/src/navigation /home/tdk/ros2_ws/src/navigation /home/tdk/ros2_ws/build/navigation /home/tdk/ros2_ws/build/navigation /home/tdk/ros2_ws/build/navigation/CMakeFiles/uninstall.dir/DependInfo.cmake --color=$(COLOR)
+	cd /ros2_ws/build/navigation && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" /ros2_ws/src/navigation /ros2_ws/src/navigation /ros2_ws/build/navigation /ros2_ws/build/navigation /ros2_ws/build/navigation/CMakeFiles/uninstall.dir/DependInfo.cmake --color=$(COLOR)
 .PHONY : CMakeFiles/uninstall.dir/depend
 

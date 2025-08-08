@@ -57,10 +57,10 @@ RM = /usr/bin/cmake -E rm -f
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = /home/tdk/ros2_ws/src/navigation
+CMAKE_SOURCE_DIR = /ros2_ws/src/navigation
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /home/tdk/ros2_ws/build/navigation
+CMAKE_BINARY_DIR = /ros2_ws/build/navigation
 
 #=============================================================================
 # Targets provided globally by CMake.
@@ -142,9 +142,9 @@ install/strip/fast: preinstall/fast
 
 # The main all target
 all: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/tdk/ros2_ws/build/navigation/CMakeFiles /home/tdk/ros2_ws/build/navigation//CMakeFiles/progress.marks
+	$(CMAKE_COMMAND) -E cmake_progress_start /ros2_ws/build/navigation/CMakeFiles /ros2_ws/build/navigation//CMakeFiles/progress.marks
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 all
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/tdk/ros2_ws/build/navigation/CMakeFiles 0
+	$(CMAKE_COMMAND) -E cmake_progress_start /ros2_ws/build/navigation/CMakeFiles 0
 .PHONY : all
 
 # The main clean target

@@ -1,23 +1,23 @@
 Visualization Manager:
-  Class: "Visualization Manager"
+  Class: "rviz_common/VisualizationManager"
   Displays:
     - Class: rviz_default_plugins/Grid
-      Name: Grid
       Enabled: true
+      Name: Grid
     - Alpha: 1
       Buffer Length: 1
       Class: rviz_default_plugins/Path
-      Color: 0; 255; 0
+      Color: 0; 0; 255
       Enabled: true
       Line Style: Lines
       Line Width: 0.05
-      Name: Path
+      Name: Waypoints
       Offset:
         X: 0
         Y: 0
         Z: 0
       Pose Style: None
-      Topic: /path
+      Topic: /waypoints_path
       Unreliable: false
   Enabled: true
   Global Options:
@@ -38,11 +38,11 @@ Visualization Manager:
   Views:
     Current:
       Class: rviz_default_plugins/XYOrbit
-      Distance: 10
+      Distance: 6
       Focal Point:
-        X: 0
+        X: 1.5
         Y: 0
         Z: 0
       Pitch: 0.785
       Target Frame: map
-      Yaw: 0.785
+      Yaw: 0.0

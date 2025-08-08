@@ -1,0 +1,69 @@
+[0.000000] (-) TimerEvent: {}
+[0.000309] (navigation) JobQueued: {'identifier': 'navigation', 'dependencies': OrderedDict()}
+[0.000569] (navigation) JobStarted: {'identifier': 'navigation'}
+[0.011300] (navigation) JobProgress: {'identifier': 'navigation', 'progress': 'cmake'}
+[0.011353] (navigation) JobProgress: {'identifier': 'navigation', 'progress': 'build'}
+[0.011369] (navigation) Command: {'cmd': ['/usr/bin/cmake', '--build', '/ros2_ws/build/navigation', '--', '-j12', '-l12'], 'cwd': '/ros2_ws/build/navigation', 'env': OrderedDict([('HOSTNAME', 'yilan'), ('SHLVL', '1'), ('LD_LIBRARY_PATH', '/opt/ros/humble/opt/rviz_ogre_vendor/lib:/opt/ros/humble/lib/x86_64-linux-gnu:/opt/ros/humble/lib'), ('HOME', '/root'), ('OLDPWD', '/ros2_ws/src'), ('ROS_PYTHON_VERSION', '3'), ('COLCON_PREFIX_PATH', '/ros2_ws/install'), ('ROS_DISTRO', 'humble'), ('_', '/usr/bin/colcon'), ('ROS_VERSION', '2'), ('TERM', 'xterm'), ('ROS_LOCALHOST_ONLY', '0'), ('QT_X11_NO_MITSHM', '1'), ('PATH', '/opt/ros/humble/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin'), ('DISPLAY', ':1'), ('LANG', 'C.UTF-8'), ('RMW_IMPLEMENTATION', 'rmw_cyclonedds_cpp'), ('LS_COLORS', 'rs=0:di=01;34:ln=01;36:mh=00:pi=40;33:so=01;35:do=01;35:bd=40;33;01:cd=40;33;01:or=40;31;01:mi=00:su=37;41:sg=30;43:ca=30;41:tw=30;42:ow=34;42:st=37;44:ex=01;32:*.tar=01;31:*.tgz=01;31:*.arc=01;31:*.arj=01;31:*.taz=01;31:*.lha=01;31:*.lz4=01;31:*.lzh=01;31:*.lzma=01;31:*.tlz=01;31:*.txz=01;31:*.tzo=01;31:*.t7z=01;31:*.zip=01;31:*.z=01;31:*.dz=01;31:*.gz=01;31:*.lrz=01;31:*.lz=01;31:*.lzo=01;31:*.xz=01;31:*.zst=01;31:*.tzst=01;31:*.bz2=01;31:*.bz=01;31:*.tbz=01;31:*.tbz2=01;31:*.tz=01;31:*.deb=01;31:*.rpm=01;31:*.jar=01;31:*.war=01;31:*.ear=01;31:*.sar=01;31:*.rar=01;31:*.alz=01;31:*.ace=01;31:*.zoo=01;31:*.cpio=01;31:*.7z=01;31:*.rz=01;31:*.cab=01;31:*.wim=01;31:*.swm=01;31:*.dwm=01;31:*.esd=01;31:*.jpg=01;35:*.jpeg=01;35:*.mjpg=01;35:*.mjpeg=01;35:*.gif=01;35:*.bmp=01;35:*.pbm=01;35:*.pgm=01;35:*.ppm=01;35:*.tga=01;35:*.xbm=01;35:*.xpm=01;35:*.tif=01;35:*.tiff=01;35:*.png=01;35:*.svg=01;35:*.svgz=01;35:*.mng=01;35:*.pcx=01;35:*.mov=01;35:*.mpg=01;35:*.mpeg=01;35:*.m2v=01;35:*.mkv=01;35:*.webm=01;35:*.webp=01;35:*.ogm=01;35:*.mp4=01;35:*.m4v=01;35:*.mp4v=01;35:*.vob=01;35:*.qt=01;35:*.nuv=01;35:*.wmv=01;35:*.asf=01;35:*.rm=01;35:*.rmvb=01;35:*.flc=01;35:*.avi=01;35:*.fli=01;35:*.flv=01;35:*.gl=01;35:*.dl=01;35:*.xcf=01;35:*.xwd=01;35:*.yuv=01;35:*.cgm=01;35:*.emf=01;35:*.ogv=01;35:*.ogx=01;35:*.aac=00;36:*.au=00;36:*.flac=00;36:*.m4a=00;36:*.mid=00;36:*.midi=00;36:*.mka=00;36:*.mp3=00;36:*.mpc=00;36:*.ogg=00;36:*.ra=00;36:*.wav=00;36:*.oga=00;36:*.opus=00;36:*.spx=00;36:*.xspf=00;36:'), ('ROS_DOMAIN_ID', '23'), ('AMENT_PREFIX_PATH', '/ros2_ws/install/navigation:/opt/ros/humble'), ('PWD', '/ros2_ws/build/navigation'), ('LC_ALL', 'C.UTF-8'), ('PYTHONPATH', '/opt/ros/humble/lib/python3.10/site-packages:/opt/ros/humble/local/lib/python3.10/dist-packages'), ('COLCON', '1'), ('CMAKE_PREFIX_PATH', '/ros2_ws/install/navigation:/opt/ros/humble')]), 'shell': False}
+[0.047766] (navigation) StdoutLine: {'line': b'\x1b[35m\x1b[1mConsolidate compiler generated dependencies of target check_point_4\x1b[0m\n'}
+[0.064453] (navigation) StdoutLine: {'line': b'[ 50%] \x1b[32mBuilding CXX object CMakeFiles/check_point_4.dir/src/check_point_4.cpp.o\x1b[0m\n'}
+[0.099691] (-) TimerEvent: {}
+[0.200040] (-) TimerEvent: {}
+[0.300342] (-) TimerEvent: {}
+[0.400618] (-) TimerEvent: {}
+[0.500866] (-) TimerEvent: {}
+[0.601147] (-) TimerEvent: {}
+[0.701883] (-) TimerEvent: {}
+[0.802220] (-) TimerEvent: {}
+[0.902509] (-) TimerEvent: {}
+[1.002789] (-) TimerEvent: {}
+[1.103092] (-) TimerEvent: {}
+[1.203373] (-) TimerEvent: {}
+[1.303656] (-) TimerEvent: {}
+[1.403956] (-) TimerEvent: {}
+[1.504242] (-) TimerEvent: {}
+[1.604531] (-) TimerEvent: {}
+[1.704828] (-) TimerEvent: {}
+[1.805111] (-) TimerEvent: {}
+[1.905390] (-) TimerEvent: {}
+[2.005667] (-) TimerEvent: {}
+[2.106000] (-) TimerEvent: {}
+[2.206305] (-) TimerEvent: {}
+[2.306579] (-) TimerEvent: {}
+[2.406879] (-) TimerEvent: {}
+[2.507179] (-) TimerEvent: {}
+[2.607458] (-) TimerEvent: {}
+[2.707758] (-) TimerEvent: {}
+[2.808040] (-) TimerEvent: {}
+[2.908330] (-) TimerEvent: {}
+[3.008620] (-) TimerEvent: {}
+[3.108907] (-) TimerEvent: {}
+[3.209194] (-) TimerEvent: {}
+[3.309488] (-) TimerEvent: {}
+[3.379226] (navigation) StdoutLine: {'line': b'[100%] \x1b[32m\x1b[1mLinking CXX executable check_point_4\x1b[0m\n'}
+[3.409586] (-) TimerEvent: {}
+[3.510015] (-) TimerEvent: {}
+[3.540908] (navigation) StdoutLine: {'line': b'[100%] Built target check_point_4\n'}
+[3.551453] (navigation) CommandEnded: {'returncode': 0}
+[3.551863] (navigation) JobProgress: {'identifier': 'navigation', 'progress': 'install'}
+[3.559895] (navigation) Command: {'cmd': ['/usr/bin/cmake', '--install', '/ros2_ws/build/navigation'], 'cwd': '/ros2_ws/build/navigation', 'env': OrderedDict([('HOSTNAME', 'yilan'), ('SHLVL', '1'), ('LD_LIBRARY_PATH', '/opt/ros/humble/opt/rviz_ogre_vendor/lib:/opt/ros/humble/lib/x86_64-linux-gnu:/opt/ros/humble/lib'), ('HOME', '/root'), ('OLDPWD', '/ros2_ws/src'), ('ROS_PYTHON_VERSION', '3'), ('COLCON_PREFIX_PATH', '/ros2_ws/install'), ('ROS_DISTRO', 'humble'), ('_', '/usr/bin/colcon'), ('ROS_VERSION', '2'), ('TERM', 'xterm'), ('ROS_LOCALHOST_ONLY', '0'), ('QT_X11_NO_MITSHM', '1'), ('PATH', '/opt/ros/humble/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin'), ('DISPLAY', ':1'), ('LANG', 'C.UTF-8'), ('RMW_IMPLEMENTATION', 'rmw_cyclonedds_cpp'), ('LS_COLORS', 'rs=0:di=01;34:ln=01;36:mh=00:pi=40;33:so=01;35:do=01;35:bd=40;33;01:cd=40;33;01:or=40;31;01:mi=00:su=37;41:sg=30;43:ca=30;41:tw=30;42:ow=34;42:st=37;44:ex=01;32:*.tar=01;31:*.tgz=01;31:*.arc=01;31:*.arj=01;31:*.taz=01;31:*.lha=01;31:*.lz4=01;31:*.lzh=01;31:*.lzma=01;31:*.tlz=01;31:*.txz=01;31:*.tzo=01;31:*.t7z=01;31:*.zip=01;31:*.z=01;31:*.dz=01;31:*.gz=01;31:*.lrz=01;31:*.lz=01;31:*.lzo=01;31:*.xz=01;31:*.zst=01;31:*.tzst=01;31:*.bz2=01;31:*.bz=01;31:*.tbz=01;31:*.tbz2=01;31:*.tz=01;31:*.deb=01;31:*.rpm=01;31:*.jar=01;31:*.war=01;31:*.ear=01;31:*.sar=01;31:*.rar=01;31:*.alz=01;31:*.ace=01;31:*.zoo=01;31:*.cpio=01;31:*.7z=01;31:*.rz=01;31:*.cab=01;31:*.wim=01;31:*.swm=01;31:*.dwm=01;31:*.esd=01;31:*.jpg=01;35:*.jpeg=01;35:*.mjpg=01;35:*.mjpeg=01;35:*.gif=01;35:*.bmp=01;35:*.pbm=01;35:*.pgm=01;35:*.ppm=01;35:*.tga=01;35:*.xbm=01;35:*.xpm=01;35:*.tif=01;35:*.tiff=01;35:*.png=01;35:*.svg=01;35:*.svgz=01;35:*.mng=01;35:*.pcx=01;35:*.mov=01;35:*.mpg=01;35:*.mpeg=01;35:*.m2v=01;35:*.mkv=01;35:*.webm=01;35:*.webp=01;35:*.ogm=01;35:*.mp4=01;35:*.m4v=01;35:*.mp4v=01;35:*.vob=01;35:*.qt=01;35:*.nuv=01;35:*.wmv=01;35:*.asf=01;35:*.rm=01;35:*.rmvb=01;35:*.flc=01;35:*.avi=01;35:*.fli=01;35:*.flv=01;35:*.gl=01;35:*.dl=01;35:*.xcf=01;35:*.xwd=01;35:*.yuv=01;35:*.cgm=01;35:*.emf=01;35:*.ogv=01;35:*.ogx=01;35:*.aac=00;36:*.au=00;36:*.flac=00;36:*.m4a=00;36:*.mid=00;36:*.midi=00;36:*.mka=00;36:*.mp3=00;36:*.mpc=00;36:*.ogg=00;36:*.ra=00;36:*.wav=00;36:*.oga=00;36:*.opus=00;36:*.spx=00;36:*.xspf=00;36:'), ('ROS_DOMAIN_ID', '23'), ('AMENT_PREFIX_PATH', '/ros2_ws/install/navigation:/opt/ros/humble'), ('PWD', '/ros2_ws/build/navigation'), ('LC_ALL', 'C.UTF-8'), ('PYTHONPATH', '/opt/ros/humble/lib/python3.10/site-packages:/opt/ros/humble/local/lib/python3.10/dist-packages'), ('COLCON', '1'), ('CMAKE_PREFIX_PATH', '/ros2_ws/install/navigation:/opt/ros/humble')]), 'shell': False}
+[3.566812] (navigation) StdoutLine: {'line': b'-- Install configuration: ""\n'}
+[3.567005] (navigation) StdoutLine: {'line': b'-- Installing: /ros2_ws/install/navigation/lib/navigation/check_point_4\n'}
+[3.568413] (navigation) StdoutLine: {'line': b'-- Set runtime path of "/ros2_ws/install/navigation/lib/navigation/check_point_4" to ""\n'}
+[3.568541] (navigation) StdoutLine: {'line': b'-- Up-to-date: /ros2_ws/install/navigation/share/ament_index/resource_index/package_run_dependencies/navigation\n'}
+[3.568615] (navigation) StdoutLine: {'line': b'-- Up-to-date: /ros2_ws/install/navigation/share/ament_index/resource_index/parent_prefix_path/navigation\n'}
+[3.568675] (navigation) StdoutLine: {'line': b'-- Up-to-date: /ros2_ws/install/navigation/share/navigation/environment/ament_prefix_path.sh\n'}
+[3.568736] (navigation) StdoutLine: {'line': b'-- Up-to-date: /ros2_ws/install/navigation/share/navigation/environment/ament_prefix_path.dsv\n'}
+[3.568777] (navigation) StdoutLine: {'line': b'-- Up-to-date: /ros2_ws/install/navigation/share/navigation/environment/path.sh\n'}
+[3.568829] (navigation) StdoutLine: {'line': b'-- Up-to-date: /ros2_ws/install/navigation/share/navigation/environment/path.dsv\n'}
+[3.568872] (navigation) StdoutLine: {'line': b'-- Up-to-date: /ros2_ws/install/navigation/share/navigation/local_setup.bash\n'}
+[3.568924] (navigation) StdoutLine: {'line': b'-- Up-to-date: /ros2_ws/install/navigation/share/navigation/local_setup.sh\n'}
+[3.568985] (navigation) StdoutLine: {'line': b'-- Up-to-date: /ros2_ws/install/navigation/share/navigation/local_setup.zsh\n'}
+[3.569037] (navigation) StdoutLine: {'line': b'-- Up-to-date: /ros2_ws/install/navigation/share/navigation/local_setup.dsv\n'}
+[3.569077] (navigation) StdoutLine: {'line': b'-- Installing: /ros2_ws/install/navigation/share/navigation/package.dsv\n'}
+[3.569115] (navigation) StdoutLine: {'line': b'-- Up-to-date: /ros2_ws/install/navigation/share/ament_index/resource_index/packages/navigation\n'}
+[3.569152] (navigation) StdoutLine: {'line': b'-- Up-to-date: /ros2_ws/install/navigation/share/navigation/cmake/navigationConfig.cmake\n'}
+[3.569186] (navigation) StdoutLine: {'line': b'-- Up-to-date: /ros2_ws/install/navigation/share/navigation/cmake/navigationConfig-version.cmake\n'}
+[3.569221] (navigation) StdoutLine: {'line': b'-- Up-to-date: /ros2_ws/install/navigation/share/navigation/package.xml\n'}
+[3.570712] (navigation) CommandEnded: {'returncode': 0}
+[3.584306] (navigation) JobEnded: {'identifier': 'navigation', 'rc': 0}
+[3.584838] (-) EventReactorShutdown: {}
