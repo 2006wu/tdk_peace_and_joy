@@ -447,3 +447,51 @@ Parsed CXX implicit link information from above output:
   implicit fwks: []
 
 
+Determining if the include file pthread.h exists passed with the following output:
+Change Dir: /ros2_ws/build/rospi_pre/CMakeFiles/CMakeTmp
+
+Run Build Command(s):/usr/bin/gmake -f Makefile cmTC_0accd/fast && /usr/bin/gmake  -f CMakeFiles/cmTC_0accd.dir/build.make CMakeFiles/cmTC_0accd.dir/build
+gmake[1]: Entering directory '/ros2_ws/build/rospi_pre/CMakeFiles/CMakeTmp'
+Building C object CMakeFiles/cmTC_0accd.dir/CheckIncludeFile.c.o
+/usr/bin/cc    -o CMakeFiles/cmTC_0accd.dir/CheckIncludeFile.c.o -c /ros2_ws/build/rospi_pre/CMakeFiles/CMakeTmp/CheckIncludeFile.c
+Linking C executable cmTC_0accd
+/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_0accd.dir/link.txt --verbose=1
+/usr/bin/cc CMakeFiles/cmTC_0accd.dir/CheckIncludeFile.c.o -o cmTC_0accd 
+gmake[1]: Leaving directory '/ros2_ws/build/rospi_pre/CMakeFiles/CMakeTmp'
+
+
+
+Performing C SOURCE FILE Test CMAKE_HAVE_LIBC_PTHREAD succeeded with the following output:
+Change Dir: /ros2_ws/build/rospi_pre/CMakeFiles/CMakeTmp
+
+Run Build Command(s):/usr/bin/gmake -f Makefile cmTC_8c9d9/fast && /usr/bin/gmake  -f CMakeFiles/cmTC_8c9d9.dir/build.make CMakeFiles/cmTC_8c9d9.dir/build
+gmake[1]: Entering directory '/ros2_ws/build/rospi_pre/CMakeFiles/CMakeTmp'
+Building C object CMakeFiles/cmTC_8c9d9.dir/src.c.o
+/usr/bin/cc -DCMAKE_HAVE_LIBC_PTHREAD   -o CMakeFiles/cmTC_8c9d9.dir/src.c.o -c /ros2_ws/build/rospi_pre/CMakeFiles/CMakeTmp/src.c
+Linking C executable cmTC_8c9d9
+/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_8c9d9.dir/link.txt --verbose=1
+/usr/bin/cc CMakeFiles/cmTC_8c9d9.dir/src.c.o -o cmTC_8c9d9 
+gmake[1]: Leaving directory '/ros2_ws/build/rospi_pre/CMakeFiles/CMakeTmp'
+
+
+Source file was:
+#include <pthread.h>
+
+static void* test_func(void* data)
+{
+  return data;
+}
+
+int main(void)
+{
+  pthread_t thread;
+  pthread_create(&thread, NULL, test_func, NULL);
+  pthread_detach(thread);
+  pthread_cancel(thread);
+  pthread_join(thread, NULL);
+  pthread_atfork(NULL, NULL, NULL);
+  pthread_exit(NULL);
+
+  return 0;
+}
+

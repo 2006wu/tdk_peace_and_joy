@@ -1,0 +1,22 @@
+[01m[K/ros2_ws/src/navigation/src/chassis_controller.cpp:76:8:[m[K [01;31m[Kerror: [m[K‘[01m[Kqueue[m[K’ in namespace ‘[01m[Kstd[m[K’ does not name a template type
+   76 |   std::[01;31m[Kqueue[m[K<std::pair<std::string, char>> path_queue_;
+      |        [01;31m[K^~~~~[m[K
+[01m[K/ros2_ws/src/navigation/src/chassis_controller.cpp:11:1:[m[K [01;36m[Knote: [m[K‘[01m[Kstd::queue[m[K’ is defined in header ‘[01m[K<queue>[m[K’; did you forget to ‘[01m[K#include <queue>[m[K’?
+   10 | #include "rospi_pre/srv/chassis_manager.hpp"
+  +++ |+[32m[K#include <queue>[m[K
+   11 | 
+[01m[K/ros2_ws/src/navigation/src/chassis_controller.cpp:[m[K In member function ‘[01m[Kvoid ChassisController::setup_position_data()[m[K’:
+[01m[K/ros2_ws/src/navigation/src/chassis_controller.cpp:103:5:[m[K [01;31m[Kerror: [m[K‘[01m[Kpath_queue_[m[K’ was not declared in this scope
+  103 |     [01;31m[Kpath_queue_[m[K.push({"4_1_curve_end", 'c'});
+      |     [01;31m[K^~~~~~~~~~~[m[K
+[01m[K/ros2_ws/src/navigation/src/chassis_controller.cpp:[m[K In member function ‘[01m[Kvoid ChassisController::chassis_callback(std::shared_ptr<rospi_pre::srv::ChassisManager_Request_<std::allocator<void> > >, std::shared_ptr<rospi_pre::srv::ChassisManager_Response_<std::allocator<void> > >)[m[K’:
+[01m[K/ros2_ws/src/navigation/src/chassis_controller.cpp:154:5:[m[K [01;31m[Kerror: [m[K‘[01m[Kpath_queue_[m[K’ was not declared in this scope
+  154 |     [01;31m[Kpath_queue_[m[K = {};
+      |     [01;31m[K^~~~~~~~~~~[m[K
+[01m[K/ros2_ws/src/navigation/src/chassis_controller.cpp:[m[K In member function ‘[01m[Kvoid ChassisController::timer_callback()[m[K’:
+[01m[K/ros2_ws/src/navigation/src/chassis_controller.cpp:193:14:[m[K [01;31m[Kerror: [m[K‘[01m[Kpath_queue_[m[K’ was not declared in this scope
+  193 |         if (![01;31m[Kpath_queue_[m[K.empty()) {
+      |              [01;31m[K^~~~~~~~~~~[m[K
+gmake[2]: *** [CMakeFiles/chassis_controller.dir/build.make:76: CMakeFiles/chassis_controller.dir/src/chassis_controller.cpp.o] Error 1
+gmake[1]: *** [CMakeFiles/Makefile2:165: CMakeFiles/chassis_controller.dir/all] Error 2
+gmake: *** [Makefile:146: all] Error 2

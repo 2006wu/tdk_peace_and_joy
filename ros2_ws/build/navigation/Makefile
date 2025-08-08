@@ -210,6 +210,43 @@ check_point_4/fast:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/check_point_4.dir/build.make CMakeFiles/check_point_4.dir/build
 .PHONY : check_point_4/fast
 
+#=============================================================================
+# Target rules for targets named chassis_controller
+
+# Build rule for target.
+chassis_controller: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 chassis_controller
+.PHONY : chassis_controller
+
+# fast build rule for target.
+chassis_controller/fast:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/chassis_controller.dir/build.make CMakeFiles/chassis_controller.dir/build
+.PHONY : chassis_controller/fast
+
+src/chassis_controller.o: src/chassis_controller.cpp.o
+.PHONY : src/chassis_controller.o
+
+# target to build an object file
+src/chassis_controller.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/chassis_controller.dir/build.make CMakeFiles/chassis_controller.dir/src/chassis_controller.cpp.o
+.PHONY : src/chassis_controller.cpp.o
+
+src/chassis_controller.i: src/chassis_controller.cpp.i
+.PHONY : src/chassis_controller.i
+
+# target to preprocess a source file
+src/chassis_controller.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/chassis_controller.dir/build.make CMakeFiles/chassis_controller.dir/src/chassis_controller.cpp.i
+.PHONY : src/chassis_controller.cpp.i
+
+src/chassis_controller.s: src/chassis_controller.cpp.s
+.PHONY : src/chassis_controller.s
+
+# target to generate assembly for a file
+src/chassis_controller.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/chassis_controller.dir/build.make CMakeFiles/chassis_controller.dir/src/chassis_controller.cpp.s
+.PHONY : src/chassis_controller.cpp.s
+
 src/check_point_4.o: src/check_point_4.cpp.o
 .PHONY : src/check_point_4.o
 
@@ -249,7 +286,11 @@ help:
 	@echo "... test"
 	@echo "... navigation_uninstall"
 	@echo "... uninstall"
+	@echo "... chassis_controller"
 	@echo "... check_point_4"
+	@echo "... src/chassis_controller.o"
+	@echo "... src/chassis_controller.i"
+	@echo "... src/chassis_controller.s"
 	@echo "... src/check_point_4.o"
 	@echo "... src/check_point_4.i"
 	@echo "... src/check_point_4.s"

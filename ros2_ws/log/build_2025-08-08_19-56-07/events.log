@@ -1,0 +1,268 @@
+[0.000000] (-) TimerEvent: {}
+[0.000407] (rospi_pre) JobQueued: {'identifier': 'rospi_pre', 'dependencies': OrderedDict()}
+[0.000520] (navigation) JobQueued: {'identifier': 'navigation', 'dependencies': OrderedDict([('rospi_pre', '/ros2_ws/install/rospi_pre')])}
+[0.000547] (rospi_pre) JobStarted: {'identifier': 'rospi_pre'}
+[0.007493] (rospi_pre) JobProgress: {'identifier': 'rospi_pre', 'progress': 'cmake'}
+[0.007936] (rospi_pre) JobProgress: {'identifier': 'rospi_pre', 'progress': 'build'}
+[0.008417] (rospi_pre) Command: {'cmd': ['/usr/bin/cmake', '--build', '/ros2_ws/build/rospi_pre', '--', '-j12', '-l12'], 'cwd': '/ros2_ws/build/rospi_pre', 'env': OrderedDict([('HOSTNAME', 'yilan'), ('SHLVL', '1'), ('LD_LIBRARY_PATH', '/opt/ros/humble/opt/rviz_ogre_vendor/lib:/opt/ros/humble/lib/x86_64-linux-gnu:/opt/ros/humble/lib'), ('HOME', '/root'), ('ROS_PYTHON_VERSION', '3'), ('COLCON_PREFIX_PATH', '/ros2_ws/install'), ('ROS_DISTRO', 'humble'), ('_', '/usr/bin/colcon'), ('ROS_VERSION', '2'), ('TERM', 'xterm'), ('ROS_LOCALHOST_ONLY', '0'), ('QT_X11_NO_MITSHM', '1'), ('PATH', '/opt/ros/humble/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin'), ('DISPLAY', ':1'), ('LANG', 'C.UTF-8'), ('RMW_IMPLEMENTATION', 'rmw_cyclonedds_cpp'), ('LS_COLORS', 'rs=0:di=01;34:ln=01;36:mh=00:pi=40;33:so=01;35:do=01;35:bd=40;33;01:cd=40;33;01:or=40;31;01:mi=00:su=37;41:sg=30;43:ca=30;41:tw=30;42:ow=34;42:st=37;44:ex=01;32:*.tar=01;31:*.tgz=01;31:*.arc=01;31:*.arj=01;31:*.taz=01;31:*.lha=01;31:*.lz4=01;31:*.lzh=01;31:*.lzma=01;31:*.tlz=01;31:*.txz=01;31:*.tzo=01;31:*.t7z=01;31:*.zip=01;31:*.z=01;31:*.dz=01;31:*.gz=01;31:*.lrz=01;31:*.lz=01;31:*.lzo=01;31:*.xz=01;31:*.zst=01;31:*.tzst=01;31:*.bz2=01;31:*.bz=01;31:*.tbz=01;31:*.tbz2=01;31:*.tz=01;31:*.deb=01;31:*.rpm=01;31:*.jar=01;31:*.war=01;31:*.ear=01;31:*.sar=01;31:*.rar=01;31:*.alz=01;31:*.ace=01;31:*.zoo=01;31:*.cpio=01;31:*.7z=01;31:*.rz=01;31:*.cab=01;31:*.wim=01;31:*.swm=01;31:*.dwm=01;31:*.esd=01;31:*.jpg=01;35:*.jpeg=01;35:*.mjpg=01;35:*.mjpeg=01;35:*.gif=01;35:*.bmp=01;35:*.pbm=01;35:*.pgm=01;35:*.ppm=01;35:*.tga=01;35:*.xbm=01;35:*.xpm=01;35:*.tif=01;35:*.tiff=01;35:*.png=01;35:*.svg=01;35:*.svgz=01;35:*.mng=01;35:*.pcx=01;35:*.mov=01;35:*.mpg=01;35:*.mpeg=01;35:*.m2v=01;35:*.mkv=01;35:*.webm=01;35:*.webp=01;35:*.ogm=01;35:*.mp4=01;35:*.m4v=01;35:*.mp4v=01;35:*.vob=01;35:*.qt=01;35:*.nuv=01;35:*.wmv=01;35:*.asf=01;35:*.rm=01;35:*.rmvb=01;35:*.flc=01;35:*.avi=01;35:*.fli=01;35:*.flv=01;35:*.gl=01;35:*.dl=01;35:*.xcf=01;35:*.xwd=01;35:*.yuv=01;35:*.cgm=01;35:*.emf=01;35:*.ogv=01;35:*.ogx=01;35:*.aac=00;36:*.au=00;36:*.flac=00;36:*.m4a=00;36:*.mid=00;36:*.midi=00;36:*.mka=00;36:*.mp3=00;36:*.mpc=00;36:*.ogg=00;36:*.ra=00;36:*.wav=00;36:*.oga=00;36:*.opus=00;36:*.spx=00;36:*.xspf=00;36:'), ('ROS_DOMAIN_ID', '23'), ('AMENT_PREFIX_PATH', '/ros2_ws/install/navigation:/opt/ros/humble'), ('PWD', '/ros2_ws/build/rospi_pre'), ('LC_ALL', 'C.UTF-8'), ('PYTHONPATH', '/opt/ros/humble/lib/python3.10/site-packages:/opt/ros/humble/local/lib/python3.10/dist-packages'), ('COLCON', '1'), ('CMAKE_PREFIX_PATH', '/ros2_ws/install/navigation:/opt/ros/humble')]), 'shell': False}
+[0.052799] (rospi_pre) StdoutLine: {'line': b'[  3%] Built target rospi_pre__cpp\n'}
+[0.053063] (rospi_pre) StdoutLine: {'line': b'[ 12%] Built target rospi_pre__rosidl_generator_c\n'}
+[0.061413] (rospi_pre) StdoutLine: {'line': b'[ 12%] Built target ament_cmake_python_copy_rospi_pre\n'}
+[0.070988] (rospi_pre) StdoutLine: {'line': b'[ 22%] Built target rospi_pre__rosidl_typesupport_introspection_c\n'}
+[0.071544] (rospi_pre) StdoutLine: {'line': b'[ 32%] Built target rospi_pre__rosidl_typesupport_c\n'}
+[0.073500] (rospi_pre) StdoutLine: {'line': b'[ 41%] Built target rospi_pre__rosidl_typesupport_introspection_cpp\n'}
+[0.074603] (rospi_pre) StdoutLine: {'line': b'[ 51%] Built target rospi_pre__rosidl_typesupport_cpp\n'}
+[0.076011] (rospi_pre) StdoutLine: {'line': b'[ 61%] Built target rospi_pre__rosidl_typesupport_fastrtps_cpp\n'}
+[0.082677] (rospi_pre) StdoutLine: {'line': b'[ 70%] Built target rospi_pre__rosidl_typesupport_fastrtps_c\n'}
+[0.099744] (-) TimerEvent: {}
+[0.101253] (rospi_pre) StdoutLine: {'line': b'[ 70%] Built target rospi_pre\n'}
+[0.120787] (rospi_pre) StdoutLine: {'line': b'[ 74%] Built target rospi_pre__py\n'}
+[0.143104] (rospi_pre) StdoutLine: {'line': b'[ 80%] Built target rospi_pre__rosidl_generator_py\n'}
+[0.163861] (rospi_pre) StdoutLine: {'line': b'[100%] Built target rospi_pre__rosidl_typesupport_c__pyext\n'}
+[0.164079] (rospi_pre) StdoutLine: {'line': b'[100%] Built target rospi_pre__rosidl_typesupport_fastrtps_c__pyext\n'}
+[0.164183] (rospi_pre) StdoutLine: {'line': b'[100%] Built target rospi_pre__rosidl_typesupport_introspection_c__pyext\n'}
+[0.199838] (-) TimerEvent: {}
+[0.230966] (rospi_pre) StdoutLine: {'line': b'running egg_info\n'}
+[0.231479] (rospi_pre) StdoutLine: {'line': b'writing rospi_pre.egg-info/PKG-INFO\n'}
+[0.231645] (rospi_pre) StdoutLine: {'line': b'writing dependency_links to rospi_pre.egg-info/dependency_links.txt\n'}
+[0.231773] (rospi_pre) StdoutLine: {'line': b'writing top-level names to rospi_pre.egg-info/top_level.txt\n'}
+[0.233160] (rospi_pre) StdoutLine: {'line': b"reading manifest file 'rospi_pre.egg-info/SOURCES.txt'\n"}
+[0.233545] (rospi_pre) StdoutLine: {'line': b"writing manifest file 'rospi_pre.egg-info/SOURCES.txt'\n"}
+[0.257771] (rospi_pre) StdoutLine: {'line': b'[100%] Built target ament_cmake_python_build_rospi_pre_egg\n'}
+[0.270866] (rospi_pre) CommandEnded: {'returncode': 0}
+[0.271442] (rospi_pre) JobProgress: {'identifier': 'rospi_pre', 'progress': 'install'}
+[0.280636] (rospi_pre) Command: {'cmd': ['/usr/bin/cmake', '--install', '/ros2_ws/build/rospi_pre'], 'cwd': '/ros2_ws/build/rospi_pre', 'env': OrderedDict([('HOSTNAME', 'yilan'), ('SHLVL', '1'), ('LD_LIBRARY_PATH', '/opt/ros/humble/opt/rviz_ogre_vendor/lib:/opt/ros/humble/lib/x86_64-linux-gnu:/opt/ros/humble/lib'), ('HOME', '/root'), ('ROS_PYTHON_VERSION', '3'), ('COLCON_PREFIX_PATH', '/ros2_ws/install'), ('ROS_DISTRO', 'humble'), ('_', '/usr/bin/colcon'), ('ROS_VERSION', '2'), ('TERM', 'xterm'), ('ROS_LOCALHOST_ONLY', '0'), ('QT_X11_NO_MITSHM', '1'), ('PATH', '/opt/ros/humble/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin'), ('DISPLAY', ':1'), ('LANG', 'C.UTF-8'), ('RMW_IMPLEMENTATION', 'rmw_cyclonedds_cpp'), ('LS_COLORS', 'rs=0:di=01;34:ln=01;36:mh=00:pi=40;33:so=01;35:do=01;35:bd=40;33;01:cd=40;33;01:or=40;31;01:mi=00:su=37;41:sg=30;43:ca=30;41:tw=30;42:ow=34;42:st=37;44:ex=01;32:*.tar=01;31:*.tgz=01;31:*.arc=01;31:*.arj=01;31:*.taz=01;31:*.lha=01;31:*.lz4=01;31:*.lzh=01;31:*.lzma=01;31:*.tlz=01;31:*.txz=01;31:*.tzo=01;31:*.t7z=01;31:*.zip=01;31:*.z=01;31:*.dz=01;31:*.gz=01;31:*.lrz=01;31:*.lz=01;31:*.lzo=01;31:*.xz=01;31:*.zst=01;31:*.tzst=01;31:*.bz2=01;31:*.bz=01;31:*.tbz=01;31:*.tbz2=01;31:*.tz=01;31:*.deb=01;31:*.rpm=01;31:*.jar=01;31:*.war=01;31:*.ear=01;31:*.sar=01;31:*.rar=01;31:*.alz=01;31:*.ace=01;31:*.zoo=01;31:*.cpio=01;31:*.7z=01;31:*.rz=01;31:*.cab=01;31:*.wim=01;31:*.swm=01;31:*.dwm=01;31:*.esd=01;31:*.jpg=01;35:*.jpeg=01;35:*.mjpg=01;35:*.mjpeg=01;35:*.gif=01;35:*.bmp=01;35:*.pbm=01;35:*.pgm=01;35:*.ppm=01;35:*.tga=01;35:*.xbm=01;35:*.xpm=01;35:*.tif=01;35:*.tiff=01;35:*.png=01;35:*.svg=01;35:*.svgz=01;35:*.mng=01;35:*.pcx=01;35:*.mov=01;35:*.mpg=01;35:*.mpeg=01;35:*.m2v=01;35:*.mkv=01;35:*.webm=01;35:*.webp=01;35:*.ogm=01;35:*.mp4=01;35:*.m4v=01;35:*.mp4v=01;35:*.vob=01;35:*.qt=01;35:*.nuv=01;35:*.wmv=01;35:*.asf=01;35:*.rm=01;35:*.rmvb=01;35:*.flc=01;35:*.avi=01;35:*.fli=01;35:*.flv=01;35:*.gl=01;35:*.dl=01;35:*.xcf=01;35:*.xwd=01;35:*.yuv=01;35:*.cgm=01;35:*.emf=01;35:*.ogv=01;35:*.ogx=01;35:*.aac=00;36:*.au=00;36:*.flac=00;36:*.m4a=00;36:*.mid=00;36:*.midi=00;36:*.mka=00;36:*.mp3=00;36:*.mpc=00;36:*.ogg=00;36:*.ra=00;36:*.wav=00;36:*.oga=00;36:*.opus=00;36:*.spx=00;36:*.xspf=00;36:'), ('ROS_DOMAIN_ID', '23'), ('AMENT_PREFIX_PATH', '/ros2_ws/install/navigation:/opt/ros/humble'), ('PWD', '/ros2_ws/build/rospi_pre'), ('LC_ALL', 'C.UTF-8'), ('PYTHONPATH', '/opt/ros/humble/lib/python3.10/site-packages:/opt/ros/humble/local/lib/python3.10/dist-packages'), ('COLCON', '1'), ('CMAKE_PREFIX_PATH', '/ros2_ws/install/navigation:/opt/ros/humble')]), 'shell': False}
+[0.291568] (rospi_pre) StdoutLine: {'line': b'-- Install configuration: ""\n'}
+[0.292773] (rospi_pre) StdoutLine: {'line': b'-- Up-to-date: /ros2_ws/install/rospi_pre/share/ament_index/resource_index/rosidl_interfaces/rospi_pre\n'}
+[0.293486] (rospi_pre) StdoutLine: {'line': b'-- Up-to-date: /ros2_ws/install/rospi_pre/include/rospi_pre/rospi_pre\n'}
+[0.293633] (rospi_pre) StdoutLine: {'line': b'-- Up-to-date: /ros2_ws/install/rospi_pre/include/rospi_pre/rospi_pre/msg\n'}
+[0.293724] (rospi_pre) StdoutLine: {'line': b'-- Up-to-date: /ros2_ws/install/rospi_pre/include/rospi_pre/rospi_pre/msg/rosidl_generator_c__visibility_control.h\n'}
+[0.293803] (rospi_pre) StdoutLine: {'line': b'-- Up-to-date: /ros2_ws/install/rospi_pre/include/rospi_pre/rospi_pre/srv\n'}
+[0.293875] (rospi_pre) StdoutLine: {'line': b'-- Up-to-date: /ros2_ws/install/rospi_pre/include/rospi_pre/rospi_pre/srv/detail\n'}
+[0.293946] (rospi_pre) StdoutLine: {'line': b'-- Up-to-date: /ros2_ws/install/rospi_pre/include/rospi_pre/rospi_pre/srv/detail/chassis_manager__struct.h\n'}
+[0.294018] (rospi_pre) StdoutLine: {'line': b'-- Up-to-date: /ros2_ws/install/rospi_pre/include/rospi_pre/rospi_pre/srv/detail/chassis_manager__functions.h\n'}
+[0.294086] (rospi_pre) StdoutLine: {'line': b'-- Up-to-date: /ros2_ws/install/rospi_pre/include/rospi_pre/rospi_pre/srv/detail/chassis_manager__functions.c\n'}
+[0.294153] (rospi_pre) StdoutLine: {'line': b'-- Up-to-date: /ros2_ws/install/rospi_pre/include/rospi_pre/rospi_pre/srv/detail/chassis_manager__type_support.h\n'}
+[0.294460] (rospi_pre) StdoutLine: {'line': b'-- Up-to-date: /ros2_ws/install/rospi_pre/include/rospi_pre/rospi_pre/srv/chassis_manager.h\n'}
+[0.294815] (rospi_pre) StdoutLine: {'line': b'-- Up-to-date: /ros2_ws/install/rospi_pre/share/rospi_pre/environment/library_path.sh\n'}
+[0.294938] (rospi_pre) StdoutLine: {'line': b'-- Up-to-date: /ros2_ws/install/rospi_pre/share/rospi_pre/environment/library_path.dsv\n'}
+[0.295079] (rospi_pre) StdoutLine: {'line': b'-- Up-to-date: /ros2_ws/install/rospi_pre/lib/librospi_pre__rosidl_generator_c.so\n'}
+[0.295233] (rospi_pre) StdoutLine: {'line': b'-- Up-to-date: /ros2_ws/install/rospi_pre/include/rospi_pre/rospi_pre\n'}
+[0.295306] (rospi_pre) StdoutLine: {'line': b'-- Up-to-date: /ros2_ws/install/rospi_pre/include/rospi_pre/rospi_pre/msg\n'}
+[0.295433] (rospi_pre) StdoutLine: {'line': b'-- Up-to-date: /ros2_ws/install/rospi_pre/include/rospi_pre/rospi_pre/msg/rosidl_typesupport_fastrtps_c__visibility_control.h\n'}
+[0.295515] (rospi_pre) StdoutLine: {'line': b'-- Up-to-date: /ros2_ws/install/rospi_pre/include/rospi_pre/rospi_pre/srv\n'}
+[0.295585] (rospi_pre) StdoutLine: {'line': b'-- Up-to-date: /ros2_ws/install/rospi_pre/include/rospi_pre/rospi_pre/srv/detail\n'}
+[0.295660] (rospi_pre) StdoutLine: {'line': b'-- Up-to-date: /ros2_ws/install/rospi_pre/include/rospi_pre/rospi_pre/srv/detail/chassis_manager__rosidl_typesupport_fastrtps_c.h\n'}
+[0.295770] (rospi_pre) StdoutLine: {'line': b'-- Up-to-date: /ros2_ws/install/rospi_pre/lib/librospi_pre__rosidl_typesupport_fastrtps_c.so\n'}
+[0.295839] (rospi_pre) StdoutLine: {'line': b'-- Up-to-date: /ros2_ws/install/rospi_pre/include/rospi_pre/rospi_pre\n'}
+[0.296025] (rospi_pre) StdoutLine: {'line': b'-- Up-to-date: /ros2_ws/install/rospi_pre/include/rospi_pre/rospi_pre/msg\n'}
+[0.296104] (rospi_pre) StdoutLine: {'line': b'-- Up-to-date: /ros2_ws/install/rospi_pre/include/rospi_pre/rospi_pre/msg/rosidl_generator_cpp__visibility_control.hpp\n'}
+[0.296172] (rospi_pre) StdoutLine: {'line': b'-- Up-to-date: /ros2_ws/install/rospi_pre/include/rospi_pre/rospi_pre/srv\n'}
+[0.296287] (rospi_pre) StdoutLine: {'line': b'-- Up-to-date: /ros2_ws/install/rospi_pre/include/rospi_pre/rospi_pre/srv/detail\n'}
+[0.296362] (rospi_pre) StdoutLine: {'line': b'-- Up-to-date: /ros2_ws/install/rospi_pre/include/rospi_pre/rospi_pre/srv/detail/chassis_manager__traits.hpp\n'}
+[0.296457] (rospi_pre) StdoutLine: {'line': b'-- Up-to-date: /ros2_ws/install/rospi_pre/include/rospi_pre/rospi_pre/srv/detail/chassis_manager__type_support.hpp\n'}
+[0.296558] (rospi_pre) StdoutLine: {'line': b'-- Up-to-date: /ros2_ws/install/rospi_pre/include/rospi_pre/rospi_pre/srv/detail/chassis_manager__struct.hpp\n'}
+[0.296635] (rospi_pre) StdoutLine: {'line': b'-- Up-to-date: /ros2_ws/install/rospi_pre/include/rospi_pre/rospi_pre/srv/detail/chassis_manager__builder.hpp\n'}
+[0.296726] (rospi_pre) StdoutLine: {'line': b'-- Up-to-date: /ros2_ws/install/rospi_pre/include/rospi_pre/rospi_pre/srv/chassis_manager.hpp\n'}
+[0.296977] (rospi_pre) StdoutLine: {'line': b'-- Up-to-date: /ros2_ws/install/rospi_pre/include/rospi_pre/rospi_pre\n'}
+[0.297168] (rospi_pre) StdoutLine: {'line': b'-- Up-to-date: /ros2_ws/install/rospi_pre/include/rospi_pre/rospi_pre/msg\n'}
+[0.297248] (rospi_pre) StdoutLine: {'line': b'-- Up-to-date: /ros2_ws/install/rospi_pre/include/rospi_pre/rospi_pre/msg/rosidl_typesupport_fastrtps_cpp__visibility_control.h\n'}
+[0.297329] (rospi_pre) StdoutLine: {'line': b'-- Up-to-date: /ros2_ws/install/rospi_pre/include/rospi_pre/rospi_pre/srv\n'}
+[0.297404] (rospi_pre) StdoutLine: {'line': b'-- Up-to-date: /ros2_ws/install/rospi_pre/include/rospi_pre/rospi_pre/srv/detail\n'}
+[0.297482] (rospi_pre) StdoutLine: {'line': b'-- Up-to-date: /ros2_ws/install/rospi_pre/include/rospi_pre/rospi_pre/srv/detail/chassis_manager__rosidl_typesupport_fastrtps_cpp.hpp\n'}
+[0.297555] (rospi_pre) StdoutLine: {'line': b'-- Up-to-date: /ros2_ws/install/rospi_pre/include/rospi_pre/rospi_pre/srv/detail/dds_fastrtps\n'}
+[0.297638] (rospi_pre) StdoutLine: {'line': b'-- Up-to-date: /ros2_ws/install/rospi_pre/lib/librospi_pre__rosidl_typesupport_fastrtps_cpp.so\n'}
+[0.297724] (rospi_pre) StdoutLine: {'line': b'-- Up-to-date: /ros2_ws/install/rospi_pre/include/rospi_pre/rospi_pre\n'}
+[0.297796] (rospi_pre) StdoutLine: {'line': b'-- Up-to-date: /ros2_ws/install/rospi_pre/include/rospi_pre/rospi_pre/msg\n'}
+[0.297871] (rospi_pre) StdoutLine: {'line': b'-- Up-to-date: /ros2_ws/install/rospi_pre/include/rospi_pre/rospi_pre/msg/rosidl_typesupport_introspection_c__visibility_control.h\n'}
+[0.297947] (rospi_pre) StdoutLine: {'line': b'-- Up-to-date: /ros2_ws/install/rospi_pre/include/rospi_pre/rospi_pre/srv\n'}
+[0.298024] (rospi_pre) StdoutLine: {'line': b'-- Up-to-date: /ros2_ws/install/rospi_pre/include/rospi_pre/rospi_pre/srv/detail\n'}
+[0.298096] (rospi_pre) StdoutLine: {'line': b'-- Up-to-date: /ros2_ws/install/rospi_pre/include/rospi_pre/rospi_pre/srv/detail/chassis_manager__rosidl_typesupport_introspection_c.h\n'}
+[0.298166] (rospi_pre) StdoutLine: {'line': b'-- Up-to-date: /ros2_ws/install/rospi_pre/include/rospi_pre/rospi_pre/srv/detail/chassis_manager__type_support.c\n'}
+[0.298235] (rospi_pre) StdoutLine: {'line': b'-- Up-to-date: /ros2_ws/install/rospi_pre/lib/librospi_pre__rosidl_typesupport_introspection_c.so\n'}
+[0.298303] (rospi_pre) StdoutLine: {'line': b'-- Up-to-date: /ros2_ws/install/rospi_pre/lib/librospi_pre__rosidl_typesupport_c.so\n'}
+[0.298372] (rospi_pre) StdoutLine: {'line': b'-- Up-to-date: /ros2_ws/install/rospi_pre/include/rospi_pre/rospi_pre\n'}
+[0.298438] (rospi_pre) StdoutLine: {'line': b'-- Up-to-date: /ros2_ws/install/rospi_pre/include/rospi_pre/rospi_pre/srv\n'}
+[0.298499] (rospi_pre) StdoutLine: {'line': b'-- Up-to-date: /ros2_ws/install/rospi_pre/include/rospi_pre/rospi_pre/srv/detail\n'}
+[0.298565] (rospi_pre) StdoutLine: {'line': b'-- Up-to-date: /ros2_ws/install/rospi_pre/include/rospi_pre/rospi_pre/srv/detail/chassis_manager__rosidl_typesupport_introspection_cpp.hpp\n'}
+[0.298637] (rospi_pre) StdoutLine: {'line': b'-- Up-to-date: /ros2_ws/install/rospi_pre/include/rospi_pre/rospi_pre/srv/detail/chassis_manager__type_support.cpp\n'}
+[0.298719] (rospi_pre) StdoutLine: {'line': b'-- Up-to-date: /ros2_ws/install/rospi_pre/lib/librospi_pre__rosidl_typesupport_introspection_cpp.so\n'}
+[0.298795] (rospi_pre) StdoutLine: {'line': b'-- Up-to-date: /ros2_ws/install/rospi_pre/lib/librospi_pre__rosidl_typesupport_cpp.so\n'}
+[0.298869] (rospi_pre) StdoutLine: {'line': b'-- Up-to-date: /ros2_ws/install/rospi_pre/share/rospi_pre/environment/pythonpath.sh\n'}
+[0.298962] (rospi_pre) StdoutLine: {'line': b'-- Up-to-date: /ros2_ws/install/rospi_pre/share/rospi_pre/environment/pythonpath.dsv\n'}
+[0.299037] (rospi_pre) StdoutLine: {'line': b'-- Up-to-date: /ros2_ws/install/rospi_pre/local/lib/python3.10/dist-packages/rospi_pre-0.0.0-py3.10.egg-info\n'}
+[0.299109] (rospi_pre) StdoutLine: {'line': b'-- Installing: /ros2_ws/install/rospi_pre/local/lib/python3.10/dist-packages/rospi_pre-0.0.0-py3.10.egg-info/PKG-INFO\n'}
+[0.299176] (rospi_pre) StdoutLine: {'line': b'-- Installing: /ros2_ws/install/rospi_pre/local/lib/python3.10/dist-packages/rospi_pre-0.0.0-py3.10.egg-info/dependency_links.txt\n'}
+[0.299242] (rospi_pre) StdoutLine: {'line': b'-- Installing: /ros2_ws/install/rospi_pre/local/lib/python3.10/dist-packages/rospi_pre-0.0.0-py3.10.egg-info/SOURCES.txt\n'}
+[0.299319] (rospi_pre) StdoutLine: {'line': b'-- Installing: /ros2_ws/install/rospi_pre/local/lib/python3.10/dist-packages/rospi_pre-0.0.0-py3.10.egg-info/top_level.txt\n'}
+[0.299392] (rospi_pre) StdoutLine: {'line': b'-- Up-to-date: /ros2_ws/install/rospi_pre/local/lib/python3.10/dist-packages/rospi_pre\n'}
+[0.299465] (rospi_pre) StdoutLine: {'line': b'-- Up-to-date: /ros2_ws/install/rospi_pre/local/lib/python3.10/dist-packages/rospi_pre/_rospi_pre_s.ep.rosidl_typesupport_introspection_c.c\n'}
+[0.299545] (rospi_pre) StdoutLine: {'line': b'-- Up-to-date: /ros2_ws/install/rospi_pre/local/lib/python3.10/dist-packages/rospi_pre/_rospi_pre_s.ep.rosidl_typesupport_c.c\n'}
+[0.299615] (rospi_pre) StdoutLine: {'line': b'-- Up-to-date: /ros2_ws/install/rospi_pre/local/lib/python3.10/dist-packages/rospi_pre/_rospi_pre_s.ep.rosidl_typesupport_fastrtps_c.c\n'}
+[0.299681] (rospi_pre) StdoutLine: {'line': b'-- Up-to-date: /ros2_ws/install/rospi_pre/local/lib/python3.10/dist-packages/rospi_pre/rospi_pre_s__rosidl_typesupport_introspection_c.cpython-310-x86_64-linux-gnu.so\n'}
+[0.299761] (rospi_pre) StdoutLine: {'line': b'-- Up-to-date: /ros2_ws/install/rospi_pre/local/lib/python3.10/dist-packages/rospi_pre/librospi_pre__rosidl_generator_py.so\n'}
+[0.299828] (-) TimerEvent: {}
+[0.299974] (rospi_pre) StdoutLine: {'line': b'-- Up-to-date: /ros2_ws/install/rospi_pre/local/lib/python3.10/dist-packages/rospi_pre/srv\n'}
+[0.300067] (rospi_pre) StdoutLine: {'line': b'-- Up-to-date: /ros2_ws/install/rospi_pre/local/lib/python3.10/dist-packages/rospi_pre/srv/_chassis_manager.py\n'}
+[0.300139] (rospi_pre) StdoutLine: {'line': b'-- Up-to-date: /ros2_ws/install/rospi_pre/local/lib/python3.10/dist-packages/rospi_pre/srv/_chassis_manager_s.c\n'}
+[0.300225] (rospi_pre) StdoutLine: {'line': b'-- Up-to-date: /ros2_ws/install/rospi_pre/local/lib/python3.10/dist-packages/rospi_pre/srv/__init__.py\n'}
+[0.300292] (rospi_pre) StdoutLine: {'line': b'-- Up-to-date: /ros2_ws/install/rospi_pre/local/lib/python3.10/dist-packages/rospi_pre/rospi_pre_s__rosidl_typesupport_fastrtps_c.cpython-310-x86_64-linux-gnu.so\n'}
+[0.300359] (rospi_pre) StdoutLine: {'line': b'-- Up-to-date: /ros2_ws/install/rospi_pre/local/lib/python3.10/dist-packages/rospi_pre/__init__.py\n'}
+[0.300434] (rospi_pre) StdoutLine: {'line': b'-- Up-to-date: /ros2_ws/install/rospi_pre/local/lib/python3.10/dist-packages/rospi_pre/rospi_pre_s__rosidl_typesupport_c.cpython-310-x86_64-linux-gnu.so\n'}
+[0.334490] (rospi_pre) StdoutLine: {'line': b"Listing '/ros2_ws/install/rospi_pre/local/lib/python3.10/dist-packages/rospi_pre'...\n"}
+[0.334697] (rospi_pre) StdoutLine: {'line': b"Listing '/ros2_ws/install/rospi_pre/local/lib/python3.10/dist-packages/rospi_pre/srv'...\n"}
+[0.338973] (rospi_pre) StdoutLine: {'line': b'-- Up-to-date: /ros2_ws/install/rospi_pre/local/lib/python3.10/dist-packages/rospi_pre/rospi_pre_s__rosidl_typesupport_fastrtps_c.cpython-310-x86_64-linux-gnu.so\n'}
+[0.339373] (rospi_pre) StdoutLine: {'line': b'-- Up-to-date: /ros2_ws/install/rospi_pre/local/lib/python3.10/dist-packages/rospi_pre/rospi_pre_s__rosidl_typesupport_introspection_c.cpython-310-x86_64-linux-gnu.so\n'}
+[0.339801] (rospi_pre) StdoutLine: {'line': b'-- Up-to-date: /ros2_ws/install/rospi_pre/local/lib/python3.10/dist-packages/rospi_pre/rospi_pre_s__rosidl_typesupport_c.cpython-310-x86_64-linux-gnu.so\n'}
+[0.340178] (rospi_pre) StdoutLine: {'line': b'-- Up-to-date: /ros2_ws/install/rospi_pre/lib/librospi_pre__rosidl_generator_py.so\n'}
+[0.340380] (rospi_pre) StdoutLine: {'line': b'-- Up-to-date: /ros2_ws/install/rospi_pre/share/rospi_pre/srv/ChassisManager.idl\n'}
+[0.340526] (rospi_pre) StdoutLine: {'line': b'-- Up-to-date: /ros2_ws/install/rospi_pre/share/rospi_pre/srv/ChassisManager.srv\n'}
+[0.340652] (rospi_pre) StdoutLine: {'line': b'-- Up-to-date: /ros2_ws/install/rospi_pre/share/rospi_pre/srv/ChassisManager_Request.msg\n'}
+[0.340784] (rospi_pre) StdoutLine: {'line': b'-- Up-to-date: /ros2_ws/install/rospi_pre/share/rospi_pre/srv/ChassisManager_Response.msg\n'}
+[0.340841] (rospi_pre) StdoutLine: {'line': b'-- Up-to-date: /ros2_ws/install/rospi_pre/share/ament_index/resource_index/package_run_dependencies/rospi_pre\n'}
+[0.340899] (rospi_pre) StdoutLine: {'line': b'-- Up-to-date: /ros2_ws/install/rospi_pre/share/ament_index/resource_index/parent_prefix_path/rospi_pre\n'}
+[0.340972] (rospi_pre) StdoutLine: {'line': b'-- Up-to-date: /ros2_ws/install/rospi_pre/share/rospi_pre/environment/ament_prefix_path.sh\n'}
+[0.341028] (rospi_pre) StdoutLine: {'line': b'-- Up-to-date: /ros2_ws/install/rospi_pre/share/rospi_pre/environment/ament_prefix_path.dsv\n'}
+[0.341104] (rospi_pre) StdoutLine: {'line': b'-- Up-to-date: /ros2_ws/install/rospi_pre/share/rospi_pre/environment/path.sh\n'}
+[0.341164] (rospi_pre) StdoutLine: {'line': b'-- Up-to-date: /ros2_ws/install/rospi_pre/share/rospi_pre/environment/path.dsv\n'}
+[0.341222] (rospi_pre) StdoutLine: {'line': b'-- Up-to-date: /ros2_ws/install/rospi_pre/share/rospi_pre/local_setup.bash\n'}
+[0.341279] (rospi_pre) StdoutLine: {'line': b'-- Up-to-date: /ros2_ws/install/rospi_pre/share/rospi_pre/local_setup.sh\n'}
+[0.341323] (rospi_pre) StdoutLine: {'line': b'-- Up-to-date: /ros2_ws/install/rospi_pre/share/rospi_pre/local_setup.zsh\n'}
+[0.341390] (rospi_pre) StdoutLine: {'line': b'-- Up-to-date: /ros2_ws/install/rospi_pre/share/rospi_pre/local_setup.dsv\n'}
+[0.341453] (rospi_pre) StdoutLine: {'line': b'-- Installing: /ros2_ws/install/rospi_pre/share/rospi_pre/package.dsv\n'}
+[0.341579] (rospi_pre) StdoutLine: {'line': b'-- Up-to-date: /ros2_ws/install/rospi_pre/share/ament_index/resource_index/packages/rospi_pre\n'}
+[0.341673] (rospi_pre) StdoutLine: {'line': b'-- Up-to-date: /ros2_ws/install/rospi_pre/share/rospi_pre/cmake/export_rospi_pre__rosidl_generator_cExport.cmake\n'}
+[0.341755] (rospi_pre) StdoutLine: {'line': b'-- Up-to-date: /ros2_ws/install/rospi_pre/share/rospi_pre/cmake/export_rospi_pre__rosidl_generator_cExport-noconfig.cmake\n'}
+[0.341824] (rospi_pre) StdoutLine: {'line': b'-- Up-to-date: /ros2_ws/install/rospi_pre/share/rospi_pre/cmake/export_rospi_pre__rosidl_typesupport_fastrtps_cExport.cmake\n'}
+[0.341891] (rospi_pre) StdoutLine: {'line': b'-- Up-to-date: /ros2_ws/install/rospi_pre/share/rospi_pre/cmake/export_rospi_pre__rosidl_typesupport_fastrtps_cExport-noconfig.cmake\n'}
+[0.341957] (rospi_pre) StdoutLine: {'line': b'-- Up-to-date: /ros2_ws/install/rospi_pre/share/rospi_pre/cmake/export_rospi_pre__rosidl_generator_cppExport.cmake\n'}
+[0.342037] (rospi_pre) StdoutLine: {'line': b'-- Up-to-date: /ros2_ws/install/rospi_pre/share/rospi_pre/cmake/export_rospi_pre__rosidl_typesupport_fastrtps_cppExport.cmake\n'}
+[0.342101] (rospi_pre) StdoutLine: {'line': b'-- Up-to-date: /ros2_ws/install/rospi_pre/share/rospi_pre/cmake/export_rospi_pre__rosidl_typesupport_fastrtps_cppExport-noconfig.cmake\n'}
+[0.342169] (rospi_pre) StdoutLine: {'line': b'-- Up-to-date: /ros2_ws/install/rospi_pre/share/rospi_pre/cmake/rospi_pre__rosidl_typesupport_introspection_cExport.cmake\n'}
+[0.342226] (rospi_pre) StdoutLine: {'line': b'-- Up-to-date: /ros2_ws/install/rospi_pre/share/rospi_pre/cmake/rospi_pre__rosidl_typesupport_introspection_cExport-noconfig.cmake\n'}
+[0.342288] (rospi_pre) StdoutLine: {'line': b'-- Up-to-date: /ros2_ws/install/rospi_pre/share/rospi_pre/cmake/rospi_pre__rosidl_typesupport_cExport.cmake\n'}
+[0.342366] (rospi_pre) StdoutLine: {'line': b'-- Up-to-date: /ros2_ws/install/rospi_pre/share/rospi_pre/cmake/rospi_pre__rosidl_typesupport_cExport-noconfig.cmake\n'}
+[0.342431] (rospi_pre) StdoutLine: {'line': b'-- Up-to-date: /ros2_ws/install/rospi_pre/share/rospi_pre/cmake/rospi_pre__rosidl_typesupport_introspection_cppExport.cmake\n'}
+[0.342498] (rospi_pre) StdoutLine: {'line': b'-- Up-to-date: /ros2_ws/install/rospi_pre/share/rospi_pre/cmake/rospi_pre__rosidl_typesupport_introspection_cppExport-noconfig.cmake\n'}
+[0.342562] (rospi_pre) StdoutLine: {'line': b'-- Up-to-date: /ros2_ws/install/rospi_pre/share/rospi_pre/cmake/rospi_pre__rosidl_typesupport_cppExport.cmake\n'}
+[0.342628] (rospi_pre) StdoutLine: {'line': b'-- Up-to-date: /ros2_ws/install/rospi_pre/share/rospi_pre/cmake/rospi_pre__rosidl_typesupport_cppExport-noconfig.cmake\n'}
+[0.342696] (rospi_pre) StdoutLine: {'line': b'-- Up-to-date: /ros2_ws/install/rospi_pre/share/rospi_pre/cmake/export_rospi_pre__rosidl_generator_pyExport.cmake\n'}
+[0.342765] (rospi_pre) StdoutLine: {'line': b'-- Up-to-date: /ros2_ws/install/rospi_pre/share/rospi_pre/cmake/export_rospi_pre__rosidl_generator_pyExport-noconfig.cmake\n'}
+[0.342832] (rospi_pre) StdoutLine: {'line': b'-- Up-to-date: /ros2_ws/install/rospi_pre/share/rospi_pre/cmake/rosidl_cmake-extras.cmake\n'}
+[0.342901] (rospi_pre) StdoutLine: {'line': b'-- Up-to-date: /ros2_ws/install/rospi_pre/share/rospi_pre/cmake/ament_cmake_export_dependencies-extras.cmake\n'}
+[0.342965] (rospi_pre) StdoutLine: {'line': b'-- Up-to-date: /ros2_ws/install/rospi_pre/share/rospi_pre/cmake/ament_cmake_export_include_directories-extras.cmake\n'}
+[0.343041] (rospi_pre) StdoutLine: {'line': b'-- Up-to-date: /ros2_ws/install/rospi_pre/share/rospi_pre/cmake/ament_cmake_export_libraries-extras.cmake\n'}
+[0.343089] (rospi_pre) StdoutLine: {'line': b'-- Up-to-date: /ros2_ws/install/rospi_pre/share/rospi_pre/cmake/ament_cmake_export_targets-extras.cmake\n'}
+[0.343132] (rospi_pre) StdoutLine: {'line': b'-- Up-to-date: /ros2_ws/install/rospi_pre/share/rospi_pre/cmake/rosidl_cmake_export_typesupport_targets-extras.cmake\n'}
+[0.343192] (rospi_pre) StdoutLine: {'line': b'-- Up-to-date: /ros2_ws/install/rospi_pre/share/rospi_pre/cmake/rosidl_cmake_export_typesupport_libraries-extras.cmake\n'}
+[0.343266] (rospi_pre) StdoutLine: {'line': b'-- Up-to-date: /ros2_ws/install/rospi_pre/share/rospi_pre/cmake/rospi_preConfig.cmake\n'}
+[0.343308] (rospi_pre) StdoutLine: {'line': b'-- Up-to-date: /ros2_ws/install/rospi_pre/share/rospi_pre/cmake/rospi_preConfig-version.cmake\n'}
+[0.343348] (rospi_pre) StdoutLine: {'line': b'-- Up-to-date: /ros2_ws/install/rospi_pre/share/rospi_pre/package.xml\n'}
+[0.345431] (rospi_pre) CommandEnded: {'returncode': 0}
+[0.361402] (rospi_pre) JobEnded: {'identifier': 'rospi_pre', 'rc': 0}
+[0.362207] (navigation) JobStarted: {'identifier': 'navigation'}
+[0.369425] (navigation) JobProgress: {'identifier': 'navigation', 'progress': 'cmake'}
+[0.369969] (navigation) JobProgress: {'identifier': 'navigation', 'progress': 'build'}
+[0.370288] (navigation) Command: {'cmd': ['/usr/bin/cmake', '--build', '/ros2_ws/build/navigation', '--', '-j12', '-l12'], 'cwd': '/ros2_ws/build/navigation', 'env': OrderedDict([('HOSTNAME', 'yilan'), ('SHLVL', '1'), ('LD_LIBRARY_PATH', '/ros2_ws/install/rospi_pre/lib:/opt/ros/humble/opt/rviz_ogre_vendor/lib:/opt/ros/humble/lib/x86_64-linux-gnu:/opt/ros/humble/lib'), ('HOME', '/root'), ('ROS_PYTHON_VERSION', '3'), ('COLCON_PREFIX_PATH', '/ros2_ws/install'), ('ROS_DISTRO', 'humble'), ('_', '/usr/bin/colcon'), ('ROS_VERSION', '2'), ('TERM', 'xterm'), ('ROS_LOCALHOST_ONLY', '0'), ('QT_X11_NO_MITSHM', '1'), ('PATH', '/opt/ros/humble/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin'), ('DISPLAY', ':1'), ('LANG', 'C.UTF-8'), ('RMW_IMPLEMENTATION', 'rmw_cyclonedds_cpp'), ('LS_COLORS', 'rs=0:di=01;34:ln=01;36:mh=00:pi=40;33:so=01;35:do=01;35:bd=40;33;01:cd=40;33;01:or=40;31;01:mi=00:su=37;41:sg=30;43:ca=30;41:tw=30;42:ow=34;42:st=37;44:ex=01;32:*.tar=01;31:*.tgz=01;31:*.arc=01;31:*.arj=01;31:*.taz=01;31:*.lha=01;31:*.lz4=01;31:*.lzh=01;31:*.lzma=01;31:*.tlz=01;31:*.txz=01;31:*.tzo=01;31:*.t7z=01;31:*.zip=01;31:*.z=01;31:*.dz=01;31:*.gz=01;31:*.lrz=01;31:*.lz=01;31:*.lzo=01;31:*.xz=01;31:*.zst=01;31:*.tzst=01;31:*.bz2=01;31:*.bz=01;31:*.tbz=01;31:*.tbz2=01;31:*.tz=01;31:*.deb=01;31:*.rpm=01;31:*.jar=01;31:*.war=01;31:*.ear=01;31:*.sar=01;31:*.rar=01;31:*.alz=01;31:*.ace=01;31:*.zoo=01;31:*.cpio=01;31:*.7z=01;31:*.rz=01;31:*.cab=01;31:*.wim=01;31:*.swm=01;31:*.dwm=01;31:*.esd=01;31:*.jpg=01;35:*.jpeg=01;35:*.mjpg=01;35:*.mjpeg=01;35:*.gif=01;35:*.bmp=01;35:*.pbm=01;35:*.pgm=01;35:*.ppm=01;35:*.tga=01;35:*.xbm=01;35:*.xpm=01;35:*.tif=01;35:*.tiff=01;35:*.png=01;35:*.svg=01;35:*.svgz=01;35:*.mng=01;35:*.pcx=01;35:*.mov=01;35:*.mpg=01;35:*.mpeg=01;35:*.m2v=01;35:*.mkv=01;35:*.webm=01;35:*.webp=01;35:*.ogm=01;35:*.mp4=01;35:*.m4v=01;35:*.mp4v=01;35:*.vob=01;35:*.qt=01;35:*.nuv=01;35:*.wmv=01;35:*.asf=01;35:*.rm=01;35:*.rmvb=01;35:*.flc=01;35:*.avi=01;35:*.fli=01;35:*.flv=01;35:*.gl=01;35:*.dl=01;35:*.xcf=01;35:*.xwd=01;35:*.yuv=01;35:*.cgm=01;35:*.emf=01;35:*.ogv=01;35:*.ogx=01;35:*.aac=00;36:*.au=00;36:*.flac=00;36:*.m4a=00;36:*.mid=00;36:*.midi=00;36:*.mka=00;36:*.mp3=00;36:*.mpc=00;36:*.ogg=00;36:*.ra=00;36:*.wav=00;36:*.oga=00;36:*.opus=00;36:*.spx=00;36:*.xspf=00;36:'), ('ROS_DOMAIN_ID', '23'), ('AMENT_PREFIX_PATH', '/ros2_ws/install/rospi_pre:/ros2_ws/install/navigation:/opt/ros/humble'), ('PWD', '/ros2_ws/build/navigation'), ('LC_ALL', 'C.UTF-8'), ('PYTHONPATH', '/ros2_ws/install/rospi_pre/local/lib/python3.10/dist-packages:/opt/ros/humble/lib/python3.10/site-packages:/opt/ros/humble/local/lib/python3.10/dist-packages'), ('COLCON', '1'), ('CMAKE_PREFIX_PATH', '/opt/ros/humble:/ros2_ws/install/rospi_pre:/ros2_ws/install/navigation')]), 'shell': False}
+[0.399941] (-) TimerEvent: {}
+[0.410940] (navigation) StdoutLine: {'line': b'\x1b[35m\x1b[1mConsolidate compiler generated dependencies of target chassis_controller\x1b[0m\n'}
+[0.423209] (navigation) StdoutLine: {'line': b'[ 50%] Built target check_point_4\n'}
+[0.428441] (navigation) StdoutLine: {'line': b'[ 75%] \x1b[32mBuilding CXX object CMakeFiles/chassis_controller.dir/src/chassis_controller.cpp.o\x1b[0m\n'}
+[0.500046] (-) TimerEvent: {}
+[0.600355] (-) TimerEvent: {}
+[0.700635] (-) TimerEvent: {}
+[0.800933] (-) TimerEvent: {}
+[0.901215] (-) TimerEvent: {}
+[1.001515] (-) TimerEvent: {}
+[1.101820] (-) TimerEvent: {}
+[1.202134] (-) TimerEvent: {}
+[1.302437] (-) TimerEvent: {}
+[1.402752] (-) TimerEvent: {}
+[1.503090] (-) TimerEvent: {}
+[1.603464] (-) TimerEvent: {}
+[1.703748] (-) TimerEvent: {}
+[1.804029] (-) TimerEvent: {}
+[1.904337] (-) TimerEvent: {}
+[2.004658] (-) TimerEvent: {}
+[2.105136] (-) TimerEvent: {}
+[2.205455] (-) TimerEvent: {}
+[2.305747] (-) TimerEvent: {}
+[2.406003] (-) TimerEvent: {}
+[2.506281] (-) TimerEvent: {}
+[2.606574] (-) TimerEvent: {}
+[2.706863] (-) TimerEvent: {}
+[2.807173] (-) TimerEvent: {}
+[2.907457] (-) TimerEvent: {}
+[3.007804] (-) TimerEvent: {}
+[3.108106] (-) TimerEvent: {}
+[3.208412] (-) TimerEvent: {}
+[3.308728] (-) TimerEvent: {}
+[3.409007] (-) TimerEvent: {}
+[3.509305] (-) TimerEvent: {}
+[3.609654] (-) TimerEvent: {}
+[3.709970] (-) TimerEvent: {}
+[3.810280] (-) TimerEvent: {}
+[3.910616] (-) TimerEvent: {}
+[4.010945] (-) TimerEvent: {}
+[4.111253] (-) TimerEvent: {}
+[4.211524] (-) TimerEvent: {}
+[4.311742] (-) TimerEvent: {}
+[4.412011] (-) TimerEvent: {}
+[4.512314] (-) TimerEvent: {}
+[4.612619] (-) TimerEvent: {}
+[4.712925] (-) TimerEvent: {}
+[4.813195] (-) TimerEvent: {}
+[4.913466] (-) TimerEvent: {}
+[5.013759] (-) TimerEvent: {}
+[5.114046] (-) TimerEvent: {}
+[5.214336] (-) TimerEvent: {}
+[5.314628] (-) TimerEvent: {}
+[5.414920] (-) TimerEvent: {}
+[5.515192] (-) TimerEvent: {}
+[5.615483] (-) TimerEvent: {}
+[5.715775] (-) TimerEvent: {}
+[5.816064] (-) TimerEvent: {}
+[5.916359] (-) TimerEvent: {}
+[6.016652] (-) TimerEvent: {}
+[6.116939] (-) TimerEvent: {}
+[6.217208] (-) TimerEvent: {}
+[6.317500] (-) TimerEvent: {}
+[6.417749] (-) TimerEvent: {}
+[6.518037] (-) TimerEvent: {}
+[6.618324] (-) TimerEvent: {}
+[6.718616] (-) TimerEvent: {}
+[6.818953] (-) TimerEvent: {}
+[6.919234] (-) TimerEvent: {}
+[7.019518] (-) TimerEvent: {}
+[7.119769] (-) TimerEvent: {}
+[7.157185] (navigation) StdoutLine: {'line': b'[100%] \x1b[32m\x1b[1mLinking CXX executable chassis_controller\x1b[0m\n'}
+[7.219877] (-) TimerEvent: {}
+[7.320217] (-) TimerEvent: {}
+[7.420559] (-) TimerEvent: {}
+[7.520942] (-) TimerEvent: {}
+[7.543767] (navigation) StdoutLine: {'line': b'[100%] Built target chassis_controller\n'}
+[7.554100] (navigation) CommandEnded: {'returncode': 0}
+[7.554681] (navigation) JobProgress: {'identifier': 'navigation', 'progress': 'install'}
+[7.555347] (navigation) Command: {'cmd': ['/usr/bin/cmake', '--install', '/ros2_ws/build/navigation'], 'cwd': '/ros2_ws/build/navigation', 'env': OrderedDict([('HOSTNAME', 'yilan'), ('SHLVL', '1'), ('LD_LIBRARY_PATH', '/ros2_ws/install/rospi_pre/lib:/opt/ros/humble/opt/rviz_ogre_vendor/lib:/opt/ros/humble/lib/x86_64-linux-gnu:/opt/ros/humble/lib'), ('HOME', '/root'), ('ROS_PYTHON_VERSION', '3'), ('COLCON_PREFIX_PATH', '/ros2_ws/install'), ('ROS_DISTRO', 'humble'), ('_', '/usr/bin/colcon'), ('ROS_VERSION', '2'), ('TERM', 'xterm'), ('ROS_LOCALHOST_ONLY', '0'), ('QT_X11_NO_MITSHM', '1'), ('PATH', '/opt/ros/humble/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin'), ('DISPLAY', ':1'), ('LANG', 'C.UTF-8'), ('RMW_IMPLEMENTATION', 'rmw_cyclonedds_cpp'), ('LS_COLORS', 'rs=0:di=01;34:ln=01;36:mh=00:pi=40;33:so=01;35:do=01;35:bd=40;33;01:cd=40;33;01:or=40;31;01:mi=00:su=37;41:sg=30;43:ca=30;41:tw=30;42:ow=34;42:st=37;44:ex=01;32:*.tar=01;31:*.tgz=01;31:*.arc=01;31:*.arj=01;31:*.taz=01;31:*.lha=01;31:*.lz4=01;31:*.lzh=01;31:*.lzma=01;31:*.tlz=01;31:*.txz=01;31:*.tzo=01;31:*.t7z=01;31:*.zip=01;31:*.z=01;31:*.dz=01;31:*.gz=01;31:*.lrz=01;31:*.lz=01;31:*.lzo=01;31:*.xz=01;31:*.zst=01;31:*.tzst=01;31:*.bz2=01;31:*.bz=01;31:*.tbz=01;31:*.tbz2=01;31:*.tz=01;31:*.deb=01;31:*.rpm=01;31:*.jar=01;31:*.war=01;31:*.ear=01;31:*.sar=01;31:*.rar=01;31:*.alz=01;31:*.ace=01;31:*.zoo=01;31:*.cpio=01;31:*.7z=01;31:*.rz=01;31:*.cab=01;31:*.wim=01;31:*.swm=01;31:*.dwm=01;31:*.esd=01;31:*.jpg=01;35:*.jpeg=01;35:*.mjpg=01;35:*.mjpeg=01;35:*.gif=01;35:*.bmp=01;35:*.pbm=01;35:*.pgm=01;35:*.ppm=01;35:*.tga=01;35:*.xbm=01;35:*.xpm=01;35:*.tif=01;35:*.tiff=01;35:*.png=01;35:*.svg=01;35:*.svgz=01;35:*.mng=01;35:*.pcx=01;35:*.mov=01;35:*.mpg=01;35:*.mpeg=01;35:*.m2v=01;35:*.mkv=01;35:*.webm=01;35:*.webp=01;35:*.ogm=01;35:*.mp4=01;35:*.m4v=01;35:*.mp4v=01;35:*.vob=01;35:*.qt=01;35:*.nuv=01;35:*.wmv=01;35:*.asf=01;35:*.rm=01;35:*.rmvb=01;35:*.flc=01;35:*.avi=01;35:*.fli=01;35:*.flv=01;35:*.gl=01;35:*.dl=01;35:*.xcf=01;35:*.xwd=01;35:*.yuv=01;35:*.cgm=01;35:*.emf=01;35:*.ogv=01;35:*.ogx=01;35:*.aac=00;36:*.au=00;36:*.flac=00;36:*.m4a=00;36:*.mid=00;36:*.midi=00;36:*.mka=00;36:*.mp3=00;36:*.mpc=00;36:*.ogg=00;36:*.ra=00;36:*.wav=00;36:*.oga=00;36:*.opus=00;36:*.spx=00;36:*.xspf=00;36:'), ('ROS_DOMAIN_ID', '23'), ('AMENT_PREFIX_PATH', '/ros2_ws/install/rospi_pre:/ros2_ws/install/navigation:/opt/ros/humble'), ('PWD', '/ros2_ws/build/navigation'), ('LC_ALL', 'C.UTF-8'), ('PYTHONPATH', '/ros2_ws/install/rospi_pre/local/lib/python3.10/dist-packages:/opt/ros/humble/lib/python3.10/site-packages:/opt/ros/humble/local/lib/python3.10/dist-packages'), ('COLCON', '1'), ('CMAKE_PREFIX_PATH', '/opt/ros/humble:/ros2_ws/install/rospi_pre:/ros2_ws/install/navigation')]), 'shell': False}
+[7.561901] (navigation) StdoutLine: {'line': b'-- Install configuration: ""\n'}
+[7.562092] (navigation) StdoutLine: {'line': b'-- Up-to-date: /ros2_ws/install/navigation/lib/navigation/check_point_4\n'}
+[7.562292] (navigation) StdoutLine: {'line': b'-- Installing: /ros2_ws/install/navigation/lib/navigation/chassis_controller\n'}
+[7.567714] (navigation) StdoutLine: {'line': b'-- Set runtime path of "/ros2_ws/install/navigation/lib/navigation/chassis_controller" to ""\n'}
+[7.567960] (navigation) StdoutLine: {'line': b'-- Up-to-date: /ros2_ws/install/navigation/share/ament_index/resource_index/package_run_dependencies/navigation\n'}
+[7.568082] (navigation) StdoutLine: {'line': b'-- Up-to-date: /ros2_ws/install/navigation/share/ament_index/resource_index/parent_prefix_path/navigation\n'}
+[7.568174] (navigation) StdoutLine: {'line': b'-- Up-to-date: /ros2_ws/install/navigation/share/navigation/environment/ament_prefix_path.sh\n'}
+[7.568291] (navigation) StdoutLine: {'line': b'-- Up-to-date: /ros2_ws/install/navigation/share/navigation/environment/ament_prefix_path.dsv\n'}
+[7.568376] (navigation) StdoutLine: {'line': b'-- Up-to-date: /ros2_ws/install/navigation/share/navigation/environment/path.sh\n'}
+[7.568460] (navigation) StdoutLine: {'line': b'-- Up-to-date: /ros2_ws/install/navigation/share/navigation/environment/path.dsv\n'}
+[7.568530] (navigation) StdoutLine: {'line': b'-- Up-to-date: /ros2_ws/install/navigation/share/navigation/local_setup.bash\n'}
+[7.568598] (navigation) StdoutLine: {'line': b'-- Up-to-date: /ros2_ws/install/navigation/share/navigation/local_setup.sh\n'}
+[7.568659] (navigation) StdoutLine: {'line': b'-- Up-to-date: /ros2_ws/install/navigation/share/navigation/local_setup.zsh\n'}
+[7.568731] (navigation) StdoutLine: {'line': b'-- Up-to-date: /ros2_ws/install/navigation/share/navigation/local_setup.dsv\n'}
+[7.568793] (navigation) StdoutLine: {'line': b'-- Installing: /ros2_ws/install/navigation/share/navigation/package.dsv\n'}
+[7.568848] (navigation) StdoutLine: {'line': b'-- Up-to-date: /ros2_ws/install/navigation/share/ament_index/resource_index/packages/navigation\n'}
+[7.568909] (navigation) StdoutLine: {'line': b'-- Up-to-date: /ros2_ws/install/navigation/share/navigation/cmake/navigationConfig.cmake\n'}
+[7.568969] (navigation) StdoutLine: {'line': b'-- Up-to-date: /ros2_ws/install/navigation/share/navigation/cmake/navigationConfig-version.cmake\n'}
+[7.569029] (navigation) StdoutLine: {'line': b'-- Up-to-date: /ros2_ws/install/navigation/share/navigation/package.xml\n'}
+[7.570216] (navigation) CommandEnded: {'returncode': 0}
+[7.578949] (navigation) JobEnded: {'identifier': 'navigation', 'rc': 0}
+[7.579461] (-) EventReactorShutdown: {}

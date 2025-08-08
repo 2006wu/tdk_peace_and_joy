@@ -1,0 +1,11 @@
+[0.011s] Invoking command in '/ros2_ws/build/navigation': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/opt/ros/humble /usr/bin/cmake --build /ros2_ws/build/navigation -- -j12 -l12
+[0.055s] [35m[1mConsolidate compiler generated dependencies of target check_point_4[0m
+[0.074s] [ 50%] [32mBuilding CXX object CMakeFiles/check_point_4.dir/src/check_point_4.cpp.o[0m
+[2.103s] [01m[K/ros2_ws/src/navigation/src/check_point_4.cpp:[m[K In member function ‘[01m[Kvoid CurvedPathPublisher::publishTwist()[m[K’:
+[2.104s] [01m[K/ros2_ws/src/navigation/src/check_point_4.cpp:130:17:[m[K [01;31m[Kerror: [m[K‘[01m[Klimit[m[K’ was not declared in this scope
+[2.104s]   130 |         omega = [01;31m[Klimit[m[K(omega, 1.0);  // 例如 max_omega = 1.0 rad/s
+[2.104s]       |                 [01;31m[K^~~~~[m[K
+[2.774s] gmake[2]: *** [CMakeFiles/check_point_4.dir/build.make:76: CMakeFiles/check_point_4.dir/src/check_point_4.cpp.o] Error 1
+[2.774s] gmake[1]: *** [CMakeFiles/Makefile2:137: CMakeFiles/check_point_4.dir/all] Error 2
+[2.775s] gmake: *** [Makefile:146: all] Error 2
+[2.777s] Invoked command in '/ros2_ws/build/navigation' returned '2': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/opt/ros/humble /usr/bin/cmake --build /ros2_ws/build/navigation -- -j12 -l12
