@@ -108,16 +108,26 @@ private:
             theta = angle + M_PI_2 * std::copysign(1.0, theta_rad);
         }
 
+        // 在 publishTwist() 中 step_ == 0 時設定 max_step_
         if (step_ == 0) {
-            prev_x_ = xi;
-            prev_y_ = yi;
-            prev_theta_ = theta;
+            double path_length;
+            if (std::abs(p1.angle) < 1e-3) {
+                path_length = std::hypot(p2.x - p1.x, p2.y - p1.y);  // 直線距離
+            } else {
+                path_length = std::abs(p1.radius) * std::abs(p1.angle) * M_PI / 180.0;  // 弧長 = rθ
+            }
+
+            /// 以 0.2 m/s 的速度和 50 ms 的控制間隔計算 max_step_ ///
+            double desired_speed = 0.2;  // m/s
+            double dt = 0.05;            // 控制間隔
+            max_step_ = std::ceil(path_length / (desired_speed * dt));
         }
 
         double dt = 0.05;
         double vx = (xi - prev_x_) / dt;
         double vy = (yi - prev_y_) / dt;
         double omega = (theta - prev_theta_) / dt;
+        // omega = limit(omega, 1.0);  // 例如 max_omega = 1.0 rad/s
 
         // give the message to STM
         geometry_msgs::msg::Twist twist;
