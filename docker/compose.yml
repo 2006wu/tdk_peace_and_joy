@@ -1,10 +1,18 @@
 name: tdk-communication
+
+x-common-env: &common-env
+  tty: true
+  stdin_open: true
+  stop_grace_period: 1s
 services:
   ros-core:
     image: osrf/ros:noetic-desktop-full
     container_name: wu-ros-core
     command: "rosmaster --core"
     network_mode: host
+    volumes:
+      - ~/tdk_peace_and_joy/catkin_ws:/catkin_ws/
+      - /dev/bus/usb:/dev/bus/usb
     working_dir: /catkin_ws
     stop_grace_period: 1s
     healthcheck:
@@ -80,19 +88,20 @@ services:
     environment:
       - RMW_IMPLEMENTATION=rmw_cyclonedds_cpp
       - ROS_DOMAIN_ID=23
-      - DISPLAY=${DISPLAY}
+      # - DISPLAY=${DISPLAY}  #linux open
+      - DISPLAY=host.docker.internal:0
       - QT_X11_NO_MITSHM=1
       #- ROS_MASTER_URI=http://192.168.50.133:11311 #x1
       #- ROS_IP=192.168.50.133 #x1
     stdin_open: true
     tty: true
-    network_mode: host
+    # network_mode: host
     privileged: true
     stop_grace_period: 1s
     volumes:
       # GUI 顯示相關
-      - /tmp/.X11-unix:/tmp/.X11-unix:rw      
-      - $HOME/.Xauthority:/root/.Xauthority:rw
+      # - /tmp/.X11-unix:/tmp/.X11-unix:rw      
+      # - $HOME/.Xauthority:/root/.Xauthority:rw
       # 共享內存
       - /dev/shm:/dev/shm
       # GPU 直連（必要時）
@@ -101,3 +110,26 @@ services:
       - ~/tdk_peace_and_joy/ros2_ws:/ros2_ws/
     working_dir: /ros2_ws
     command: /bin/bash -c "apt update && apt install -y ros-humble-rmw-cyclonedds-cpp && source /opt/ros/humble/setup.bash && bash"
+
+  realsense: 
+    build:
+      context: .
+      target: realsense  
+      args:
+        USER: realsense
+        LIBREALSENSE_VERSION: 2.56.2
+    <<: *common-env
+    network_mode: host
+    image: vision-tdk:realsense
+    container_name: tdk-realsense
+    volumes:
+      - /dev:/dev
+      - ~/tdk_peace_and_joy/ros2_ws:/ros2_ws/
+    working_dir: /ros2_ws
+    environment:
+      - RMW_IMPLEMENTATION=rmw_cyclonedds_cpp
+      - ROS_DOMAIN_ID=23
+    device_cgroup_rules:
+      - "c 81:* rmw"
+      - "c 189:* rmw"
+    command: bash
