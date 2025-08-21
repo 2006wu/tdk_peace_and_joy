@@ -162,3 +162,4 @@ RUN echo "source /opt/ros/noetic/setup.bash" >> ~/.bashrc && \
 
 WORKDIR /home/user
 CMD ["/bin/bash", "./start-bridge.sh"]
+
