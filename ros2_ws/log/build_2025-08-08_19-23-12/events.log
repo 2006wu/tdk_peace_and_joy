@@ -1,4 +1,0 @@
-[0.000000] (-) TimerEvent: {}
-[0.000162] (-) JobUnselected: {'identifier': 'navigation'}
-[0.000319] (-) JobUnselected: {'identifier': 'rospi_pre'}
-[0.000352] (-) EventReactorShutdown: {}

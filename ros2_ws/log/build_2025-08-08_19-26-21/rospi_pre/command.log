@@ -1,2 +1,0 @@
-Invoking command in '/ros2_ws/build/rospi_pre': /usr/bin/cmake --build /ros2_ws/build/rospi_pre -- -j12 -l12
-Invoked command in '/ros2_ws/build/rospi_pre' returned '2': /usr/bin/cmake --build /ros2_ws/build/rospi_pre -- -j12 -l12

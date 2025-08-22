@@ -1,0 +1,24 @@
+[35m[1mConsolidate compiler generated dependencies of target check_point_4[0m
+[35m[1mConsolidate compiler generated dependencies of target chassis_controller[0m
+[ 50%] Built target chassis_controller
+[100%] Built target check_point_4
+-- Install configuration: ""
+-- Installing: /ros2_ws/install/navigation/lib/navigation/check_point_4
+-- Set runtime path of "/ros2_ws/install/navigation/lib/navigation/check_point_4" to ""
+-- Installing: /ros2_ws/install/navigation/lib/navigation/chassis_controller
+-- Set runtime path of "/ros2_ws/install/navigation/lib/navigation/chassis_controller" to ""
+-- Installing: /ros2_ws/install/navigation/share/ament_index/resource_index/package_run_dependencies/navigation
+-- Installing: /ros2_ws/install/navigation/share/ament_index/resource_index/parent_prefix_path/navigation
+-- Installing: /ros2_ws/install/navigation/share/navigation/environment/ament_prefix_path.sh
+-- Installing: /ros2_ws/install/navigation/share/navigation/environment/ament_prefix_path.dsv
+-- Installing: /ros2_ws/install/navigation/share/navigation/environment/path.sh
+-- Installing: /ros2_ws/install/navigation/share/navigation/environment/path.dsv
+-- Installing: /ros2_ws/install/navigation/share/navigation/local_setup.bash
+-- Installing: /ros2_ws/install/navigation/share/navigation/local_setup.sh
+-- Installing: /ros2_ws/install/navigation/share/navigation/local_setup.zsh
+-- Installing: /ros2_ws/install/navigation/share/navigation/local_setup.dsv
+-- Installing: /ros2_ws/install/navigation/share/navigation/package.dsv
+-- Installing: /ros2_ws/install/navigation/share/ament_index/resource_index/packages/navigation
+-- Installing: /ros2_ws/install/navigation/share/navigation/cmake/navigationConfig.cmake
+-- Installing: /ros2_ws/install/navigation/share/navigation/cmake/navigationConfig-version.cmake
+-- Installing: /ros2_ws/install/navigation/share/navigation/package.xml
