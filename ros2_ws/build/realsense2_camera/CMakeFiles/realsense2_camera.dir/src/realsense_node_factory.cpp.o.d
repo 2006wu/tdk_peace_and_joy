@@ -631,49 +631,48 @@ CMakeFiles/realsense2_camera.dir/src/realsense_node_factory.cpp.o: \
  /opt/ros/humble/include/rclcpp/rclcpp/wait_set_policies/detail/write_preferring_read_write_lock.hpp \
  /opt/ros/humble/include/rclcpp/rclcpp/wait_set_template.hpp \
  /ros2_ws/src/realsense-pkg/realsense2_camera/src/../include/base_realsense_node.h \
- /opt/ros/humble/include/librealsense2/rs.hpp \
- /opt/ros/humble/include/librealsense2/rs.h \
- /opt/ros/humble/include/librealsense2/rsutil.h \
- /usr/include/c++/11/math.h \
+ /usr/local/include/librealsense2/rs.hpp \
+ /usr/local/include/librealsense2/rs.h \
+ /usr/local/include/librealsense2/rsutil.h /usr/include/c++/11/math.h \
  /usr/lib/gcc/x86_64-linux-gnu/11/include/float.h \
- /opt/ros/humble/include/librealsense2/h/rs_types.h \
- /opt/ros/humble/include/librealsense2/h/rs_sensor.h \
- /opt/ros/humble/include/librealsense2/h/rs_types.h \
- /opt/ros/humble/include/librealsense2/h/rs_context.h \
- /opt/ros/humble/include/librealsense2/h/rs_device.h \
- /opt/ros/humble/include/librealsense2/h/rs_sensor.h \
- /opt/ros/humble/include/librealsense2/h/rs_frame.h \
- /opt/ros/humble/include/librealsense2/h/rs_option.h \
- /opt/ros/humble/include/librealsense2/h/rs_processing.h \
- /opt/ros/humble/include/librealsense2/h/rs_option.h \
- /opt/ros/humble/include/librealsense2/h/rs_record_playback.h \
- /opt/ros/humble/include/librealsense2/hpp/rs_types.hpp \
- /opt/ros/humble/include/librealsense2/rs.h \
- /opt/ros/humble/include/librealsense2/h/rs_context.h \
- /opt/ros/humble/include/librealsense2/h/rs_device.h \
- /opt/ros/humble/include/librealsense2/h/rs_frame.h \
- /opt/ros/humble/include/librealsense2/h/rs_processing.h \
- /opt/ros/humble/include/librealsense2/h/rs_record_playback.h \
- /opt/ros/humble/include/librealsense2/h/rs_sensor.h \
- /opt/ros/humble/include/librealsense2/h/rs_pipeline.h \
- /opt/ros/humble/include/librealsense2/h/rs_config.h \
- /opt/ros/humble/include/librealsense2/hpp/rs_context.hpp \
- /opt/ros/humble/include/librealsense2/hpp/rs_types.hpp \
- /opt/ros/humble/include/librealsense2/hpp/rs_record_playback.hpp \
- /opt/ros/humble/include/librealsense2/hpp/rs_device.hpp \
- /opt/ros/humble/include/librealsense2/hpp/rs_sensor.hpp \
- /opt/ros/humble/include/librealsense2/hpp/rs_frame.hpp \
- /opt/ros/humble/include/librealsense2/hpp/rs_processing.hpp \
- /opt/ros/humble/include/librealsense2/hpp/rs_options.hpp \
- /opt/ros/humble/include/librealsense2/h/rs_types.h \
- /opt/ros/humble/include/librealsense2/hpp/rs_device.hpp \
- /opt/ros/humble/include/librealsense2/hpp/rs_frame.hpp \
- /opt/ros/humble/include/librealsense2/hpp/rs_processing.hpp \
- /opt/ros/humble/include/librealsense2/hpp/rs_record_playback.hpp \
- /opt/ros/humble/include/librealsense2/hpp/rs_sensor.hpp \
- /opt/ros/humble/include/librealsense2/hpp/rs_pipeline.hpp \
- /opt/ros/humble/include/librealsense2/hpp/rs_context.hpp \
- /opt/ros/humble/include/librealsense2/rsutil.h \
+ /usr/local/include/librealsense2/h/rs_types.h \
+ /usr/local/include/librealsense2/h/rs_sensor.h \
+ /usr/local/include/librealsense2/h/rs_types.h \
+ /usr/local/include/librealsense2/h/rs_context.h \
+ /usr/local/include/librealsense2/h/rs_device.h \
+ /usr/local/include/librealsense2/h/rs_sensor.h \
+ /usr/local/include/librealsense2/h/rs_frame.h \
+ /usr/local/include/librealsense2/h/rs_option.h \
+ /usr/local/include/librealsense2/h/rs_processing.h \
+ /usr/local/include/librealsense2/h/rs_option.h \
+ /usr/local/include/librealsense2/h/rs_record_playback.h \
+ /usr/local/include/librealsense2/hpp/rs_types.hpp \
+ /usr/local/include/librealsense2/rs.h \
+ /usr/local/include/librealsense2/h/rs_context.h \
+ /usr/local/include/librealsense2/h/rs_device.h \
+ /usr/local/include/librealsense2/h/rs_frame.h \
+ /usr/local/include/librealsense2/h/rs_processing.h \
+ /usr/local/include/librealsense2/h/rs_record_playback.h \
+ /usr/local/include/librealsense2/h/rs_sensor.h \
+ /usr/local/include/librealsense2/h/rs_pipeline.h \
+ /usr/local/include/librealsense2/h/rs_config.h \
+ /usr/local/include/librealsense2/hpp/rs_context.hpp \
+ /usr/local/include/librealsense2/hpp/rs_types.hpp \
+ /usr/local/include/librealsense2/hpp/rs_record_playback.hpp \
+ /usr/local/include/librealsense2/hpp/rs_device.hpp \
+ /usr/local/include/librealsense2/hpp/rs_sensor.hpp \
+ /usr/local/include/librealsense2/hpp/rs_frame.hpp \
+ /usr/local/include/librealsense2/hpp/rs_processing.hpp \
+ /usr/local/include/librealsense2/hpp/rs_options.hpp \
+ /usr/local/include/librealsense2/h/rs_types.h \
+ /usr/local/include/librealsense2/hpp/rs_device.hpp \
+ /usr/local/include/librealsense2/hpp/rs_frame.hpp \
+ /usr/local/include/librealsense2/hpp/rs_processing.hpp \
+ /usr/local/include/librealsense2/hpp/rs_record_playback.hpp \
+ /usr/local/include/librealsense2/hpp/rs_sensor.hpp \
+ /usr/local/include/librealsense2/hpp/rs_pipeline.hpp \
+ /usr/local/include/librealsense2/hpp/rs_context.hpp \
+ /usr/local/include/librealsense2/rsutil.h \
  /opt/ros/humble/include/cv_bridge/cv_bridge/cv_bridge.h \
  /opt/ros/humble/include/sensor_msgs/sensor_msgs/msg/image.hpp \
  /opt/ros/humble/include/sensor_msgs/sensor_msgs/msg/detail/image__struct.hpp \
@@ -786,12 +785,12 @@ CMakeFiles/realsense2_camera.dir/src/realsense_node_factory.cpp.o: \
  /ros2_ws/install/realsense2_camera_msgs/include/realsense2_camera_msgs/realsense2_camera_msgs/srv/detail/device_info__builder.hpp \
  /ros2_ws/install/realsense2_camera_msgs/include/realsense2_camera_msgs/realsense2_camera_msgs/srv/detail/device_info__traits.hpp \
  /ros2_ws/install/realsense2_camera_msgs/include/realsense2_camera_msgs/realsense2_camera_msgs/srv/detail/device_info__type_support.hpp \
- /opt/ros/humble/include/librealsense2/hpp/rs_processing.hpp \
- /opt/ros/humble/include/librealsense2/rs_advanced_mode.hpp \
- /opt/ros/humble/include/librealsense2/rs.hpp \
- /opt/ros/humble/include/librealsense2/rs_advanced_mode.h \
- /opt/ros/humble/include/librealsense2/h/rs_advanced_mode_command.h \
- /opt/ros/humble/include/librealsense2/hpp/rs_serializable_device.hpp \
+ /usr/local/include/librealsense2/hpp/rs_processing.hpp \
+ /usr/local/include/librealsense2/rs_advanced_mode.hpp \
+ /usr/local/include/librealsense2/rs.hpp \
+ /usr/local/include/librealsense2/rs_advanced_mode.h \
+ /usr/local/include/librealsense2/h/rs_advanced_mode_command.h \
+ /usr/local/include/librealsense2/hpp/rs_serializable_device.hpp \
  /opt/ros/humble/include/sensor_msgs/sensor_msgs/msg/camera_info.hpp \
  /opt/ros/humble/include/sensor_msgs/sensor_msgs/msg/detail/camera_info__builder.hpp \
  /opt/ros/humble/include/sensor_msgs/sensor_msgs/msg/detail/camera_info__type_support.hpp \

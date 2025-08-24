@@ -119,9 +119,9 @@ class Extrinsics(metaclass=Metaclass_Extrinsics):
     def __eq__(self, other):
         if not isinstance(other, self.__class__):
             return False
-        if all(self.rotation != other.rotation):
+        if any(self.rotation != other.rotation):
             return False
-        if all(self.translation != other.translation):
+        if any(self.translation != other.translation):
             return False
         return True
 

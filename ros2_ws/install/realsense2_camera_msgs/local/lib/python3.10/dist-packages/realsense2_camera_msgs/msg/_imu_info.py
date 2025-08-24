@@ -139,11 +139,11 @@ class IMUInfo(metaclass=Metaclass_IMUInfo):
             return False
         if self.header != other.header:
             return False
-        if all(self.data != other.data):
+        if any(self.data != other.data):
             return False
-        if all(self.noise_variances != other.noise_variances):
+        if any(self.noise_variances != other.noise_variances):
             return False
-        if all(self.bias_variances != other.bias_variances):
+        if any(self.bias_variances != other.bias_variances):
             return False
         return True
 

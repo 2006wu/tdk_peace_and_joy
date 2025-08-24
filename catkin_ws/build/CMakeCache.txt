@@ -39,6 +39,9 @@ CATKIN_DEVEL_PREFIX:PATH=/catkin_ws/devel
 //Catkin enable testing
 CATKIN_ENABLE_TESTING:BOOL=ON
 
+//Prefix to apply to package generated via gendebian
+CATKIN_PACKAGE_PREFIX:STRING=
+
 //Catkin skip testing
 CATKIN_SKIP_TESTING:BOOL=OFF
 
@@ -228,7 +231,7 @@ CMAKE_PROJECT_DESCRIPTION:STATIC=
 CMAKE_PROJECT_HOMEPAGE_URL:STATIC=
 
 //Value Computed by CMake
-CMAKE_PROJECT_NAME:STATIC=Project
+CMAKE_PROJECT_NAME:STATIC=catkin_ws
 
 //Value Computed by CMake
 CMAKE_PROJECT_VERSION:STATIC=1.10.0
@@ -380,12 +383,6 @@ PYTHON_VERSION:STRING=3
 //Location of Python module em
 PY_EM:STRING=/usr/lib/python3/dist-packages/em.py
 
-//Value Computed by CMake
-Project_BINARY_DIR:STATIC=/catkin_ws/build
-
-//Value Computed by CMake
-Project_SOURCE_DIR:STATIC=/catkin_ws/src
-
 //Path to a library.
 RT_LIBRARY:FILEPATH=/usr/lib/x86_64-linux-gnu/librt.so
 
@@ -402,9 +399,6 @@ UBUNTU:BOOL=TRUE
 UBUNTU_FOCAL:BOOL=TRUE
 
 //Path to a file.
-_file_name:FILEPATH=/catkin_ws/src/rosserial/rosserial_test/test/rosserial_python_socket.test
-
-//Path to a file.
 _gmock_INCLUDES:FILEPATH=/usr/src/googletest/googlemock/include/gmock/gmock.h
 
 //Path to a file.
@@ -415,9 +409,6 @@ _gtest_INCLUDES:FILEPATH=/usr/include/gtest/gtest.h
 
 //Path to a file.
 _gtest_SOURCES:FILEPATH=/usr/src/gtest/src/gtest.cc
-
-//The directory containing a CMake configuration file for actionlib_msgs.
-actionlib_msgs_DIR:PATH=/opt/ros/noetic/share/actionlib_msgs/cmake
 
 //The directory containing a CMake configuration file for boost_atomic.
 boost_atomic_DIR:PATH=/usr/lib/x86_64-linux-gnu/cmake/boost_atomic-1.71.0
@@ -434,29 +425,14 @@ boost_thread_DIR:PATH=/usr/lib/x86_64-linux-gnu/cmake/boost_thread-1.71.0
 //The directory containing a CMake configuration file for catkin.
 catkin_DIR:PATH=/opt/ros/noetic/share/catkin/cmake
 
+//Value Computed by CMake
+catkin_ws_BINARY_DIR:STATIC=/catkin_ws/build
+
+//Value Computed by CMake
+catkin_ws_SOURCE_DIR:STATIC=/catkin_ws/src
+
 //The directory containing a CMake configuration file for cpp_common.
 cpp_common_DIR:PATH=/opt/ros/noetic/share/cpp_common/cmake
-
-//The directory containing a CMake configuration file for gencpp.
-gencpp_DIR:PATH=/opt/ros/noetic/share/gencpp/cmake
-
-//The directory containing a CMake configuration file for geneus.
-geneus_DIR:PATH=/opt/ros/noetic/share/geneus/cmake
-
-//The directory containing a CMake configuration file for genlisp.
-genlisp_DIR:PATH=/opt/ros/noetic/share/genlisp/cmake
-
-//The directory containing a CMake configuration file for genmsg.
-genmsg_DIR:PATH=/opt/ros/noetic/share/genmsg/cmake
-
-//The directory containing a CMake configuration file for gennodejs.
-gennodejs_DIR:PATH=/opt/ros/noetic/share/gennodejs/cmake
-
-//The directory containing a CMake configuration file for genpy.
-genpy_DIR:PATH=/opt/ros/noetic/share/genpy/cmake
-
-//The directory containing a CMake configuration file for geometry_msgs.
-geometry_msgs_DIR:PATH=/opt/ros/noetic/share/geometry_msgs/cmake
 
 //Value Computed by CMake
 gmock_BINARY_DIR:STATIC=/catkin_ws/build/gtest/googlemock
@@ -505,16 +481,10 @@ gtest_hide_internal_symbols:BOOL=OFF
 gtest_main_LIB_DEPENDS:STATIC=general;gtest;
 
 //Path to a library.
-lib:FILEPATH=/opt/ros/noetic/lib/librostime.so
-
-//The directory containing a CMake configuration file for message_generation.
-message_generation_DIR:PATH=/opt/ros/noetic/share/message_generation/cmake
+lib:FILEPATH=/opt/ros/noetic/lib/libtopic_tools.so
 
 //The directory containing a CMake configuration file for message_runtime.
 message_runtime_DIR:PATH=/opt/ros/noetic/share/message_runtime/cmake
-
-//The directory containing a CMake configuration file for nav_msgs.
-nav_msgs_DIR:PATH=/opt/ros/noetic/share/nav_msgs/cmake
 
 //The directory containing a CMake configuration file for rosconsole.
 rosconsole_DIR:PATH=/opt/ros/noetic/share/rosconsole/cmake
@@ -531,59 +501,11 @@ roscpp_traits_DIR:PATH=/opt/ros/noetic/share/roscpp_traits/cmake
 //The directory containing a CMake configuration file for rosgraph_msgs.
 rosgraph_msgs_DIR:PATH=/opt/ros/noetic/share/rosgraph_msgs/cmake
 
-//Value Computed by CMake
-rosserial_BINARY_DIR:STATIC=/catkin_ws/build/rosserial/rosserial
-
-//Value Computed by CMake
-rosserial_SOURCE_DIR:STATIC=/catkin_ws/src/rosserial/rosserial
-
-//Value Computed by CMake
-rosserial_arduino_BINARY_DIR:STATIC=/catkin_ws/build/rosserial/rosserial_arduino
-
-//Value Computed by CMake
-rosserial_arduino_SOURCE_DIR:STATIC=/catkin_ws/src/rosserial/rosserial_arduino
-
-//Value Computed by CMake
-rosserial_chibios_BINARY_DIR:STATIC=/catkin_ws/build/rosserial/rosserial_chibios
-
-//Value Computed by CMake
-rosserial_chibios_SOURCE_DIR:STATIC=/catkin_ws/src/rosserial/rosserial_chibios
-
-//Value Computed by CMake
-rosserial_client_BINARY_DIR:STATIC=/catkin_ws/build/rosserial/rosserial_client
-
-//The directory containing a CMake configuration file for rosserial_client.
-rosserial_client_DIR:PATH=/catkin_ws/devel/share/rosserial_client/cmake
-
-//Value Computed by CMake
-rosserial_client_SOURCE_DIR:STATIC=/catkin_ws/src/rosserial/rosserial_client
-
-//Value Computed by CMake
-rosserial_embeddedlinux_BINARY_DIR:STATIC=/catkin_ws/build/rosserial/rosserial_embeddedlinux
-
-//Value Computed by CMake
-rosserial_embeddedlinux_SOURCE_DIR:STATIC=/catkin_ws/src/rosserial/rosserial_embeddedlinux
-
-//Value Computed by CMake
-rosserial_mbed_BINARY_DIR:STATIC=/catkin_ws/build/rosserial/rosserial_mbed
-
-//Value Computed by CMake
-rosserial_mbed_SOURCE_DIR:STATIC=/catkin_ws/src/rosserial/rosserial_mbed
-
-//Value Computed by CMake
-rosserial_msgs_BINARY_DIR:STATIC=/catkin_ws/build/rosserial/rosserial_msgs
-
 //The directory containing a CMake configuration file for rosserial_msgs.
-rosserial_msgs_DIR:PATH=/catkin_ws/devel/share/rosserial_msgs/cmake
-
-//Value Computed by CMake
-rosserial_msgs_SOURCE_DIR:STATIC=/catkin_ws/src/rosserial/rosserial_msgs
+rosserial_msgs_DIR:PATH=/opt/ros/noetic/share/rosserial_msgs/cmake
 
 //Value Computed by CMake
 rosserial_python_BINARY_DIR:STATIC=/catkin_ws/build/rosserial_python
-
-//The directory containing a CMake configuration file for rosserial_python.
-rosserial_python_DIR:PATH=/catkin_ws/devel/share/rosserial_python/cmake
 
 //Value Computed by CMake
 rosserial_python_SOURCE_DIR:STATIC=/catkin_ws/src/rosserial_python
@@ -591,59 +513,14 @@ rosserial_python_SOURCE_DIR:STATIC=/catkin_ws/src/rosserial_python
 //Value Computed by CMake
 rosserial_server_BINARY_DIR:STATIC=/catkin_ws/build/rosserial_server
 
-//The directory containing a CMake configuration file for rosserial_server.
-rosserial_server_DIR:PATH=/catkin_ws/devel/share/rosserial_server/cmake
-
 //Value Computed by CMake
 rosserial_server_SOURCE_DIR:STATIC=/catkin_ws/src/rosserial_server
 
 //Dependencies for the target
 rosserial_server_lookup_LIB_DEPENDS:STATIC=general;/usr/lib/x86_64-linux-gnu/libpython3.8.so;
 
-//Value Computed by CMake
-rosserial_test_BINARY_DIR:STATIC=/catkin_ws/build/rosserial/rosserial_test
-
-//Value Computed by CMake
-rosserial_test_SOURCE_DIR:STATIC=/catkin_ws/src/rosserial/rosserial_test
-
-//Value Computed by CMake
-rosserial_tivac_BINARY_DIR:STATIC=/catkin_ws/build/rosserial/rosserial_tivac
-
-//Value Computed by CMake
-rosserial_tivac_SOURCE_DIR:STATIC=/catkin_ws/src/rosserial/rosserial_tivac
-
-//Value Computed by CMake
-rosserial_vex_cortex_BINARY_DIR:STATIC=/catkin_ws/build/rosserial/rosserial_vex_cortex
-
-//Value Computed by CMake
-rosserial_vex_cortex_SOURCE_DIR:STATIC=/catkin_ws/src/rosserial/rosserial_vex_cortex
-
-//Value Computed by CMake
-rosserial_vex_v5_BINARY_DIR:STATIC=/catkin_ws/build/rosserial/rosserial_vex_v5
-
-//Value Computed by CMake
-rosserial_vex_v5_SOURCE_DIR:STATIC=/catkin_ws/src/rosserial/rosserial_vex_v5
-
-//Value Computed by CMake
-rosserial_windows_BINARY_DIR:STATIC=/catkin_ws/build/rosserial/rosserial_windows
-
-//Value Computed by CMake
-rosserial_windows_SOURCE_DIR:STATIC=/catkin_ws/src/rosserial/rosserial_windows
-
-//Value Computed by CMake
-rosserial_xbee_BINARY_DIR:STATIC=/catkin_ws/build/rosserial/rosserial_xbee
-
-//Value Computed by CMake
-rosserial_xbee_SOURCE_DIR:STATIC=/catkin_ws/src/rosserial/rosserial_xbee
-
-//The directory containing a CMake configuration file for rostest.
-rostest_DIR:PATH=/opt/ros/noetic/share/rostest/cmake
-
 //The directory containing a CMake configuration file for rostime.
 rostime_DIR:PATH=/opt/ros/noetic/share/rostime/cmake
-
-//The directory containing a CMake configuration file for sensor_msgs.
-sensor_msgs_DIR:PATH=/opt/ros/noetic/share/sensor_msgs/cmake
 
 //The directory containing a CMake configuration file for std_msgs.
 std_msgs_DIR:PATH=/opt/ros/noetic/share/std_msgs/cmake
@@ -804,7 +681,7 @@ CMAKE_MODULE_LINKER_FLAGS_RELWITHDEBINFO-ADVANCED:INTERNAL=1
 //ADVANCED property for variable: CMAKE_NM
 CMAKE_NM-ADVANCED:INTERNAL=1
 //number of local generators
-CMAKE_NUMBER_OF_MAKEFILES:INTERNAL=19
+CMAKE_NUMBER_OF_MAKEFILES:INTERNAL=6
 //ADVANCED property for variable: CMAKE_OBJCOPY
 CMAKE_OBJCOPY-ADVANCED:INTERNAL=1
 //ADVANCED property for variable: CMAKE_OBJDUMP
