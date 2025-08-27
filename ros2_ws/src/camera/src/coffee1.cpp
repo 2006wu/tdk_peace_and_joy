@@ -22,7 +22,7 @@ class Process:public rclcpp::Node{
             result = algo.main(input);
             if(result == -1){
                 std::cout << "no target" << std::endl;
-                answer.data = 0;
+                answer.data = 1;
                 retry_pub->publish(answer);
             }else{
                 std::cout << "target: " << result << std::endl;
@@ -35,6 +35,7 @@ class Process:public rclcpp::Node{
         rclcpp::Subscription<sensor_msgs::msg::Image>::SharedPtr img_sub;
         rclcpp::Publisher<std_msgs::msg::Int32>::SharedPtr tar_pub;
         rclcpp::Publisher<std_msgs::msg::Int32>::SharedPtr retry_pub;
+        rclcpp::Publisher<std_msgs::msg::Int32>::SharedPtr vision_pub;
         std_msgs::msg::Int32 answer;
         Mat input;
         int result;

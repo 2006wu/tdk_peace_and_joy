@@ -25,7 +25,8 @@ class Bridge(Node):
         self.declare_parameter('arm_point_topic', 'point_out')  # 你的相機/演算法輸出 PointStamped 的 topic
         self.declare_parameter('arm_prefix', 'P')              # 送給 STM 的手臂命令前綴，例如: "P x y z\n"
         self.declare_parameter('vel_prefix', 'V')              # 送給 STM 的底盤命令前綴，例如: "V vx vy wz\n"
-        self.declare_parameter('mode_prefix', 'MA')             # 送給 STM 的模式命令前綴，例如: "MA mode\n"
+        self.declare_parameter('mode_prefix', 'M') 
+                     # 送給 STM 的模式命令前綴，例如: "MA mode\n"
 
         # different mode and three parameters
         self.declare_parameter('mode_topic', 'mode')
@@ -112,6 +113,7 @@ class Bridge(Node):
 
         # ---------- Filters & state for RX ACK ----------
         self._last_tx_v = (0.0, 0.0, 0.0)   # 最近一次送出的 (vx, vy, wz)
+        self.send_cmdvel(0.0, 0.0, 0.0)
         self._ack_eps   = 0.5               # RX 要接近 TX 的允許誤差（依單位調）
         self.declare_parameter('vx_abs_max', 50.0)
         self.declare_parameter('vy_abs_max', 50.0)
@@ -217,7 +219,7 @@ class Bridge(Node):
     def cb_vision_result(self, msg: Int32):
         val = msg.data
         prefix = self.get_parameter('mode_prefix').value  # e.g. "MA"
-        line = f"{prefix} {val}\n"
+        line = f"{prefix}{val}\n"
         try:
             self.ser.write(line.encode('ascii'))
             self.get_logger().info(f"[VISION->STM] {line.strip()}")
