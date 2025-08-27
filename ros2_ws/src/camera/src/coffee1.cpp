@@ -14,6 +14,7 @@ class Process:public rclcpp::Node{
             img_sub = this->create_subscription<sensor_msgs::msg::Image>("coffee1_image",10,std::bind(&Process::image_callback,this,_1));
             tar_pub = this->create_publisher<std_msgs::msg::Int32>("target",10);
             retry_pub = this->create_publisher<std_msgs::msg::Int32>("mode",10);
+            vision_pub = this->create_publisher<std_msgs::msg::Int32>("vision_result",10);
         }
     private:
         void image_callback(sensor_msgs::msg::Image::SharedPtr msg){
@@ -21,12 +22,13 @@ class Process:public rclcpp::Node{
             result = algo.main(input);
             if(result == -1){
                 std::cout << "no target" << std::endl;
-                answer.data = 1;
+                answer.data = 0;
                 retry_pub->publish(answer);
             }else{
                 std::cout << "target: " << result << std::endl;
                 answer.data = result;
                 tar_pub->publish(answer);
+                vision_pub->publish(answer);
             }
         }
         Algorithm algo;

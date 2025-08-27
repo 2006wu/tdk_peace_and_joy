@@ -3,6 +3,7 @@
 #include <map>
 #include <math.h>
 #include <queue>
+#include <algorithm>
 
 #include "rclcpp/rclcpp.hpp"
 #include "geometry_msgs/msg/twist.hpp"
@@ -53,6 +54,11 @@ public:
   }
 
 private:
+
+  /// wcz_add
+  double lin_limit_cmps_ = 3.0;        // desired top speed 2.2 ~ 3.0
+  double ang_limit_rads_ = 0.419;       // ≈ 2π/15 if you want to mirror STM
+
   // Current robot pose
   geometry_msgs::msg::Pose current_pose_;
   // Twist message to be published
@@ -106,7 +112,6 @@ private:
     path_queue_.push({"4_1_curve_end", 'c'});
     path_queue_.push({"4_2_curve_end", 'c'});
     path_queue_.push({"4_3_curve_end", 'c'});
-    ///
 
   }
   
@@ -229,11 +234,14 @@ private:
     if (cur_move_type_ == 'l') {
       /// Parameters，調整最大最小速度和加速度
       double linear_accel_dist, linear_decel_dist;
-      double linear_max_speed = 40, linear_min_speed = 15;
-      double linear_acceler = 6, linear_deceler = 6; // cm/s
+      double linear_max_speed = 3, linear_min_speed = 0.75;
+      double linear_acceler = 0.2, linear_deceler = 0.2; // cm/s
       double linear_acceler_real = linear_acceler * dt;
       double linear_deceler_real = linear_deceler * dt;
       double linear_error = 2;
+
+      /// wcz_add
+      linear_max_speed = std::min(linear_max_speed, lin_limit_cmps_);
 
       linear_accel_dist = (pow(linear_max_speed, 2)-pow(linear_min_speed, 2)) / (2 * linear_acceler) * 1.2;
       linear_decel_dist = (pow(linear_max_speed, 2)-pow(linear_min_speed, 2)) / (2 * linear_deceler) * 1.2;
@@ -281,6 +289,11 @@ private:
       msg.linear.x = velo_magnitude * direction_x;
       msg.linear.y = velo_magnitude * direction_y;
       msg.angular.z = 0;
+
+      /// wcz_add
+      // HARD CAP (linear)
+      clamp_linear_xy(msg, lin_limit_cmps_);
+
     }
     // Angular movement
     else if (cur_move_type_ == 'a') {
@@ -299,6 +312,9 @@ private:
       msg.linear.x = 0;
       msg.linear.y = 0;
       msg.angular.z = omega_magnitude * angular_direction;
+
+      /// wcz_add
+      msg.angular.z = clamp(msg.angular.z, -ang_limit_rads_, ang_limit_rads_);
     }
     // Circular movement
     else if (cur_move_type_ == 'c') {
@@ -319,10 +335,48 @@ private:
       double T = 15;
       double omega = 2.0*M_PI / T;
       
-      msg.linear.x = radius * omega;
-      msg.angular.z = direction * omega;
+    /// wcz_revise
+    // msg.linear.x = radius * omega;
+    // msg.angular.z = direction * omega;
+
+    /// wcz_add
+    // 計算線速度
+    double v = std::abs(radius * omega);
+
+    // 1) 限制角速度
+    omega = clamp(omega, -ang_limit_rads_, ang_limit_rads_);
+
+    // 2) 限制線速度
+    if (v > lin_limit_cmps_ && v > 0.0) {
+        double scale = lin_limit_cmps_ / v;
+        omega *= scale;  // 降低角速度以保證 v 不超過限制
+    }
+
+    // 3) 寫入 msg
+    msg.linear.x = std::abs(radius) * std::abs(omega);
+    msg.linear.y = 0.0;
+    msg.angular.z = (direction >= 0 ? 1.0 : -1.0) * std::abs(omega);
+
+        /// wcz_add
+        clamp_linear_xy(msg, lin_limit_cmps_);
     }
   }
+
+  /// wcz_add
+  inline void clamp_linear_xy(geometry_msgs::msg::Twist& msg, double vmax){
+    double v = std::hypot(msg.linear.x, msg.linear.y);
+    if (v > vmax && v > 0.0){
+      double s = vmax / v;
+      msg.linear.x *= s;
+      msg.linear.y *= s;
+    }
+  }
+
+  /// wcz_add
+  inline double clamp(double v, double lo, double hi){
+    return std::max(lo, std::min(v, hi));
+  }
+
 };
 
 int main(int argc, char * argv[])

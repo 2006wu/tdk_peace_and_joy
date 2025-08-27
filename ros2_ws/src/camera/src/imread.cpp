@@ -27,8 +27,8 @@ class Imread:public rclcpp::Node{
         }
         void image_callback(sensor_msgs::msg::Image::SharedPtr msg){
             input = cv_bridge::toCvCopy(msg,"bgr8")->image;
-            cv::imshow("Live",input);
-            cv::waitKey(1);
+            // cv::imshow("Live",input);
+            // cv::waitKey(1);
 
             if(trig == 1){
                 auto msg = cv_bridge::CvImage(header,"bgr8",input).toImageMsg();

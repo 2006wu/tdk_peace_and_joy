@@ -96,8 +96,7 @@ services:
       #- ROS_IP=192.168.50.133 #x1
     stdin_open: true
     tty: true
-    # network_mode: host
-    # network_mode: host
+    network_mode: host
     privileged: true
     stop_grace_period: 1s
     volumes:
@@ -113,7 +112,8 @@ services:
       # 你的 ROS2 workspace
       - ~/tdk_peace_and_joy/ros2_ws:/ros2_ws/
     working_dir: /ros2_ws
-    command: /bin/bash -c "apt update && apt install -y ros-humble-rmw-cyclonedds-cpp && source /opt/ros/humble/setup.bash && bash"
+    command: bash
+    # command: /bin/bash -c "apt update && apt install -y ros-humble-rmw-cyclonedds-cpp && source /opt/ros/humble/setup.bash && bash"
 
   realsense: 
     build:
@@ -136,8 +136,8 @@ services:
     device_cgroup_rules:
       - "c 81:* rmw"
       - "c 189:* rmw"
-    # command: bash
-    command: /bin/bash -c "
-      source /opt/ros/humble/setup.bash &&
-      source /ros2_ws/install/setup.bash &&
-      ros2 launch realsense2_camera rs_launch.py"
+    command: bash
+    # command: /bin/bash -c "
+    #   source /opt/ros/humble/setup.bash &&
+    #   source /ros2_ws/install/setup.bash &&
+    #   ros2 launch realsense2_camera rs_launch.py"

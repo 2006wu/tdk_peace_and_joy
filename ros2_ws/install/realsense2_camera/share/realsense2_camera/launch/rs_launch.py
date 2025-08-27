@@ -21,9 +21,9 @@ from launch.actions import DeclareLaunchArgument, OpaqueFunction
 from launch.substitutions import LaunchConfiguration
 
 
-configurable_parameters = [{'name': 'camera_name',                  'default': 'camera', 'description': 'camera unique name'},
-                           {'name': 'camera_namespace',             'default': 'camera', 'description': 'namespace for camera'},
-                           {'name': 'serial_no',                    'default': '_313522070126', 'description': 'choose device by serial number'},
+configurable_parameters = [{'name': 'camera_name',                  'default': 'chiang', 'description': 'camera unique name'},
+                           {'name': 'camera_namespace',             'default': 'chiang', 'description': 'namespace for camera'},
+                           {'name': 'serial_no',                    'default': '_317622075360', 'description': 'choose device by serial number'},
                            {'name': 'usb_port_id',                  'default': "''", 'description': 'choose device by usb port id'},
                            {'name': 'device_type',                  'default': "''", 'description': 'choose device by type'},
                            {'name': 'config_file',                  'default': "''", 'description': 'yaml config file'},
