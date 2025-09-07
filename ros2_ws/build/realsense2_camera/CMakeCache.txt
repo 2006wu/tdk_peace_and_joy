@@ -272,7 +272,7 @@ _gtest_header_file:FILEPATH=/opt/ros/humble/src/gtest_vendor/include/gtest/gtest
 _gtest_src_file:FILEPATH=/opt/ros/humble/src/gtest_vendor/src/gtest.cc
 
 //Path to a library.
-_lib:FILEPATH=/opt/ros/humble/lib/libdiagnostic_msgs__rosidl_typesupport_fastrtps_cpp.so
+_lib:FILEPATH=/opt/ros/humble/lib/libtf2_msgs__rosidl_typesupport_fastrtps_cpp.so
 
 //The directory containing a CMake configuration file for action_msgs.
 action_msgs_DIR:PATH=/opt/ros/humble/share/action_msgs/cmake
@@ -353,7 +353,7 @@ cv_bridge_DIR:PATH=/opt/ros/humble/share/cv_bridge/cmake
 diagnostic_msgs_DIR:PATH=/opt/ros/humble/share/diagnostic_msgs/cmake
 
 //The directory containing a CMake configuration file for diagnostic_updater.
-diagnostic_updater_DIR:PATH=/opt/ros/humble/share/diagnostic_updater/cmake
+diagnostic_updater_DIR:PATH=diagnostic_updater_DIR-NOTFOUND
 
 //The directory containing a CMake configuration file for fastcdr.
 fastcdr_DIR:PATH=/opt/ros/humble/lib/cmake/fastcdr
@@ -668,7 +668,7 @@ CMAKE_MODULE_LINKER_FLAGS_RELWITHDEBINFO-ADVANCED:INTERNAL=1
 //ADVANCED property for variable: CMAKE_NM
 CMAKE_NM-ADVANCED:INTERNAL=1
 //number of local generators
-CMAKE_NUMBER_OF_MAKEFILES:INTERNAL=2
+CMAKE_NUMBER_OF_MAKEFILES:INTERNAL=1
 //ADVANCED property for variable: CMAKE_OBJCOPY
 CMAKE_OBJCOPY-ADVANCED:INTERNAL=1
 //ADVANCED property for variable: CMAKE_OBJDUMP

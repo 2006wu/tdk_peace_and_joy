@@ -1,0 +1,59 @@
+[0.021s] Invoking command in '/ros2_ws/build/camera': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/opt/ros/humble /usr/bin/cmake --build /ros2_ws/build/camera -- -j16 -l16
+[0.161s] -- Found ament_cmake: 1.3.11 (/opt/ros/humble/share/ament_cmake/cmake)
+[0.360s] -- Found rclcpp: 16.0.12 (/opt/ros/humble/share/rclcpp/cmake)
+[0.434s] -- Found rosidl_generator_c: 3.1.6 (/opt/ros/humble/share/rosidl_generator_c/cmake)
+[0.435s] -- Found rosidl_adapter: 3.1.6 (/opt/ros/humble/share/rosidl_adapter/cmake)
+[0.440s] -- Found rosidl_generator_cpp: 3.1.6 (/opt/ros/humble/share/rosidl_generator_cpp/cmake)
+[0.457s] -- Using all available rosidl_typesupport_c: rosidl_typesupport_fastrtps_c;rosidl_typesupport_introspection_c
+[0.465s] -- Using all available rosidl_typesupport_cpp: rosidl_typesupport_fastrtps_cpp;rosidl_typesupport_introspection_cpp
+[0.564s] -- Found rmw_implementation_cmake: 6.1.2 (/opt/ros/humble/share/rmw_implementation_cmake/cmake)
+[0.572s] -- Found rmw_cyclonedds_cpp: 1.3.4 (/opt/ros/humble/share/rmw_cyclonedds_cpp/cmake)
+[0.620s] -- Using RMW implementation 'rmw_cyclonedds_cpp' as default
+[0.665s] -- Found sensor_msgs: 4.9.0 (/opt/ros/humble/share/sensor_msgs/cmake)
+[0.685s] -- Found cv_bridge: 3.2.1 (/opt/ros/humble/share/cv_bridge/cmake)
+[0.687s] -- Found image_transport: 3.1.12 (/opt/ros/humble/share/image_transport/cmake)
+[0.707s] -- Found tf2: 0.25.13 (/opt/ros/humble/share/tf2/cmake)
+[0.709s] -- Found tf2_ros: 0.25.13 (/opt/ros/humble/share/tf2_ros/cmake)
+[0.762s] -- Found tf2_geometry_msgs: 0.25.13 (/opt/ros/humble/share/tf2_geometry_msgs/cmake)
+[0.765s] -- Found eigen3_cmake_module: 0.1.1 (/opt/ros/humble/share/eigen3_cmake_module/cmake)
+[0.766s] -- Ensuring Eigen3 include directory is part of orocos-kdl CMake target
+[0.767s] -- Found visualization_msgs: 4.9.0 (/opt/ros/humble/share/visualization_msgs/cmake)
+[0.785s] -- Found ament_lint_auto: 0.12.12 (/opt/ros/humble/share/ament_lint_auto/cmake)
+[0.836s] -- Added test 'cppcheck' to perform static code analysis on C / C++ code
+[0.836s] -- Configured cppcheck include dirs: /ros2_ws/src/camera/include
+[0.836s] -- Configured cppcheck exclude dirs and/or files: 
+[0.836s] -- Added test 'lint_cmake' to check CMake code style
+[0.837s] -- Added test 'uncrustify' to check C / C++ code style
+[0.837s] -- Configured uncrustify additional arguments: 
+[0.838s] -- Added test 'xmllint' to check XML markup files
+[0.838s] -- Configuring done
+[0.866s] -- Generating done
+[0.874s] -- Build files have been written to: /ros2_ws/build/camera
+[0.900s] [35m[1mConsolidate compiler generated dependencies of target TFsetup[0m
+[0.900s] [35m[1mConsolidate compiler generated dependencies of target imread[0m
+[0.900s] [35m[1mConsolidate compiler generated dependencies of target coffee2[0m
+[0.900s] [35m[1mConsolidate compiler generated dependencies of target transform[0m
+[0.900s] [35m[1mConsolidate compiler generated dependencies of target coffee1[0m
+[0.900s] [35m[1mConsolidate compiler generated dependencies of target orange[0m
+[0.903s] [35m[1mConsolidate compiler generated dependencies of target arm[0m
+[0.929s] [ 28%] [32mBuilding CXX object CMakeFiles/orange.dir/src/orange.cpp.o[0m
+[0.929s] [ 28%] [32mBuilding CXX object CMakeFiles/coffee1.dir/src/coffee1.cpp.o[0m
+[0.929s] [ 28%] [32mBuilding CXX object CMakeFiles/arm.dir/src/arm.cpp.o[0m
+[0.929s] [ 28%] [32mBuilding CXX object CMakeFiles/TFsetup.dir/src/TFsetup.cpp.o[0m
+[0.929s] [ 35%] [32mBuilding CXX object CMakeFiles/transform.dir/src/transform.cpp.o[0m
+[0.929s] [ 42%] [32mBuilding CXX object CMakeFiles/imread.dir/src/imread.cpp.o[0m
+[0.930s] [ 50%] [32mBuilding CXX object CMakeFiles/coffee2.dir/src/coffee2.cpp.o[0m
+[10.351s] [ 57%] [32m[1mLinking CXX executable arm[0m
+[10.714s] [ 57%] Built target arm
+[11.694s] [ 64%] [32m[1mLinking CXX executable coffee1[0m
+[11.835s] [ 71%] [32m[1mLinking CXX executable transform[0m
+[11.889s] [ 78%] [32m[1mLinking CXX executable TFsetup[0m
+[12.327s] [ 78%] Built target transform
+[12.353s] [ 78%] Built target coffee1
+[12.469s] [ 78%] Built target TFsetup
+[12.986s] [ 85%] [32m[1mLinking CXX executable imread[0m
+[13.526s] [ 92%] [32m[1mLinking CXX executable orange[0m
+[13.559s] [ 92%] Built target imread
+[13.588s] [100%] [32m[1mLinking CXX executable coffee2[0m
+[14.224s] [100%] Built target orange
+[14.257s] [100%] Built target coffee2

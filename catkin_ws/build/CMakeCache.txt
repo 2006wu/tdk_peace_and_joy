@@ -20,16 +20,6 @@ BUILD_GMOCK:BOOL=ON
 //Build dynamically-linked binaries
 BUILD_SHARED_LIBS:BOOL=ON
 
-//The directory containing a CMake configuration file for Boost.
-Boost_DIR:PATH=/usr/lib/x86_64-linux-gnu/cmake/Boost-1.71.0
-
-//Path to a file.
-Boost_INCLUDE_DIR:PATH=/usr/include
-
-Boost_SYSTEM_LIBRARY_RELEASE:STRING=/usr/lib/x86_64-linux-gnu/libboost_system.so.1.71.0
-
-Boost_THREAD_LIBRARY_RELEASE:STRING=/usr/lib/x86_64-linux-gnu/libboost_thread.so.1.71.0
-
 //List of ';' separated packages to exclude
 CATKIN_BLACKLIST_PACKAGES:STRING=
 
@@ -368,15 +358,6 @@ NOSETESTS:FILEPATH=/usr/bin/nosetests3
 //Path to a program.
 PYTHON_EXECUTABLE:FILEPATH=/usr/bin/python3
 
-//Path to a file.
-PYTHON_INCLUDE_DIR:PATH=/usr/include/python3.8
-
-//Path to a library.
-PYTHON_LIBRARY:FILEPATH=/usr/lib/x86_64-linux-gnu/libpython3.8.so
-
-//Path to a library.
-PYTHON_LIBRARY_DEBUG:FILEPATH=PYTHON_LIBRARY_DEBUG-NOTFOUND
-
 //Specify specific Python version to use ('major.minor' or 'major')
 PYTHON_VERSION:STRING=3
 
@@ -390,7 +371,7 @@ RT_LIBRARY:FILEPATH=/usr/lib/x86_64-linux-gnu/librt.so
 SETUPTOOLS_DEB_LAYOUT:BOOL=ON
 
 //Name of the computer/site where compile is being run
-SITE:STRING=yilan
+SITE:STRING=x1-2025-41
 
 //LSB Distrib tag
 UBUNTU:BOOL=TRUE
@@ -409,18 +390,6 @@ _gtest_INCLUDES:FILEPATH=/usr/include/gtest/gtest.h
 
 //Path to a file.
 _gtest_SOURCES:FILEPATH=/usr/src/gtest/src/gtest.cc
-
-//The directory containing a CMake configuration file for boost_atomic.
-boost_atomic_DIR:PATH=/usr/lib/x86_64-linux-gnu/cmake/boost_atomic-1.71.0
-
-//The directory containing a CMake configuration file for boost_headers.
-boost_headers_DIR:PATH=/usr/lib/x86_64-linux-gnu/cmake/boost_headers-1.71.0
-
-//The directory containing a CMake configuration file for boost_system.
-boost_system_DIR:PATH=/usr/lib/x86_64-linux-gnu/cmake/boost_system-1.71.0
-
-//The directory containing a CMake configuration file for boost_thread.
-boost_thread_DIR:PATH=/usr/lib/x86_64-linux-gnu/cmake/boost_thread-1.71.0
 
 //The directory containing a CMake configuration file for catkin.
 catkin_DIR:PATH=/opt/ros/noetic/share/catkin/cmake
@@ -481,7 +450,7 @@ gtest_hide_internal_symbols:BOOL=OFF
 gtest_main_LIB_DEPENDS:STATIC=general;gtest;
 
 //Path to a library.
-lib:FILEPATH=/opt/ros/noetic/lib/libtopic_tools.so
+lib:FILEPATH=/opt/ros/noetic/lib/libxmlrpcpp.so
 
 //The directory containing a CMake configuration file for message_runtime.
 message_runtime_DIR:PATH=/opt/ros/noetic/share/message_runtime/cmake
@@ -502,7 +471,7 @@ roscpp_traits_DIR:PATH=/opt/ros/noetic/share/roscpp_traits/cmake
 rosgraph_msgs_DIR:PATH=/opt/ros/noetic/share/rosgraph_msgs/cmake
 
 //The directory containing a CMake configuration file for rosserial_msgs.
-rosserial_msgs_DIR:PATH=/opt/ros/noetic/share/rosserial_msgs/cmake
+rosserial_msgs_DIR:PATH=rosserial_msgs_DIR-NOTFOUND
 
 //Value Computed by CMake
 rosserial_python_BINARY_DIR:STATIC=/catkin_ws/build/rosserial_python
@@ -516,17 +485,11 @@ rosserial_server_BINARY_DIR:STATIC=/catkin_ws/build/rosserial_server
 //Value Computed by CMake
 rosserial_server_SOURCE_DIR:STATIC=/catkin_ws/src/rosserial_server
 
-//Dependencies for the target
-rosserial_server_lookup_LIB_DEPENDS:STATIC=general;/usr/lib/x86_64-linux-gnu/libpython3.8.so;
-
 //The directory containing a CMake configuration file for rostime.
 rostime_DIR:PATH=/opt/ros/noetic/share/rostime/cmake
 
 //The directory containing a CMake configuration file for std_msgs.
 std_msgs_DIR:PATH=/opt/ros/noetic/share/std_msgs/cmake
-
-//The directory containing a CMake configuration file for topic_tools.
-topic_tools_DIR:PATH=/opt/ros/noetic/share/topic_tools/cmake
 
 //The directory containing a CMake configuration file for xmlrpcpp.
 xmlrpcpp_DIR:PATH=/opt/ros/noetic/share/xmlrpcpp/cmake
@@ -536,8 +499,6 @@ xmlrpcpp_DIR:PATH=/opt/ros/noetic/share/xmlrpcpp/cmake
 # INTERNAL cache entries
 ########################
 
-//ADVANCED property for variable: Boost_DIR
-Boost_DIR-ADVANCED:INTERNAL=1
 //catkin environment
 CATKIN_ENV:INTERNAL=/catkin_ws/build/catkin_generated/env_cached.sh
 CATKIN_TEST_RESULTS_DIR:INTERNAL=/catkin_ws/build/test_results
@@ -724,14 +685,10 @@ CMAKE_STRIP-ADVANCED:INTERNAL=1
 CMAKE_UNAME:INTERNAL=/usr/bin/uname
 //ADVANCED property for variable: CMAKE_VERBOSE_MAKEFILE
 CMAKE_VERBOSE_MAKEFILE-ADVANCED:INTERNAL=1
-//Details about finding Boost
-FIND_PACKAGE_MESSAGE_DETAILS_Boost:INTERNAL=[/usr/lib/x86_64-linux-gnu/cmake/Boost-1.71.0/BoostConfig.cmake][cfound components: system thread ][v1.71.0()]
 //Details about finding PY_em
 FIND_PACKAGE_MESSAGE_DETAILS_PY_em:INTERNAL=[/usr/lib/python3/dist-packages/em.py][v()]
 //Details about finding PythonInterp
 FIND_PACKAGE_MESSAGE_DETAILS_PythonInterp:INTERNAL=[/usr/bin/python3][v3.8.10()]
-//Details about finding PythonLibs
-FIND_PACKAGE_MESSAGE_DETAILS_PythonLibs:INTERNAL=[/usr/lib/x86_64-linux-gnu/libpython3.8.so][/usr/include/python3.8][v3.8.10()]
 //Details about finding Threads
 FIND_PACKAGE_MESSAGE_DETAILS_Threads:INTERNAL=[TRUE][v()]
 GMOCK_FROM_SOURCE_FOUND:INTERNAL=TRUE
@@ -764,26 +721,12 @@ GTEST_MAIN_LIBRARY-ADVANCED:INTERNAL=1
 GTEST_MAIN_LIBRARY_DEBUG-ADVANCED:INTERNAL=1
 //ADVANCED property for variable: PYTHON_EXECUTABLE
 PYTHON_EXECUTABLE-ADVANCED:INTERNAL=1
-//ADVANCED property for variable: PYTHON_INCLUDE_DIR
-PYTHON_INCLUDE_DIR-ADVANCED:INTERNAL=1
 //This needs to be in PYTHONPATH when 'setup.py install' is called.
 //  And it needs to match.  But setuptools won't tell us where
 // it will install things.
 PYTHON_INSTALL_DIR:INTERNAL=lib/python3/dist-packages
-//ADVANCED property for variable: PYTHON_LIBRARY
-PYTHON_LIBRARY-ADVANCED:INTERNAL=1
-//ADVANCED property for variable: PYTHON_LIBRARY_DEBUG
-PYTHON_LIBRARY_DEBUG-ADVANCED:INTERNAL=1
 //CMAKE_INSTALL_PREFIX during last run
 _GNUInstallDirs_LAST_CMAKE_INSTALL_PREFIX:INTERNAL=/catkin_ws/install
-//ADVANCED property for variable: boost_atomic_DIR
-boost_atomic_DIR-ADVANCED:INTERNAL=1
-//ADVANCED property for variable: boost_headers_DIR
-boost_headers_DIR-ADVANCED:INTERNAL=1
-//ADVANCED property for variable: boost_system_DIR
-boost_system_DIR-ADVANCED:INTERNAL=1
-//ADVANCED property for variable: boost_thread_DIR
-boost_thread_DIR-ADVANCED:INTERNAL=1
 //ADVANCED property for variable: gmock_build_tests
 gmock_build_tests-ADVANCED:INTERNAL=1
 //ADVANCED property for variable: gtest_build_samples
