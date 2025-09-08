@@ -1,0 +1,24 @@
+[0.015s] Invoking command in '/ros2_ws/build/realsense2_camera_msgs': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/opt/ros/humble /usr/bin/cmake --build /ros2_ws/build/realsense2_camera_msgs -- -j16 -l16
+[0.085s] [  1%] Built target realsense2_camera_msgs__cpp
+[0.091s] [  1%] Built target ament_cmake_python_copy_realsense2_camera_msgs
+[0.118s] [ 34%] Built target realsense2_camera_msgs__rosidl_typesupport_cpp
+[0.118s] [ 34%] Built target realsense2_camera_msgs__rosidl_generator_c
+[0.119s] [ 34%] Built target realsense2_camera_msgs__rosidl_typesupport_introspection_cpp
+[0.121s] [ 46%] Built target realsense2_camera_msgs__rosidl_typesupport_fastrtps_cpp
+[0.140s] [ 57%] Built target realsense2_camera_msgs__rosidl_typesupport_c
+[0.141s] [ 68%] Built target realsense2_camera_msgs__rosidl_typesupport_fastrtps_c
+[0.144s] [ 79%] Built target realsense2_camera_msgs__rosidl_typesupport_introspection_c
+[0.162s] [ 79%] Built target realsense2_camera_msgs
+[0.180s] [ 80%] Built target realsense2_camera_msgs__py
+[0.201s] [ 90%] Built target realsense2_camera_msgs__rosidl_generator_py
+[0.221s] [100%] Built target realsense2_camera_msgs__rosidl_typesupport_c__pyext
+[0.221s] [100%] Built target realsense2_camera_msgs__rosidl_typesupport_introspection_c__pyext
+[0.221s] [100%] Built target realsense2_camera_msgs__rosidl_typesupport_fastrtps_c__pyext
+[0.239s] running egg_info
+[0.240s] writing realsense2_camera_msgs.egg-info/PKG-INFO
+[0.240s] writing dependency_links to realsense2_camera_msgs.egg-info/dependency_links.txt
+[0.240s] writing top-level names to realsense2_camera_msgs.egg-info/top_level.txt
+[0.241s] reading manifest file 'realsense2_camera_msgs.egg-info/SOURCES.txt'
+[0.242s] writing manifest file 'realsense2_camera_msgs.egg-info/SOURCES.txt'
+[0.264s] [100%] Built target ament_cmake_python_build_realsense2_camera_msgs_egg
+[0.274s] Invoked command in '/ros2_ws/build/realsense2_camera_msgs' returned '0': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/opt/ros/humble /usr/bin/cmake --build /ros2_ws/build/realsense2_camera_msgs -- -j16 -l16

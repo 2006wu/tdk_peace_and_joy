@@ -1,0 +1,5 @@
+[31mCMake Error at cmake_install.cmake:52 (file):
+  file INSTALL cannot set permissions on
+  "/ros2_ws/install/camera/lib/camera/imread": Operation not permitted.
+
+[0m
