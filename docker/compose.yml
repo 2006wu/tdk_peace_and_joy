@@ -71,7 +71,7 @@ services:
       - ~/tdk_peace_and_joy/catkin_ws:/catkin_ws/
       - /dev/bus/usb:/dev/bus/usb
     devices:
-      - /dev/ttyACM0:/dev/ttyACM0
+      - /dev/ttyACM0:/dev/ttyACM1
     device_cgroup_rules:
       - "c 166:* rmw"
     working_dir: /catkin_ws
