@@ -1,9 +1,0 @@
-[ 14%] Built target TFsetup
-[ 42%] Built target arm
-[ 42%] Built target transform
-[ 64%] Built target imread
-[ 71%] Built target orange
-[ 92%] Built target coffee2
-[100%] Built target coffee1
--- Install configuration: ""
--- Up-to-date: /ros2_ws/install/camera/lib/camera/imread

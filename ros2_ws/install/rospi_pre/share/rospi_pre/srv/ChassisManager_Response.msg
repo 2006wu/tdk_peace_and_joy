@@ -1,3 +1,0 @@
-
-# Response
-bool valid
