@@ -5,12 +5,14 @@
 #include <cv_bridge/cv_bridge.h>
 #include <opencv2/opencv.hpp>
 #include "camera/algorithm.hpp"
+#include <functional>
+using std::placeholders::_1;
 
 class Imread:public rclcpp::Node{
     public:
         Imread():Node("read"){
             img_sub = this->create_subscription<sensor_msgs::msg::Image>("/chiang/chiang/color/image_raw",10,std::bind(&Imread::image_callback,this,_1));
-            tri_sub = this->create_subscription<std_msgs::msg::Int32>("mode",10,std::bind(&Imread::trigger,this,_1));
+            // tri_sub = this->create_subscription<std_msgs::msg::Int32>("mode",10,std::bind(&Imread::trigger,this,_1));
             mode_up_sub = this->create_subscription<std_msgs::msg::Int32>("mode_up",10,std::bind(&Imread::trigger,this,_1));
             cof1_pub = this->create_publisher<sensor_msgs::msg::Image>("coffee1_image",10);
             cof2_pub = this->create_publisher<sensor_msgs::msg::Image>("coffee2_image",10);
