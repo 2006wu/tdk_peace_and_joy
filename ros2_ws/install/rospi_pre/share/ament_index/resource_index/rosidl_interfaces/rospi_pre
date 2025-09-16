@@ -1,4 +1,0 @@
-srv/ChassisManager.idl
-srv/ChassisManager.srv
-srv/ChassisManager_Request.msg
-srv/ChassisManager_Response.msg

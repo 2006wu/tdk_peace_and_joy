@@ -1,6 +1,0 @@
-{
-  "package_name": "rospi_pre",
-  "non_idl_tuples": [
-    "/ros2_ws/src/rospi_pre:srv/ChassisManager.srv"
-  ]
-}
