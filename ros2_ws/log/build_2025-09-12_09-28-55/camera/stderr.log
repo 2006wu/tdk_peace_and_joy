@@ -1,0 +1,8 @@
+[01m[K/ros2_ws/src/camera/src/imread.cpp:[m[K In member function ‘[01m[Kvoid Imread::trigger(std_msgs::msg::Int32_<std::allocator<void> >::SharedPtr)[m[K’:
+[01m[K/ros2_ws/src/camera/src/imread.cpp:23:16:[m[K [01;31m[Kerror: [m[K‘[01m[Korder[m[K’ was not declared in this scope
+   23 |             if([01;31m[Korder[m[K.data == 1){
+      |                [01;31m[K^~~~~[m[K
+gmake[2]: *** [CMakeFiles/imread.dir/build.make:76: CMakeFiles/imread.dir/src/imread.cpp.o] Error 1
+gmake[1]: *** [CMakeFiles/Makefile2:149: CMakeFiles/imread.dir/all] Error 2
+gmake[1]: *** Waiting for unfinished jobs....
+gmake: *** [Makefile:146: all] Error 2
