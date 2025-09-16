@@ -70,17 +70,24 @@ services:
     volumes:
       - ~/tdk_peace_and_joy/catkin_ws:/catkin_ws/
       - /dev/bus/usb:/dev/bus/usb
+    devices:
+      - /dev/ttyACM0:/dev/ttyACM0
+      - /dev/ttyACM1:/dev/ttyACM1
+    device_cgroup_rules:
+      - "c 166:* rmw"
     working_dir: /catkin_ws
     stop_grace_period: 1s
     depends_on:
       ros-core:
         condition: service_healthy
-    command: /bin/bash -c "
-            source /opt/ros/noetic/setup.bash && 
-            source /catkin_ws/devel/setup.bash && 
-            cd /catkin_ws &&
-            sudo chmod 777 /dev/ttyACM0 &&
-            roslaunch rosserial_server stm32.launch"
+    command: bash
+    # command: /bin/bash -c "
+    #         source /opt/ros/noetic/setup.bash && 
+    #         source /catkin_ws/devel/setup.bash && 
+    #         cd /catkin_ws &&
+    #         sudo chmod 777 /dev/ttyACM0 &&
+    #         sudo chmod 777 /dev/ttyACM1 &&
+    #         roslaunch rosserial_server stm32.launch"
         
 
   ros2:
@@ -100,16 +107,9 @@ services:
     privileged: true
     stop_grace_period: 1s
     volumes:
-      # GUI 顯示相關
-      # - /tmp/.X11-unix:/tmp/.X11-unix:rw      
-      # - $HOME/.Xauthority:/root/.Xauthority:rw
       - /tmp/.X11-unix:/tmp/.X11-unix:rw      
       - $HOME/.Xauthority:/root/.Xauthority:rw
-      # 共享內存
-      - /dev/shm:/dev/shm
-      # GPU 直連（必要時）
-      - /dev/dri:/dev/dri
-      # 你的 ROS2 workspace
+      - /dev:/dev
       - ~/tdk_peace_and_joy/ros2_ws:/ros2_ws/
     working_dir: /ros2_ws
     command: bash

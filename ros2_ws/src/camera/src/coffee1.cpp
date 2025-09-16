@@ -15,6 +15,7 @@ class Process:public rclcpp::Node{
             tar_pub = this->create_publisher<std_msgs::msg::Int32>("target",10);
             retry_pub = this->create_publisher<std_msgs::msg::Int32>("mode",10);
             vision_pub = this->create_publisher<std_msgs::msg::Int32>("vision_result",10);
+            mode_down_pub = this->create_publisher<std_msgs::msg::Int32>("mode_down",10);
         }
     private:
         void image_callback(sensor_msgs::msg::Image::SharedPtr msg){
@@ -29,6 +30,7 @@ class Process:public rclcpp::Node{
                 answer.data = result;
                 tar_pub->publish(answer);
                 vision_pub->publish(answer);
+                mode_down_pub->publish(answer);
             }
         }
         Algorithm algo;
@@ -36,6 +38,7 @@ class Process:public rclcpp::Node{
         rclcpp::Publisher<std_msgs::msg::Int32>::SharedPtr tar_pub;
         rclcpp::Publisher<std_msgs::msg::Int32>::SharedPtr retry_pub;
         rclcpp::Publisher<std_msgs::msg::Int32>::SharedPtr vision_pub;
+        rclcpp::Publisher<std_msgs::msg::Int32>::SharedPtr mode_down_pub;
         std_msgs::msg::Int32 answer;
         Mat input;
         int result;

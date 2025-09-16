@@ -1,5 +1,4 @@
-#2006wu_08_14
-
+# 2006wu_08_14 - UI Panel with /reset publisher
 #!/usr/bin/env python3
 import sys, time, threading
 from PyQt5 import QtWidgets, QtCore
@@ -14,8 +13,13 @@ CHECKPOINTS = [
 SPEED_FMT = "vx={:.2f}  vy={:.2f}  vz={:.2f}   wx={:.2f}  wy={:.2f}  wz={:.2f}"
 UPDATE_MS = 100
 
+TOPIC_TWIST = "/cmd_vel"
+TOPIC_ODOM  = "/odom"
+TOPIC_RESET = "/reset"   # ✅ 新增：發給 STM 的 reset 主題（ROS1 會透過 ros1_bridge 自動橋接）
+
 # ====== ROS 嘗試載入（沒有也能跑）======
 ROS_OK = True
+HAVE_ODOM = False
 try:
     import rclpy
     from rclpy.node import Node
@@ -25,12 +29,10 @@ try:
         HAVE_ODOM = True
     except Exception:
         HAVE_ODOM = False
+    from std_msgs.msg import Int32  # ✅ 只有在 ROS 可用時才 import
 except Exception:
     ROS_OK = False
     HAVE_ODOM = False
-
-TOPIC_TWIST = "/cmd_vel"
-TOPIC_ODOM  = "/odom"
 
 class RosClient(Node if ROS_OK else object):
     def __init__(self):
@@ -38,12 +40,18 @@ class RosClient(Node if ROS_OK else object):
             super().__init__("ui_panel_speed_viewer")
             self._lock = threading.Lock()
             self._latest = (0.0,0.0,0.0,0.0,0.0,0.0)
+
             # 訂閱 /cmd_vel (Twist)
             self.create_subscription(Twist, TOPIC_TWIST, self._cb_twist, 10)
+
             # 同時訂閱 /odom（若有）
             if HAVE_ODOM:
                 self.create_subscription(Odometry, TOPIC_ODOM, self._cb_odom, 10)
 
+            # ✅ 新增：/reset Publisher
+            self.pub_reset = self.create_publisher(Int32, TOPIC_RESET, 10)
+
+    # ====== Callbacks ======
     def _cb_twist(self, msg: 'Twist'):
         with getattr(self, "_lock", threading.Lock()):
             self._latest = (
@@ -59,11 +67,20 @@ class RosClient(Node if ROS_OK else object):
                 float(t.angular.x), float(t.angular.y), float(t.angular.z)
             )
 
+    # ====== Public APIs ======
     def get_latest(self):
         if not ROS_OK:
             return None
         with self._lock:
             return self._latest
+
+    def publish_reset(self, value: int):
+        """發送 /reset = value（A=1, B=2, C=3, D=4）"""
+        if not ROS_OK:
+            return
+        msg = Int32()
+        msg.data = int(value)
+        self.pub_reset.publish(msg)
 
 class RosSpinThread(QtCore.QThread):
     def __init__(self, node: RosClient):
@@ -121,7 +138,6 @@ class Panel(QtWidgets.QWidget):
         self.angular_box.setMinimumHeight(80)
         root.addWidget(self.angular_box)
 
-
         # ---- 2×2 按鈕格 ----
         grid = QtWidgets.QGridLayout()
         grid.setContentsMargins(0, 0, 0, 0)
@@ -164,9 +180,8 @@ class Panel(QtWidgets.QWidget):
                 self.ros_node = RosClient()
                 self.spin_thread = RosSpinThread(self.ros_node)
                 self.spin_thread.start()
-            except Exception as e:
-                # 若 ROS 初始化失敗，仍讓 UI 可用
-                self.ros_node = None
+            except Exception:
+                self.ros_node = None  # 即使 ROS 啟不動，UI 仍可用
 
         self.timer = QtCore.QTimer(self)
         self.timer.timeout.connect(self.refresh_speed)
@@ -174,7 +189,6 @@ class Panel(QtWidgets.QWidget):
 
     def refresh_speed(self):
         if self.ros_node is None:
-            # 沒連 ROS → 用破折號
             self.linear_box.setText("Linear\nvx=—  vy=—  vz=—")
             self.angular_box.setText("Angular\nwx=—  wy=—  wz=—")
             return
@@ -198,7 +212,10 @@ class Panel(QtWidgets.QWidget):
         orig = btn.styleSheet()
         btn.setStyleSheet(orig + "\nQPushButton { background-color: #2d6cdf; color: white; }")
         QtCore.QTimer.singleShot(150, lambda: btn.setStyleSheet(orig))
-        # 之後要接發 ROS 指令可在這裡加
+
+        # ✅ 發 ROS 指令：A=1, B=2, C=3, D=4
+        if self.ros_node is not None:
+            self.ros_node.publish_reset(cid + 1)
 
     def closeEvent(self, e):
         try:
