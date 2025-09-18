@@ -87,12 +87,12 @@ private:
     }
 
     void publishTwist() {
-        // ✅ 啟動時先送一筆零速度，避免爆轉
-        if (i_ == 1 && step_ == 0) {
-            publishStop();
-            step_++;   // 下一次再開始動
-            return;
-        }
+        // // ✅ 啟動時先送一筆零速度，避免爆轉
+        // if (i_ == 1 && step_ == 0) {
+        //     publishStop();
+        //     step_++;   // 下一次再開始動
+        //     return;
+        // }
 
         if (i_ >= path_.size()) {
             // 路徑走完 → 發送一次停止訊息
@@ -143,10 +143,10 @@ private:
             double desired_speed;  // cm/s
             if (std::abs(p1.angle) < 1e-3) {
                 path_length = std::hypot(p2.x - p1.x, p2.y - p1.y);  // 直線距離
-                desired_speed = 15.0;  // cm/s
+                desired_speed = 20.0;  // cm/s
             } else {
                 path_length = std::abs(p1.radius) * std::abs(p1.angle) * M_PI / 180.0;  // 弧長 = rθ
-                desired_speed = 8.0;  // cm/s
+                desired_speed = 20.0;  // cm/s
             }
 
             double dt = 0.05;            // 控制間隔
