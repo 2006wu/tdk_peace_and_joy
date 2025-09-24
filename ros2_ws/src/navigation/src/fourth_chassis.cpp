@@ -88,11 +88,10 @@ private:
 
     void publishTwist() {
         // ✅ 啟動時先送一筆零速度，避免爆轉
-        static bool init_stop_sent = false;
-        if (!init_stop_sent) {
+        if (i_ == 1 && step_ == 0) {
             publishStop();
-            init_stop_sent = true;
-            return;   // 下一次 timer 再開始真的動
+            step_++;   // 下一次再開始動
+            return;
         }
 
         if (i_ >= path_.size()) {
