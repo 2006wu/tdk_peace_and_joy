@@ -1,0 +1,28 @@
+topics:
+  # mission_reset / start
+  - topic: /start
+    type: std_msgs/msg/Int32
+  - topic : /reset
+    type: std_msgs/msg/Int32
+  # mission_two
+  - topic: /mode_up
+    type: std_msgs/msg/Int32
+  - topic: /mode_down
+    type: std_msgs/msg/Int32
+  - topic: /grab_cmd
+    type: std_msgs/msg/Int32
+  - topic: /grab_status
+    type: std_msgs/msg/Int32
+  # mission_three
+  - topic: /bamboo_cmd
+    type: std_msgs/msg/Int32
+  - topic: /bamboo_status
+    type: std_msgs/msg/Int32
+  # mission_four
+  - topic: /cmd_vel
+    type: geometry_msgs/msg/Twist
+  # mission_five
+  - topic: /stair_cmd
+    type: std_msgs/msg/Int32
+  - topic: /stair_status
+    type: std_msgs/msg/Int32

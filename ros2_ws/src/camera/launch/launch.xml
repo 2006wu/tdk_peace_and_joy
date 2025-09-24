@@ -20,7 +20,4 @@
     <node pkg="camera" exec="arm" output="screen">
     </node>
 
-    <!-- <node pkg="rviz2" exec="rviz2" name="rviz2" output="screen"
-        args="-d $(find-pkg-share your_pkg)/rviz/my_config.rviz"/>
-    </node> -->
 </launch>

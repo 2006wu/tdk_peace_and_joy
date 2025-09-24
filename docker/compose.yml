@@ -39,11 +39,13 @@ services:
       ros-core:
         # The healthcheck is required for ros1-bridge to wait until roscore is ready.
         condition: service_healthy
+    # command: bash
     command: >
       bash -c "export ROS_MASTER_URI=http://localhost:11311 &&
                source /ros2_humble/install/setup.bash &&
                source /ros2_humble/install/ros1_bridge/share/ros1_bridge/local_setup.bash &&
-               ros2 run ros1_bridge dynamic_bridge --bridge-all-topics --ros-args --remap __node:=ros_bridge_main"
+               rosparam load /bridge.yml &&
+               ros2 run ros1_bridge parameter_bridge"
 
     stdin_open: true
     tty: true
@@ -57,6 +59,7 @@ services:
       - /dev/dri:/dev/dri
       # Shared Memory
       - /dev/shm:/dev/shm
+      - ./bridge.yml:/bridge.yml
       - ~/tdk_peace_and_joy/ros2_ws:/ros2_ws/
     working_dir: /ros2_ws
 

@@ -13,7 +13,7 @@ class Process:public rclcpp::Node{
         Process():Node("coffee1"){
             img_sub = this->create_subscription<sensor_msgs::msg::Image>("coffee1_image",10,std::bind(&Process::image_callback,this,_1));
             tar_pub = this->create_publisher<std_msgs::msg::Int32>("target",10);
-            retry_pub = this->create_publisher<std_msgs::msg::Int32>("mode",10);
+            retry_pub = this->create_publisher<std_msgs::msg::Int32>("mode_up",10);
             vision_pub = this->create_publisher<std_msgs::msg::Int32>("vision_result",10);
             mode_down_pub = this->create_publisher<std_msgs::msg::Int32>("mode_down",10);
         }

@@ -88,10 +88,11 @@ private:
 
     void publishTwist() {
         // ✅ 啟動時先送一筆零速度，避免爆轉
-        if (i_ == 1 && step_ == 0) {
+        static bool init_stop_sent = false;
+        if (!init_stop_sent) {
             publishStop();
-            step_++;   // 下一次再開始動
-            return;
+            init_stop_sent = true;
+            return;   // 下一次 timer 再開始真的動
         }
 
         if (i_ >= path_.size()) {
@@ -105,13 +106,25 @@ private:
         const auto& p2 = path_[i_];
 
         double xi, yi, theta;
+        if (p1.radius < 0 && std::abs(p1.angle) > 1e-3) {
+        // 斜線 -1, angle
+        double t = static_cast<double>(step_) / max_step_;
+        double dx = p2.x - p1.x;
+        double dy = p2.y - p1.y;
+        xi = p1.x + dx * t;
+        yi = p1.y + dy * t;
 
-        if (std::abs(p1.angle) < 1e-3) {
+        // 使用 angle (度數) 來決定方向
+        double theta_rad = p1.angle * M_PI / 180.0;
+        theta = theta_rad;   // 車頭方向直接等於角度
+        } else if (std::abs(p1.angle) < 1e-3) {
+        // 直線 -1, 0
             double t = static_cast<double>(step_) / max_step_;
             xi = p1.x + (p2.x - p1.x) * t;
             yi = p1.y + (p2.y - p1.y) * t;
             theta = std::atan2(yi - prev_y_, xi - prev_x_);
         } else {
+        // 曲線 radius, angle
             double theta_rad = p1.angle * M_PI / 180.0;
             double dx = p2.x - p1.x;
             double dy = p2.y - p1.y;
@@ -141,14 +154,21 @@ private:
         if (step_ == 0) {
             double path_length;
             double desired_speed;  // cm/s
-            if (std::abs(p1.angle) < 1e-3) {
-                path_length = std::hypot(p2.x - p1.x, p2.y - p1.y);  // 直線距離
+            if (p1.radius < 0 && std::abs(p1.angle) > 1e-3) {
+                // 斜線
+                path_length = std::hypot(p2.x - p1.x, p2.y - p1.y);
                 desired_speed = 15.0;  // cm/s
-            } else {
-                path_length = std::abs(p1.radius) * std::abs(p1.angle) * M_PI / 180.0;  // 弧長 = rθ
-                desired_speed = 8.0;  // cm/s
             }
-
+            else if (std::abs(p1.angle) < 1e-3) {
+                // 直線
+                path_length = std::hypot(p2.x - p1.x, p2.y - p1.y);
+                desired_speed = 15.0;  // cm/s
+            }
+            else {
+                // 圓弧
+                path_length = std::abs(p1.radius) * std::abs(p1.angle) * M_PI / 180.0;
+                desired_speed = 15.0;  // cm/s
+            }
             double dt = 0.05;            // 控制間隔
             max_step_ = std::ceil(path_length / (desired_speed * dt));
         }
@@ -156,13 +176,29 @@ private:
         double dt = 0.05;
         double vx = (xi - prev_x_) / dt;
         double vy = (yi - prev_y_) / dt;
-        double omega = (theta - prev_theta_) / dt;
-        double progress = static_cast<double>(step_) / max_step_;
-        double factor = speedFactor(progress);
 
-        vx *= factor;
-        vy *= factor;
-        omega *= factor;
+        double dtheta = theta - prev_theta_;
+        while (dtheta > M_PI)  dtheta -= 2*M_PI;
+        while (dtheta < -M_PI) dtheta += 2*M_PI;
+        double omega = dtheta / dt;
+
+        // ✅ 角速度安全過濾
+        static double last_safe_omega = 0.0;
+        if (omega > 1.0 || omega < -1.0) {
+            // 如果爆衝 → 使用上一個安全值
+            omega = last_safe_omega;
+        } else {
+            // 正常範圍 → 更新安全值
+            last_safe_omega = omega;
+        }
+
+        // double progress = static_cast<double>(step_) / max_step_;
+        // double factor = speedFactor(progress);
+        // vx *= factor;
+        // vy *= factor;
+        // omega *= factor;
+
+        // omega = 0;
 
         double scale = 15.2 * M_PI; // cm/s to rps
         vx /= scale;
@@ -172,7 +208,17 @@ private:
         twist.linear.x = vx;
         twist.linear.y = vy;
         twist.angular.z = omega;
-        pub_->publish(twist);
+
+        // twist.angular.z = 0;
+
+        static int discard_count = 0;
+        // ✅ 前兩筆計算結果丟掉，不送給下位機
+        if (discard_count < 2) {
+            discard_count++;
+            RCLCPP_WARN(this->get_logger(), "⚠️ 丟棄第 %d 筆計算數據", discard_count);
+        } else {
+            pub_->publish(twist);
+        }
 
         prev_x_ = xi;
         prev_y_ = yi;

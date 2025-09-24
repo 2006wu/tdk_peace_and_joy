@@ -21,7 +21,7 @@ class Process:public rclcpp::Node{
             info_sub = this->create_subscription<sensor_msgs::msg::CameraInfo>("/chiang/chiang/color/camera_info",10,std::bind(&Process::info_callback,this,_1));
             de_sub = image_transport::create_subscription(this,"/chiang/chiang/depth/image_rect_raw",std::bind(&Process::de_callback,this,_1),"raw");
             tar_pub = this->create_publisher<geometry_msgs::msg::PointStamped>("point_in",10);
-            retry_pub = this->create_publisher<std_msgs::msg::Int32>("mode",10);
+            retry_pub = this->create_publisher<std_msgs::msg::Int32>("mode_up",10);
             timer = this->create_wall_timer(30ms,std::bind(&Process::timer_callback,this));
         }
     private:
