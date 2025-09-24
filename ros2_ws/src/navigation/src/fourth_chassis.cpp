@@ -1,5 +1,6 @@
 #include <rclcpp/rclcpp.hpp>
 #include <geometry_msgs/msg/twist.hpp>
+#include <std_msgs/msg/int32.hpp>
 #include <fstream>
 #include <sstream>
 #include <vector>
@@ -11,7 +12,13 @@ struct PathCommand { double x, y, radius, angle; };
 class CurvedPathPublisher : public rclcpp::Node {
 public:
     CurvedPathPublisher() : Node("curved_path_publisher") {
-        pub_ = this->create_publisher<geometry_msgs::msg::Twist>("cmd_vel", 10);
+        pub_twist = this->create_publisher<geometry_msgs::msg::Twist>("cmd_vel", 10);
+        pub_end_ = this->create_publisher<std_msgs::msg::Int32>("mission_4_finish", 10);
+
+        sub_start_ = this->create_subscription<std_msgs::msg::Int32>(
+            "mission_4_start", 10,
+            std::bind(&CurvedPathPublisher::startCallback, this, std::placeholders::_1)
+        );
 
         path_ = readPath("src/navigation/waypoints/center_path.csv");
         if (path_.empty()) {
@@ -30,17 +37,34 @@ public:
         i_ = 1;
         step_ = 0;
         timer_ = this->create_wall_timer(std::chrono::milliseconds(50), std::bind(&CurvedPathPublisher::publishTwist, this));
+        timer_->cancel();  // 啟動時不啟動計時器，等收到開始訊號
     }
 
 private:
-    rclcpp::Publisher<geometry_msgs::msg::Twist>::SharedPtr pub_;
+    rclcpp::Publisher<geometry_msgs::msg::Twist>::SharedPtr pub_twist;
+    rclcpp::Publisher<std_msgs::msg::Int32>::SharedPtr pub_end_;
+    rclcpp::Subscription<std_msgs::msg::Int32>::SharedPtr sub_start_;
     rclcpp::TimerBase::SharedPtr timer_;
 
     std::vector<PathCommand> path_;
     size_t i_ = 1;
     int step_ = 0, max_step_ = 50;
-
     double prev_x_, prev_y_, prev_theta_;
+    bool running_ = false;
+
+    void startCallback(const std_msgs::msg::Int32::SharedPtr msg) {
+        if (msg->data == 1 && !running_) {
+            RCLCPP_INFO(this->get_logger(), "🚀 mission_4_start = 1, 開始跑路徑");
+            running_ = true;
+            i_ = 1;
+            step_ = 0;
+            prev_x_ = path_[0].x;
+            prev_y_ = path_[0].y;
+            prev_theta_ = (path_.size() > 1) ?
+                std::atan2(path_[1].y - path_[0].y, path_[1].x - path_[0].x) : 0.0;
+            timer_->reset(); // ✅ 啟動 timer
+        }
+    }
 
     std::vector<PathCommand> readPath(const std::string& filename) {
         std::vector<PathCommand> path;
@@ -74,7 +98,13 @@ private:
     void publishStop() {
         geometry_msgs::msg::Twist twist;
         twist.linear.x = twist.linear.y = twist.angular.z = 0.0;
-        pub_->publish(twist);
+        pub_twist->publish(twist);
+    }
+
+    void publishEndFlag(int value) {
+        std_msgs::msg::Int32 msg;
+        msg.data = value;
+        pub_end_->publish(msg);
     }
 
     double speedFactor(double progress) {
@@ -97,8 +127,12 @@ private:
         if (i_ >= path_.size()) {
             // 路徑走完 → 發送一次停止訊息
             publishStop();
+            publishEndFlag(1);
             timer_->cancel();   // 停止計時器，不再發送
+            running_ = false;
             return;
+        } else {
+            publishEndFlag(0);
         }
 
         const auto& p1 = path_[i_ - 1];
@@ -208,7 +242,7 @@ private:
         twist.linear.y = vy;
         twist.angular.z = omega;
 
-        // twist.angular.z = 0;
+        twist.angular.z = 0;
 
         static int discard_count = 0;
         // ✅ 前兩筆計算結果丟掉，不送給下位機
@@ -216,7 +250,7 @@ private:
             discard_count++;
             RCLCPP_WARN(this->get_logger(), "⚠️ 丟棄第 %d 筆計算數據", discard_count);
         } else {
-            pub_->publish(twist);
+            pub_twist->publish(twist);
         }
 
         prev_x_ = xi;

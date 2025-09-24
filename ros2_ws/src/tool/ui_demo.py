@@ -23,6 +23,8 @@ TOPICS_TO_MONITOR = [
     ("/grab_status", "std_msgs.msg.Int32"),
     ("/bamboo_cmd", "std_msgs.msg.Int32"),
     ("/bamboo_status", "std_msgs.msg.Int32"),
+    ("/mission_4_start", "std_msgs.msg.Int32"),
+    ("/mission_4_finish", "std_msgs.msg.Int32"),
     ("/cmd_vel", "geometry_msgs.msg.Twist"),
     ("/stair_cmd", "std_msgs.msg.Int32"),
     ("/stair_status", "std_msgs.msg.Int32"),

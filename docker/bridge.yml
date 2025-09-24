@@ -19,6 +19,10 @@ topics:
   - topic: /bamboo_status
     type: std_msgs/msg/Int32
   # mission_four
+  - topic: /mission_4_start
+    type: std_msgs/msg/Int32
+  - topic: /mission_4_finish
+    type: std_msgs/msg/Int32
   - topic: /cmd_vel
     type: geometry_msgs/msg/Twist
   # mission_five
