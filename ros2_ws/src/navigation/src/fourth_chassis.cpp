@@ -58,10 +58,42 @@ private:
             running_ = true;
             i_ = 1;
             step_ = 0;
+
             prev_x_ = path_[0].x;
             prev_y_ = path_[0].y;
-            prev_theta_ = (path_.size() > 1) ?
-                std::atan2(path_[1].y - path_[0].y, path_[1].x - path_[0].x) : 0.0;
+
+            if (path_.size() > 1) {
+                if (std::abs(path_[0].angle) < 1e-3) {
+                    // 第一段是直線 → 用直線方向初始化
+                    prev_theta_ = std::atan2(
+                        path_[1].y - path_[0].y,
+                        path_[1].x - path_[0].x
+                    );
+                } else {
+                    // 第一段是圓弧 → 用弧線切線方向初始化
+                    double theta_rad = path_[0].angle * M_PI / 180.0;
+                    double dx = path_[1].x - path_[0].x;
+                    double dy = path_[1].y - path_[0].y;
+                    double chord = std::hypot(dx, dy);
+                    double r = std::abs(path_[0].radius);
+
+                    double mid_x = (path_[0].x + path_[1].x) / 2.0;
+                    double mid_y = (path_[0].y + path_[1].y) / 2.0;
+                    double dir_x = -dy / chord;
+                    double dir_y = dx / chord;
+                    double h = std::sqrt(r * r - (chord * chord) / 4.0);
+                    double cx = mid_x + dir_x * h * std::copysign(1.0, theta_rad);
+                    double cy = mid_y + dir_y * h * std::copysign(1.0, theta_rad);
+
+                    double start_angle = std::atan2(path_[0].y - cy, path_[0].x - cx);
+                    double tangent_x = -std::sin(start_angle) * std::copysign(1.0, theta_rad);
+                    double tangent_y =  std::cos(start_angle) * std::copysign(1.0, theta_rad);
+                    prev_theta_ = std::atan2(tangent_y, tangent_x); // ✅ 弧線切線角度
+                }
+            } else {
+                prev_theta_ = 0.0;
+            }
+
             timer_->reset(); // ✅ 啟動 timer
         }
     }
@@ -117,18 +149,11 @@ private:
     }
 
     void publishTwist() {
-        // ✅ 啟動時先送一筆零速度，避免爆轉
-        if (i_ == 1 && step_ == 0) {
-            publishStop();
-            step_++;   // 下一次再開始動
-            return;
-        }
-
+        // 已經跑完全部 path
         if (i_ >= path_.size()) {
-            // 路徑走完 → 發送一次停止訊息
             publishStop();
             publishEndFlag(1);
-            timer_->cancel();   // 停止計時器，不再發送
+            timer_->cancel();
             running_ = false;
             return;
         } else {
@@ -137,122 +162,134 @@ private:
 
         const auto& p1 = path_[i_ - 1];
         const auto& p2 = path_[i_];
-
         double xi, yi, theta;
-        if (p1.radius < 0 && std::abs(p1.angle) > 1e-3) {
-        // 斜線 -1, angle
-        double t = static_cast<double>(step_) / max_step_;
-        double dx = p2.x - p1.x;
-        double dy = p2.y - p1.y;
-        xi = p1.x + dx * t;
-        yi = p1.y + dy * t;
 
-        // 使用 angle (度數) 來決定方向
-        double theta_rad = p1.angle * M_PI / 180.0;
-        theta = theta_rad;   // 車頭方向直接等於角度
-        } else if (std::abs(p1.angle) < 1e-3) {
-        // 直線 -1, 0
-            double t = static_cast<double>(step_) / max_step_;
-            xi = p1.x + (p2.x - p1.x) * t;
-            yi = p1.y + (p2.y - p1.y) * t;
-            theta = std::atan2(yi - prev_y_, xi - prev_x_);
-        } else {
-        // 曲線 radius, angle
-            double theta_rad = p1.angle * M_PI / 180.0;
-            double dx = p2.x - p1.x;
-            double dy = p2.y - p1.y;
-            double chord = std::hypot(dx, dy);
-            double r = std::abs(p1.radius);
-            double mid_x = (p1.x + p2.x) / 2.0;
-            double mid_y = (p1.y + p2.y) / 2.0;
-            double dir_x = -dy / chord;
-            double dir_y = dx / chord;
-            double h = std::sqrt(r * r - (chord * chord) / 4.0);
-            double cx = mid_x + dir_x * h * std::copysign(1.0, theta_rad);
-            double cy = mid_y + dir_y * h * std::copysign(1.0, theta_rad);
-
-            double start_angle = std::atan2(p1.y - cy, p1.x - cx);
-            double end_angle = std::atan2(p2.y - cy, p2.x - cx);
-            if (theta_rad > 0 && end_angle < start_angle) end_angle += 2 * M_PI;
-            if (theta_rad < 0 && end_angle > start_angle) end_angle -= 2 * M_PI;
-            double delta = end_angle - start_angle;
-            double t = static_cast<double>(step_) / max_step_;
-            double angle = start_angle + delta * t;
-            xi = cx + r * std::cos(angle);
-            yi = cy + r * std::sin(angle);
-            theta = angle + M_PI_2 * std::copysign(1.0, theta_rad);
-        }
-
-        // 在 publishTwist() 中 step_ == 0 時設定 max_step_
+        // === step_ == 0 → 計算這段 max_step_ ===
         if (step_ == 0) {
             double path_length;
-            double desired_speed;  // cm/s
-            if (p1.radius < 0 && std::abs(p1.angle) > 1e-3) {
-                // 斜線
-                path_length = std::hypot(p2.x - p1.x, p2.y - p1.y);
-                desired_speed = 15.0;  // cm/s
+            if (std::abs(p1.angle) < 1e-3) {
+                path_length = std::hypot(p2.x - p1.x, p2.y - p1.y);  // 直線距離 (cm)
+            } else {
+                path_length = std::abs(p1.radius) * std::abs(p1.angle) * M_PI / 180.0;  // 弧長 (cm)
             }
-            else if (std::abs(p1.angle) < 1e-3) {
-                // 直線
-                path_length = std::hypot(p2.x - p1.x, p2.y - p1.y);
-                desired_speed = 15.0;  // cm/s
-            }
-            else {
-                // 圓弧
-                path_length = std::abs(p1.radius) * std::abs(p1.angle) * M_PI / 180.0;
-                desired_speed = 15.0;  // cm/s
-            }
-            double dt = 0.05;            // 控制間隔
+
+            double desired_speed = 50.0; // cm/s
+            double dt = 0.05;            // 50ms
             max_step_ = std::ceil(path_length / (desired_speed * dt));
         }
 
-        double dt = 0.05;
-        double vx = (xi - prev_x_) / dt;
-        double vy = (yi - prev_y_) / dt;
-
-        double dtheta = theta - prev_theta_;
-        while (dtheta > M_PI)  dtheta -= 2*M_PI;
-        while (dtheta < -M_PI) dtheta += 2*M_PI;
-        double omega = dtheta / dt;
-
-        // ✅ 角速度安全過濾
-        static double last_safe_omega = 0.0;
-        if (omega > 1.0 || omega < -1.0) {
-            // 如果爆衝 → 使用上一個安全值
-            omega = last_safe_omega;
+        // === 計算當前 xi, yi, theta ===
+        if (std::abs(p1.angle) < 1e-3) {
+            // 直線
+            double t = static_cast<double>(step_) / max_step_;
+            xi = p1.x + (p2.x - p1.x) * t;
+            yi = p1.y + (p2.y - p1.y) * t;
+            theta = std::atan2(p2.y - p1.y, p2.x - p1.x);
         } else {
-            // 正常範圍 → 更新安全值
-            last_safe_omega = omega;
+                // ===== 圓弧（含 ±180° 特判）=====
+                const double theta_deg = p1.angle;
+                const double theta_rad = theta_deg * M_PI / 180.0;
+                const double r = std::abs(p1.radius);
+                const double ANG_EPS = 1e-2;  // 角度接近判定
+                const double EPS     = 1e-6;  // 浮點誤差
+
+                double dx = p2.x - p1.x;
+                double dy = p2.y - p1.y;
+                double chord = std::hypot(dx, dy);
+
+                // 幾何可行性：chord 不得明顯大於 2r
+                if (chord > 2.0 * r + 1e-4) {
+                    // 超出很多 → 無法構圓，退回直線內插
+                    double t = static_cast<double>(step_) / max_step_;
+                    xi = p1.x + dx * t;
+                    yi = p1.y + dy * t;
+                    theta = std::atan2(dy, dx);
+                } else {
+                    // 圓心 / 角度解卷
+                    double mid_x = (p1.x + p2.x) * 0.5;
+                    double mid_y = (p1.y + p2.y) * 0.5;
+                    double dir_x = -dy / (chord + EPS);
+                    double dir_y =  dx / (chord + EPS);
+
+                    double cx, cy;
+                    if (std::abs(std::abs(theta_deg) - 180.0) <= ANG_EPS) {
+                        // ✅ 半圓特判：h=0，圓心即弦中點
+                        cx = mid_x;
+                        cy = mid_y;
+                    } else {
+                        // 一般圓：h = sqrt(r^2 - chord^2/4)（做 clamp 防負）
+                        double inside = r*r - 0.25 * chord * chord;
+                        if (inside < 0.0 && inside > -1e-6) inside = 0.0;
+                        double h = std::sqrt(std::max(0.0, inside));
+                        cx = mid_x + dir_x * h * std::copysign(1.0, theta_rad);
+                        cy = mid_y + dir_y * h * std::copysign(1.0, theta_rad);
+                    }
+
+                    auto ang = [&](double X, double Y){ return std::atan2(Y - cy, X - cx); };
+                    double a_start = ang(p1.x, p1.y);
+                    double a_end   = ang(p2.x, p2.y);
+                    if (theta_rad > 0 && a_end < a_start) a_end += 2*M_PI;
+                    if (theta_rad < 0 && a_end > a_start) a_end -= 2*M_PI;
+
+                    double t = static_cast<double>(step_) / max_step_;
+                    double angle = a_start + (a_end - a_start) * t;
+
+                    xi = cx + r * std::cos(angle);
+                    yi = cy + r * std::sin(angle);
+
+                    // 切線方向（與半徑垂直，正負由 angle 正負決定）
+                    theta = angle + (theta_rad >= 0 ? +M_PI_2 : -M_PI_2);
+                }
+            }
+
+        // 🚩 新增：避免新段落的第一個點速度跳成 0
+        if (step_ == 0 && i_ > 1) {
+            prev_x_ = xi;
+            prev_y_ = yi;
+            prev_theta_ = theta;
+            step_++;
+            return;   // 不輸出這筆，直接跳過
         }
 
-        // double progress = static_cast<double>(step_) / max_step_;
-        // double factor = speedFactor(progress);
-        // vx *= factor;
-        // vy *= factor;
-        // omega *= factor;
+        // === 用差分算速度 (cm/s) ===
+        double dt = 0.05;
+        double vx_cm = (xi - prev_x_) / dt; // xi, yi 單位 cm
+        double vy_cm = (yi - prev_y_) / dt;
+        double omega = (theta - prev_theta_) / dt; // rad/s
 
-        // omega = 0;
+        double progress = static_cast<double>(step_) / max_step_;
+        double factor = 1.0;
 
-        double scale = 15.2 * M_PI; // cm/s to rps
-        vx /= scale;
-        vy /= scale;
+        // 第一段 → 只做加速
+        if (i_ == 1) {
+            if (progress < 0.2) {
+                factor = progress / 0.2;   // 線性 0 → 1
+            }
+        }
+        // 最後一段 → 只做減速
+        else if (i_ == path_.size() - 1) {
+            if (progress > 0.8) {
+                factor = (1.0 - progress) / 0.2;  // 線性 1 → 0
+            }
+        }
+
+        vx_cm *= factor;
+        vy_cm *= factor;
+        omega *= factor;
+
+        // === cm/s → rps (下位機單位) ===
+        double scale = 15.2 * M_PI;  // 你原本的換算比例
+        double vx_rps = vx_cm / scale;
+        double vy_rps = vy_cm / scale;
 
         geometry_msgs::msg::Twist twist;
-        twist.linear.x = vx;
-        twist.linear.y = vy;
+        twist.linear.x = vx_rps;
+        twist.linear.y = vy_rps;
+        omega = 0;
         twist.angular.z = omega;
+        pub_twist->publish(twist);
 
-        twist.angular.z = 0;
-
-        static int discard_count = 0;
-        // ✅ 前兩筆計算結果丟掉，不送給下位機
-        if (discard_count < 2) {
-            discard_count++;
-            RCLCPP_WARN(this->get_logger(), "⚠️ 丟棄第 %d 筆計算數據", discard_count);
-        } else {
-            pub_twist->publish(twist);
-        }
-
+        // 更新狀態
         prev_x_ = xi;
         prev_y_ = yi;
         prev_theta_ = theta;

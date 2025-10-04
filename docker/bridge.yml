@@ -25,8 +25,14 @@ topics:
     type: std_msgs/msg/Int32
   - topic: /cmd_vel
     type: geometry_msgs/msg/Twist
+  - topic: /wheel_odom
+    type: geometry_msgs/msg/Point
   # mission_five
-  - topic: /stair_cmd
+  - topic: /lift_cmd
     type: std_msgs/msg/Int32
-  - topic: /stair_status
+  - topic: /lift_status
+    type: std_msgs/msg/Int32
+  - topic: /toy_cmd
+    type: std_msgs/msg/Int32
+  - topic : /toy_status
     type: std_msgs/msg/Int32

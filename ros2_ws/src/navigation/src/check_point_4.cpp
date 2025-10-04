@@ -22,7 +22,7 @@ public:
         }
 
         simulateAndWrite(path_, "path.dat");         // 寫入 path.dat 給 Gnuplot
-        plotWithGnuplot("path.dat");                 // 呼叫 Gnuplot 畫圖
+        plotWithGnuplot("path.dat");                // 呼叫 Gnuplot 畫圖
 
         i_ = 1;
         step_ = 0;

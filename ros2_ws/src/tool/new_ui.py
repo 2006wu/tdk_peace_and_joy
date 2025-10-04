@@ -154,6 +154,11 @@ class Panel(QtWidgets.QWidget):
                 self.spin_thread = RosSpinThread(self.ros_node)
                 self.spin_thread.start()
                 self.reset_pub = self.ros_node.create_publisher(Int32, "/reset", 10)
+                self.mode_down_pub = self.ros_node.create_publisher(Int32, "/mode_down", 10)
+                self._mode_up_timer = None   # ✅ 加一個 timer 變數
+                self._pending_trigger = None   # ✅ 記錄 A2 或 B2
+                self._mode_down_loop_timer = None
+
             except Exception:
                 self.ros_node = None
 
@@ -167,6 +172,7 @@ class Panel(QtWidgets.QWidget):
         self.reset_timer = QtCore.QTimer(self)
         self.reset_timer.timeout.connect(self._publish_reset_loop)
         self.reset_timer.start(RESET_MS)
+        self.toggle_map = {}  # ✅ 加這行
 
     def refresh_monitor(self):
         if self.ros_node is None:
@@ -174,13 +180,29 @@ class Panel(QtWidgets.QWidget):
             return
         data_all = self.ros_node.get_all_latest()
         lines = []
+        # ✅ 偵測 /mode_up
+        if "mode_up" in data_all:
+            msg, age = data_all["mode_up"]
+            if hasattr(msg, "data"):
+                # 只有 B2=221 模式才觸發
+                if self._pending_trigger is not None:   # ✅ A2 或 B2=221 都能觸發
+                    if self._mode_down_loop_timer is None:   # 確保只啟動一次
+                        self._mode_down_loop_timer = QtCore.QTimer(self)
+                        self._mode_down_loop_timer.timeout.connect(self._send_mode_down)
+                        self._mode_down_loop_timer.start(1000)  # ✅ 每 1 秒發一次，可自行改間隔
+                        print(f"✅ 收到 /mode_up=1 → 開始持續發 /mode_down (來源 {self._pending_trigger})")
+
+
         for tname, (msg, age) in data_all.items():
             if hasattr(msg, "data"):
                 value = msg.data
             elif hasattr(msg, "linear") and hasattr(msg, "angular"):
                 value = f"vx={msg.linear.x:.2f}, vy={msg.linear.y:.2f}, wz={msg.angular.z:.2f}"
-            elif hasattr(msg, "x") and hasattr(msg, "y") and hasattr(msg, "z"):  # ✅ Point (/wheel_odom)
-                value = f"x={msg.x:.3f}, y={msg.y:.3f}, z={msg.z:.3f}"
+            elif hasattr(msg, "x") and hasattr(msg, "y") and hasattr(msg, "z"):  # Point (/wheel_odom)
+                # ✅ 這裡做轉換：x 取負、x/y 轉成 cm
+                x_cm = -msg.x * 100.0
+                y_cm =  msg.y * 100.0
+                value = f"x={x_cm:.1f} cm, y={y_cm:.1f} cm" 
             else:
                 value = str(msg)
 
@@ -200,8 +222,31 @@ class Panel(QtWidgets.QWidget):
         orig = btn.styleSheet()
         btn.setStyleSheet(orig + "\nQPushButton { background-color: #2d6cdf; color: white; }")
         QtCore.QTimer.singleShot(150, lambda: btn.setStyleSheet(orig))
+        
+        
+        if cname == "B2":
+            if self.toggle_map.get(cname, 0) == 0:
+                self.reset_value = 221
+                self.toggle_map[cname] = 1
+                self._pending_trigger = "B2"   # ✅ 記錄 B2 需要等 mode_up
+                print("⏳ B2=221 等待 /mode_up=1 ...")
+            else:
+                self.reset_value = 222
+                self.toggle_map[cname] = 0
+                self._pending_trigger = None   # 不做事
 
-        self.reset_value = cid   # ✅ 只改變 reset_value，不直接發送
+        elif cname == "A2":
+            self.reset_value = cid
+            self._pending_trigger = "A2"       # ✅ 記錄 A2 需要等 mode_up
+            print("⏳ A2 等待 /mode_up=1 ...")
+        else:
+            self.reset_value = cid
+            self._pending_trigger = None   # ✅ 清掉等待狀態
+            if self._mode_down_loop_timer is not None:
+                self._mode_down_loop_timer.stop()
+                self._mode_down_loop_timer = None
+                print("⏹ 停止持續發送 /mode_down")
+
 
     def _publish_reset_loop(self):
         if self.reset_pub is not None:
@@ -221,6 +266,11 @@ class Panel(QtWidgets.QWidget):
         except Exception:
             pass
         e.accept()
+    def _send_mode_down(self):
+        if self.mode_down_pub is not None:
+            msg = Int32()
+            msg.data = 6   # ✅ 這裡換成你要的數字
+            self.mode_down_pub.publish(msg)
 
 
 def main():

@@ -10,7 +10,6 @@ find_package(ament_cmake REQUIRED)
 find_package(rclcpp REQUIRED)
 find_package(nav_msgs REQUIRED)
 find_package(geometry_msgs REQUIRED)
-find_package(rospi_pre REQUIRED)
 
 # === [ Executable ] ===
 add_executable(check_point_4 src/check_point_4.cpp)
@@ -29,7 +28,6 @@ ament_target_dependencies(chassis_controller
   nav_msgs
   geometry_msgs
   std_msgs
-  rospi_pre
 )
 
 ament_target_dependencies(fourth_chassis

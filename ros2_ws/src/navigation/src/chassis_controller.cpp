@@ -1,398 +1,401 @@
-#include <chrono>
-#include <memory>
-#include <map>
-#include <math.h>
-#include <queue>
-#include <algorithm>
+#include <rclcpp/rclcpp.hpp>
+#include <geometry_msgs/msg/twist.hpp>
+#include <geometry_msgs/msg/point.hpp>
+#include <std_msgs/msg/int32.hpp>
+#include <fstream>
+#include <sstream>
+#include <vector>
+#include <cmath>
+#include <cstdlib>
+#include <utility>
 
-#include "rclcpp/rclcpp.hpp"
-#include "geometry_msgs/msg/twist.hpp"
-#include "geometry_msgs/msg/pose.hpp"
+struct PathCommand { double x, y, radius, angle; };
 
-#include "rospi_pre/srv/chassis_manager.hpp"
-
-using namespace std::chrono_literals;
-
-// Utility functions - keep these outside the class since they don't depend on class state
-float dist(const geometry_msgs::msg::Point &point1, const geometry_msgs::msg::Point &point2) {
-    return std::sqrt(std::pow(point2.x - point1.x, 2) +
-                     std::pow(point2.y - point1.y, 2));
-}
-
-float linear_velo_magnitude(const geometry_msgs::msg::Twist data) {
-    return std::sqrt(std::pow(data.linear.x, 2) +
-                     std::pow(data.linear.y, 2));
-}
-
-float angular_velo_magnitude(const geometry_msgs::msg::Twist data) {
-    return data.angular.z;
-}
-
-// Unified node class
-class ChassisController : public rclcpp::Node {
+class CurvedPathPublisher : public rclcpp::Node {
 public:
-  ChassisController() : Node("chassis_controller") {
-    // Initialize subscription (from position_subscriber)
-    pose_subscription_ = this->create_subscription<geometry_msgs::msg::Pose>(
-      "pose_feedback", 10, std::bind(&ChassisController::pose_callback, this, std::placeholders::_1));
-    
-    // Initialize publisher (from twist_publisher)
-    twist_publisher_ = this->create_publisher<geometry_msgs::msg::Twist>("cmd_vel", 10);
-    
-    // Initialize service (from target_pose_handler)
-    chassis_service_ = this->create_service<rospi_pre::srv::ChassisManager>(
-      "chassis_goal_update", std::bind(&ChassisController::chassis_callback, this, 
-                                       std::placeholders::_1, std::placeholders::_2));
-    
-    // Initialize timer (from twist_publisher)
-    timer_ = this->create_wall_timer(50ms, std::bind(&ChassisController::timer_callback, this));
-    
-    // Set up position data (moved from global position_ds class)
-    setup_position_data();
-    
-    RCLCPP_INFO(this->get_logger(), "Chassis controller initialized");
-  }
+    CurvedPathPublisher() : Node("curved_path_publisher") {
+        pub_twist = this->create_publisher<geometry_msgs::msg::Twist>("cmd_vel", 10);
+        pub_end_ = this->create_publisher<std_msgs::msg::Int32>("mission_4_finish", 10);
+
+        sub_start_ = this->create_subscription<std_msgs::msg::Int32>(
+            "mission_4_start", 10,
+            std::bind(&CurvedPathPublisher::startCallback, this, std::placeholders::_1)
+        );
+        sub_odom_ = this->create_subscription<geometry_msgs::msg::Point>(
+            "wheel_odom", 10,
+            std::bind(&CurvedPathPublisher::odomCallback, this, std::placeholders::_1)
+        );
+
+        path_ = readPath("src/navigation/waypoints/center_path.csv");
+        if (path_.empty()) {
+            RCLCPP_ERROR(this->get_logger(), "❌ No valid path found.");
+            return;
+        }
+
+        // ✅ 初始化 prev_x_, prev_y_
+        prev_x_ = path_[0].x;
+        prev_y_ = path_[0].y;
+
+        i_ = 1;
+        step_ = 0;
+        timer_ = this->create_wall_timer(
+            std::chrono::milliseconds(50),
+            std::bind(&CurvedPathPublisher::publishTwist, this)
+        );
+        timer_->cancel();  // 啟動時不啟動計時器，等收到開始訊號
+    }
 
 private:
+    rclcpp::Publisher<geometry_msgs::msg::Twist>::SharedPtr pub_twist;
+    rclcpp::Publisher<std_msgs::msg::Int32>::SharedPtr pub_end_;
+    rclcpp::Subscription<std_msgs::msg::Int32>::SharedPtr sub_start_;
+    rclcpp::Subscription<geometry_msgs::msg::Point>::SharedPtr sub_odom_;
+    rclcpp::TimerBase::SharedPtr timer_;
 
-  /// wcz_add
-  double lin_limit_cmps_ = 3.0;        // desired top speed 2.2 ~ 3.0
-  double ang_limit_rads_ = 0.419;       // ≈ 2π/15 if you want to mirror STM
+    std::vector<PathCommand> path_;
+    size_t i_ = 1;
+    int step_ = 0, max_step_ = 50;
+    double prev_x_, prev_y_;
+    bool running_ = false;
 
-  // Current robot pose
-  geometry_msgs::msg::Pose current_pose_;
-  // Twist message to be published
-  geometry_msgs::msg::Twist twist_msg_;
-  
-  // These were previously global variables
-  geometry_msgs::msg::Pose cur_origin_;
-  geometry_msgs::msg::Pose cur_goal_;
-  char cur_move_type_ = 'l'; // Default to linear movement
-  
-  // Position data (previously in position_ds class)
-  std::map<std::string, geometry_msgs::msg::Pose> position_map_;
-  
-  // ROS components
-  rclcpp::Subscription<geometry_msgs::msg::Pose>::SharedPtr pose_subscription_;
-  rclcpp::Publisher<geometry_msgs::msg::Twist>::SharedPtr twist_publisher_;
-  rclcpp::Service<rospi_pre::srv::ChassisManager>::SharedPtr chassis_service_;
-  rclcpp::TimerBase::SharedPtr timer_;
-  double dt = 0.05; // refer to timer init
-  
-  /// Queue for path commands (previously in position_ds)
-  std::queue<std::pair<std::string, char>> path_queue_;
-  ///
-  
-  // Setup position data (previously in position_ds::setup_str_to_pose)
-  void setup_position_data() {
-    
-    /// 這裡是調整三個圓弧的設定點，車子會超出界線需要微調，來這裡！！！
-    position_map_["init"] = create_pose(0, 0, M_PI/2);
-    position_map_["1_finish"] = create_pose(0, 578, M_PI/2);
-    position_map_["4_1_curve_start"] = create_pose(0, 0, 0);
-    position_map_["4_1_curve_end"] = create_pose(60, 60, M_PI/2);
-    position_map_["4_1_curve_end"].position.z = 1.0;
-    position_map_["4_1_curve_end"].orientation.x = 60.0; // radius
-    position_map_["4_1_curve_end"].orientation.y = 1.0; // direction
-    position_map_["4_2_curve_start"] = create_pose(60, 175, M_PI/2);
-    position_map_["4_2_curve_end"] = create_pose(160, 175, M_PI*3/2);
-    position_map_["4_2_curve_end"].position.z = -1;
-    position_map_["4_2_curve_end"].orientation.x = 50;
-    position_map_["4_2_curve_end"].orientation.y = 1;
-    position_map_["4_3_curve_start"] = create_pose(160, -70, M_PI*3/2);
-    position_map_["4_3_curve_end"] = create_pose(260, -70, M_PI/2);
-    position_map_["4_3_curve_end"].position.z = 1;
-    position_map_["4_3_curve_end"].orientation.x = 50;
-    position_map_["4_3_curve_end"].orientation.y = 1;
-    
-    // Set initial goal
-    cur_goal_ = position_map_["init"];
+    bool have_odom_ = false;
+    double x_real_ = 0.0, y_real_ = 0.0;
+    double tolerance_ = 5.0; // cm
+    double Kp_ = 0.05;       // 誤差修正增益
+    int warmup_ticks_ = 0;          // 段切換後的助跑倒數
+    const int WARMUP_TICKS_MAX = 6; // 6*50ms = 300ms 助跑時間
 
-    /// Add auto path
-    path_queue_.push({"4_1_curve_end", 'c'});
-    path_queue_.push({"4_2_curve_end", 'c'});
-    path_queue_.push({"4_3_curve_end", 'c'});
-
-  }
-  
-  // Helper to create pose (previously in position_ds)
-  geometry_msgs::msg::Pose create_pose(float x, float y, float theta) {
-    geometry_msgs::msg::Pose pose;
-    pose.position.x = x;
-    pose.position.y = y;
-    pose.position.z = 0;
-    pose.orientation.x = 0;
-    pose.orientation.y = 0;
-    pose.orientation.z = theta;
-    pose.orientation.w = 0;
-    return pose;
-  }
-  static geometry_msgs::msg::Pose create_circular(double px, double py, double pz, double ox, double oy, double oz, double ow ) {
-      geometry_msgs::msg::Pose pose;
-      pose.position.x = px;
-      pose.position.y = py;
-      pose.position.z = pz;
-      pose.orientation.x = ox;
-      pose.orientation.y = oy;
-      pose.orientation.z = oz;
-      pose.orientation.w = ow; 
-      return pose;
-  }
-  
-  // Callback for pose subscription
-  void pose_callback(const geometry_msgs::msg::Pose::SharedPtr msg) {
-    // Store the current pose
-    current_pose_.position.x = msg->position.x;
-    current_pose_.position.y = msg->position.y;
-    current_pose_.position.z = msg->position.z;
-    current_pose_.orientation.x = msg->orientation.x;
-    current_pose_.orientation.y = msg->orientation.y;
-    current_pose_.orientation.z = msg->orientation.z;
-    current_pose_.orientation.w = msg->orientation.w;
-
-    RCLCPP_INFO(this->get_logger(), 
-                "Received Position: position(x: %.2f, y: %.2f, z: %.2f), orientation(z: %.2f)",
-                msg->position.x, msg->position.y, msg->position.z, msg->orientation.z);
-  }
-  
-  // Callback for service requests
-  void chassis_callback(const std::shared_ptr<rospi_pre::srv::ChassisManager::Request> request,
-                       std::shared_ptr<rospi_pre::srv::ChassisManager::Response> response) {
-    /// Clear queue when receiving manual goal         
-    path_queue_ = {};  
-    ///
-    
-    bool key_valid = position_map_.find(request->command) != position_map_.end();
-    response->valid = key_valid;
-    
-    if (key_valid) {
-      cur_origin_ = cur_goal_;
-      cur_goal_ = position_map_[request->command];
-      cur_move_type_ = request->move_type;
-      
-      RCLCPP_INFO(this->get_logger(), 
-                "Setting goal: position(x: %.2f, y: %.2f), mode: %c",
-                cur_goal_.position.x, cur_goal_.position.y, cur_move_type_);
-    }
-  }
-  
-  // Timer callback to update and publish twist messages
-  void timer_callback() {
-    update_twist(twist_msg_);
-    
-    RCLCPP_INFO(this->get_logger(), 
-                "Publishing Twist: linear(x: %.2f, y: %.2f), angular(z: %.2f)",
-                twist_msg_.linear.x, twist_msg_.linear.y, twist_msg_.angular.z);
-                
-    twist_publisher_->publish(twist_msg_);
-
-    /// 判斷是否已達目標（根據移動模式）
-    bool reached = false;
-    if (cur_move_type_ == 'l') {
-    reached = dist(current_pose_.position, cur_goal_.position) < 2.0;
-    } else if (cur_move_type_ == 'a') {
-    reached = std::abs(cur_goal_.orientation.z - current_pose_.orientation.z) < 0.017 * 5;
-    } else if (cur_move_type_ == 'c') {
-    reached = dist(current_pose_.position, cur_goal_.position) < 4.0;
+    std::pair<double,double> projectToSegment_
+    (double px, double py, double x1, double y1,
+    double x2, double y2, double* s_out = nullptr) {
+        const double vx = x2 - x1, vy = y2 - y1;
+        const double L2 = vx*vx + vy*vy + 1e-9;
+        double s = ((px - x1)*vx + (py - y1)*vy) / L2; // 無夾
+        if (s < 0.0) s = 0.0;
+        if (s > 1.0) s = 1.0;
+        if (s_out) *s_out = s;
+        return { x1 + s*vx, y1 + s*vy };
     }
 
-    if (reached) {
-        reset_twist(twist_msg_);
-        if (!path_queue_.empty()) {
-            auto next = path_queue_.front();
-            path_queue_.pop();
+    void startCallback(const std_msgs::msg::Int32::SharedPtr msg) {
+        if (msg->data == 1 && !running_) {
+            RCLCPP_INFO(this->get_logger(), "🚀 mission_4_start = 1, 開始跑路徑");
+            running_ = true;
+            i_ = 1;
+            step_ = 0;
 
-            cur_origin_ = cur_goal_;
-            cur_goal_ = position_map_[next.first];
-            cur_move_type_ = next.second;
+            prev_x_ = path_[0].x;
+            prev_y_ = path_[0].y;
 
-            RCLCPP_INFO(this->get_logger(), 
-            "Auto-switch goal: %s, mode: %c", next.first.c_str(), next.second);
-        } else {
-            RCLCPP_INFO(this->get_logger(), "🎉 Path complete");
+            timer_->reset(); // ✅ 啟動 timer
         }
     }
-    ///
-  }
-  
-  // Reset all twist values to zero
-  void reset_twist(geometry_msgs::msg::Twist &msg) {
-    msg.linear.x = 0;
-    msg.linear.y = 0;
-    msg.linear.z = 0;
-    msg.angular.x = 0;
-    msg.angular.y = 0;
-    msg.angular.z = 0;
-  }
-  
-  // Update twist based on current position and goal
-  void update_twist(geometry_msgs::msg::Twist &msg) {
-    // Use current_pose_ instead of calling position_subscriber::get_pose()
-    geometry_msgs::msg::Pose &cur_pose = current_pose_;
-    
-    // Linear movement
-    if (cur_move_type_ == 'l') {
-      /// Parameters，調整最大最小速度和加速度
-      double linear_accel_dist, linear_decel_dist;
-      double linear_max_speed = 3, linear_min_speed = 0.75;
-      double linear_acceler = 0.2, linear_deceler = 0.2; // cm/s
-      double linear_acceler_real = linear_acceler * dt;
-      double linear_deceler_real = linear_deceler * dt;
-      double linear_error = 2;
 
-      /// wcz_add
-      linear_max_speed = std::min(linear_max_speed, lin_limit_cmps_);
+    std::vector<PathCommand> readPath(const std::string& filename) {
+        std::vector<PathCommand> path;
+        std::ifstream file(filename);
+        std::string line;
 
-      linear_accel_dist = (pow(linear_max_speed, 2)-pow(linear_min_speed, 2)) / (2 * linear_acceler) * 1.2;
-      linear_decel_dist = (pow(linear_max_speed, 2)-pow(linear_min_speed, 2)) / (2 * linear_deceler) * 1.2;
+        while (std::getline(file, line)) {
+            if (line.empty() || line[0] == '#') continue;
+            std::stringstream ss(line);
+            std::string x_str, y_str, r_str, a_str;
 
-      // Check if we've reached the goal
-      if (dist(cur_pose.position, cur_goal_.position) < linear_error) {
-        reset_twist(msg);
-        return;
-      }
+            std::getline(ss, x_str, ',');
+            std::getline(ss, y_str, ',');
+            std::getline(ss, r_str, ',');
+            std::getline(ss, a_str, ',');
 
-      // Calculate distances
-      double total_dist = dist(cur_goal_.position, cur_origin_.position);
-      double travel_dist = dist(cur_pose.position, cur_origin_.position);
-      double remain_dist = dist(cur_goal_.position, cur_pose.position);
-      double velo_magnitude = linear_velo_magnitude(msg);
-
-      // Acceleration and deceleration logic
-      if (total_dist - travel_dist < linear_decel_dist) {
-        if (velo_magnitude - linear_deceler > linear_min_speed) {
-          velo_magnitude -= linear_deceler_real;
-        } else {
-          velo_magnitude = linear_min_speed;
+            try {
+                double x = std::stod(x_str);
+                double y = std::stod(y_str);
+                double r = std::stod(r_str);
+                double a = std::stod(a_str);
+                path.push_back({x, y, r, a});
+            } catch (...) {
+                RCLCPP_WARN(this->get_logger(), "⚠️ Invalid line: %s", line.c_str());
+            }
         }
-      } else {
-        if (travel_dist < linear_accel_dist) {
-          velo_magnitude += linear_acceler_real;
+        return path;
+    }
+
+    void publishStop() {
+        geometry_msgs::msg::Twist twist;
+        twist.linear.x = twist.linear.y = 0.0;
+        twist.angular.z = 0.0;
+        pub_twist->publish(twist);
+    }
+
+    void publishEndFlag(int value) {
+        std_msgs::msg::Int32 msg;
+        msg.data = value;
+        pub_end_->publish(msg);
+    }
+
+    void odomCallback(const geometry_msgs::msg::Point::SharedPtr msg) {
+        x_real_ = msg->x; // m → cm
+        y_real_ = msg->y; // m → cm
+        x_real_ *= -100.0;
+        y_real_ *= 100.0;
+        have_odom_ = true;
+    }
+
+void publishTwist() {
+    // 1) 還沒開始或沒有里程就不動
+    if (!running_ || !have_odom_) {
+        publishStop();
+        return;
+    }
+
+    // 2) 全部路徑完成
+    if (i_ >= path_.size()) {
+        publishStop();
+        publishEndFlag(1);
+        timer_->cancel();
+        running_ = false;
+        return;
+    } else {
+        publishEndFlag(0);
+    }
+
+    // ===== 參數（可依車況微調）=====
+    const double dt          = 0.05;   // 50 ms
+    const double vmax_ms     = 0.7;   // 上限 m/s
+    const double vmax_cms    = vmax_ms * 100.0;
+    const double Kp_track    = 0.12;   // 拉回 P（cm/s per cm）
+    const double Kd_track    = 0.05;   // 阻尼 D（cm/s per cm/s）
+    const double deadband    = 2.0;    // <1cm 改縮放，不是歸零
+    const double ff_speed    = 50.0;   // 沿路徑底速 (cm/s)
+    const double vff_min     = 30.0;    // 沿切線最小前饋地板 (cm/s)
+
+    const double snap_radius = 10.0;   // 距終點 <10cm → 目標直接貼終點
+    const double goal_tol    = 1.0;    // 必須 <1cm 才算到點
+    const double lookahead   = 20.0;   // 段切換助跑前視距離（cm）←原10
+    // 將成員 const int WARMUP_TICKS_MAX 建議設 10（原 6）
+
+    auto clamp = [](double v, double lim){
+        return (v >  lim) ?  lim : (v < -lim ? -lim : v);
+    };
+
+    const auto& p1 = path_[i_ - 1];
+    const auto& p2 = path_[i_];
+
+    // 3) 接近終點先 snap
+    double dist_to_p2 = std::hypot(p2.x - x_real_, p2.y - y_real_);
+    bool   near_goal  = (dist_to_p2 <= snap_radius);
+
+    // 4) 目標點 (xt, yt) 與切線方向 (tnx, tny)
+    double xt = 0.0, yt = 0.0;     // 追蹤目標
+    double tnx = 0.0, tny = 0.0;   // 切線單位向量（前饋方向）
+
+    if (near_goal) {
+        // ---- 貼點：直接追 waypoint ----
+        xt = p2.x; 
+        yt = p2.y;
+        double gx = xt - x_real_, gy = yt - y_real_;
+        double gL = std::hypot(gx, gy);
+        tnx = (gL > 1e-6) ? gx / gL : 0.0;
+        tny = (gL > 1e-6) ? gy / gL : 0.0;
+    } else {
+        // 直線段判定：半徑近 0 或角度近 0 視為直線
+        bool isArc = (std::abs(p1.radius) > 1e-6) && (std::abs(p1.angle) > 1e-3);
+
+        if (!isArc) {
+            // ---- 直線段：投影 + blend 到末端，切線為線段方向 ----
+            double dx = p2.x - p1.x, dy = p2.y - p1.y;
+            double tL = std::hypot(dx, dy);
+            tnx = (tL > 1e-6) ? dx / tL : 0.0;
+            tny = (tL > 1e-6) ? dy / tL : 0.0;
+
+            double vx = dx, vy = dy;
+            double L2 = vx*vx + vy*vy + 1e-9;
+            double s = ((x_real_ - p1.x)*vx + (y_real_ - p1.y)*vy) / L2;
+            if (s < 0.0) s = 0.0;
+            if (s > 1.0) s = 1.0;
+            double xs = p1.x + s*vx, ys = p1.y + s*vy;
+
+            if (warmup_ticks_ > 0) {
+                // 段切換助跑：先往切線方向看一小段
+                xt = p1.x + tnx * lookahead;
+                yt = p1.y + tny * lookahead;
+            } else {
+                // 接近尾端做平滑銜接
+                double blend = (s > 0.8) ? (s - 0.8) / 0.2 : 0.0;
+                if (blend > 1.0) blend = 1.0;
+                xt = (1.0 - blend) * xs + blend * p2.x;
+                yt = (1.0 - blend) * ys + blend * p2.y;
+            }
         } else {
-          velo_magnitude = linear_max_speed;
+            // ---- 弧線段：依半徑與角度求圓心，沿弧前推 ----
+            const double theta_deg = p1.angle;
+            const double theta_rad = theta_deg * M_PI / 180.0;
+            const double r = std::abs(p1.radius);
+            const double ANG_EPS = 1e-2;
+            const double EPS     = 1e-6;
+
+            double dx = p2.x - p1.x, dy = p2.y - p1.y;
+            double chord = std::hypot(dx, dy);
+
+            // chord > 2r（不可能弧）→ 退回直線處理
+            if (chord > 2.0 * r + 1e-4) {
+                double tL = std::hypot(dx, dy);
+                tnx = (tL > 1e-6) ? dx / tL : 0.0;
+                tny = (tL > 1e-6) ? dy / tL : 0.0;
+
+                double vx = dx, vy = dy;
+                double L2 = vx*vx + vy*vy + 1e-9;
+                double s = ((x_real_ - p1.x)*vx + (y_real_ - p1.y)*vy) / L2;
+                if (s < 0.0) s = 0.0;
+                if (s > 1.0) s = 1.0;
+                double xs = p1.x + s*vx, ys = p1.y + s*vy;
+
+                if (warmup_ticks_ > 0) {
+                    xt = p1.x + tnx * lookahead;
+                    yt = p1.y + tny * lookahead;
+                } else {
+                    double blend = (s > 0.8) ? (s - 0.8) / 0.2 : 0.0;
+                    if (blend > 1.0) blend = 1.0;
+                    xt = (1.0 - blend) * xs + blend * p2.x;
+                    yt = (1.0 - blend) * ys + blend * p2.y;
+                }
+            } else {
+                // 求圓心
+                double mid_x = (p1.x + p2.x) * 0.5;
+                double mid_y = (p1.y + p2.y) * 0.5;
+                double dir_x = -dy / (chord + EPS);
+                double dir_y =  dx / (chord + EPS);
+
+                double cx, cy;
+                if (std::abs(std::abs(theta_deg) - 180.0) <= ANG_EPS) {
+                    // 半圓：圓心=弦中點
+                    cx = mid_x; cy = mid_y;
+                } else {
+                    double inside = r*r - 0.25 * chord * chord;
+                    if (inside < 0.0 && inside > -1e-6) inside = 0.0;
+                    double h = std::sqrt(std::max(0.0, inside));
+                    cx = mid_x + dir_x * h * std::copysign(1.0, theta_rad);
+                    cy = mid_y + dir_y * h * std::copysign(1.0, theta_rad);
+                }
+
+                auto ang = [&](double X, double Y){ return std::atan2(Y - cy, X - cx); };
+                double a_start = ang(p1.x, p1.y);
+                double a_end   = ang(p2.x, p2.y);
+                if (theta_rad > 0 && a_end < a_start) a_end += 2*M_PI;
+                if (theta_rad < 0 && a_end > a_start) a_end -= 2*M_PI;
+
+                // 把目前位置限制在弧段範圍，再沿弧前推一步
+                double a_cur = ang(x_real_, y_real_);
+                while (theta_rad > 0 && a_cur < a_start) a_cur += 2*M_PI;
+                while (theta_rad > 0 && a_cur > a_end)   a_cur -= 2*M_PI;
+                while (theta_rad < 0 && a_cur > a_start) a_cur -= 2*M_PI;
+                while (theta_rad < 0 && a_cur < a_end)   a_cur += 2*M_PI;
+
+                double a_lo = std::min(a_start, a_end);
+                double a_hi = std::max(a_start, a_end);
+                double a_proj = (a_cur < a_lo) ? a_lo : (a_cur > a_hi ? a_hi : a_cur);
+
+                // 底速轉角速度：dθ = v/r * dt
+                double dAng = (ff_speed / r) * dt * ((theta_rad >= 0) ? +1.0 : -1.0);
+                double a_tgt = a_proj + dAng;
+                if (theta_rad > 0) a_tgt = std::min(a_tgt, a_end);
+                else               a_tgt = std::max(a_tgt, a_end);
+
+                xt = cx + r * std::cos(a_tgt);
+                yt = cy + r * std::sin(a_tgt);
+
+                // 切線方向（與半徑垂直）
+                double rx = xt - cx, ry = yt - cy;
+                double tx = (theta_rad >= 0) ? -ry :  ry;
+                double ty = (theta_rad >= 0) ?  rx : -rx;
+                double tL = std::hypot(tx, ty);
+                tnx = (tL > 1e-6) ? tx / tL : 0.0;
+                tny = (tL > 1e-6) ? ty / tL : 0.0;
+
+                // 段切換助跑
+                if (warmup_ticks_ > 0) {
+                    xt = p1.x + tnx * lookahead;
+                    yt = p1.y + tny * lookahead;
+                }
+            }
         }
-      }
-
-      // Transform velocity to robot frame
-      double direction_x = 0, direction_y = 0;
-      if (remain_dist > 0) {
-        double dx = cur_goal_.position.x - cur_pose.position.x;
-        double dy = cur_goal_.position.y - cur_pose.position.y;
-        double th = -1 * cur_pose.orientation.z;
-        double trans_x = cos(th)*dx - sin(th)*dy;
-        double trans_y = sin(th)*dx + cos(th)*dy;
-        direction_x = trans_x / remain_dist;
-        direction_y = trans_y / remain_dist;
-      }
-
-      // Set twist values
-      msg.linear.x = velo_magnitude * direction_x;
-      msg.linear.y = velo_magnitude * direction_y;
-      msg.angular.z = 0;
-
-      /// wcz_add
-      // HARD CAP (linear)
-      clamp_linear_xy(msg, lin_limit_cmps_);
-
-    }
-    // Angular movement
-    else if (cur_move_type_ == 'a') {
-      double angular_error = 0.017 * 5;
-
-      // Check if we've reached the goal orientation
-      if (std::abs(cur_goal_.orientation.z - cur_pose.orientation.z) < angular_error) {
-        reset_twist(msg);
-        return;
-      }
-
-      // Set angular velocity
-      double omega_magnitude = 0.35;
-      double angular_direction = (cur_goal_.orientation.z > cur_pose.orientation.z) ? 1.0 : -1.0;
-      
-      msg.linear.x = 0;
-      msg.linear.y = 0;
-      msg.angular.z = omega_magnitude * angular_direction;
-
-      /// wcz_add
-      msg.angular.z = clamp(msg.angular.z, -ang_limit_rads_, ang_limit_rads_);
-    }
-    // Circular movement
-    else if (cur_move_type_ == 'c') {
-      double circular_error = 4;
-
-      // Check if we've reached the goal position
-      if (dist(cur_pose.position, cur_goal_.position) < circular_error) {
-        reset_twist(msg);
-        return;
-      }
-
-    RCLCPP_INFO(this->get_logger(), 
-                "circular remaining dist:%.2f", dist(cur_pose.position, cur_goal_.position));
-
-      // Set circular motion parameters
-      int direction = cur_goal_.position.z; // -1 or 1
-      double radius = cur_goal_.orientation.x;
-      double T = 15;
-      double omega = 2.0*M_PI / T;
-      
-    /// wcz_revise
-    // msg.linear.x = radius * omega;
-    // msg.angular.z = direction * omega;
-
-    /// wcz_add
-    // 計算線速度
-    double v = std::abs(radius * omega);
-
-    // 1) 限制角速度
-    omega = clamp(omega, -ang_limit_rads_, ang_limit_rads_);
-
-    // 2) 限制線速度
-    if (v > lin_limit_cmps_ && v > 0.0) {
-        double scale = lin_limit_cmps_ / v;
-        omega *= scale;  // 降低角速度以保證 v 不超過限制
     }
 
-    // 3) 寫入 msg
-    msg.linear.x = std::abs(radius) * std::abs(omega);
-    msg.linear.y = 0.0;
-    msg.angular.z = (direction >= 0 ? 1.0 : -1.0) * std::abs(omega);
+    // 5) 誤差（cm）與微分（cm/s）
+    static double ex_prev = 0.0, ey_prev = 0.0;
+    double ex = xt - x_real_, ey = yt - y_real_;
+    double dex = (ex - ex_prev) / dt;
+    double dey = (ey - ey_prev) / dt;
+    ex_prev = ex; ey_prev = ey;
 
-        /// wcz_add
-        clamp_linear_xy(msg, lin_limit_cmps_);
+    // 6) 控制律：沿切線前饋 + PD 拉回（cm/s）
+    double vx_cmd = ff_speed * tnx + Kp_track * ex - Kd_track * dex;
+    double vy_cmd = ff_speed * tny + Kp_track * ey - Kd_track * dey;
+
+    // 半死區（縮放）與沿切線最小前饋
+    double err = std::hypot(ex, ey);
+    if (err < deadband) {
+        double scale = err / deadband; // 0~1
+        vx_cmd *= scale;
+        vy_cmd *= scale;
     }
-  }
-
-  /// wcz_add
-  inline void clamp_linear_xy(geometry_msgs::msg::Twist& msg, double vmax){
-    double v = std::hypot(msg.linear.x, msg.linear.y);
-    if (v > vmax && v > 0.0){
-      double s = vmax / v;
-      msg.linear.x *= s;
-      msg.linear.y *= s;
+    // 沿切線的最小前饋（除非已經非常接近目標）
+    double v_along = vx_cmd * tnx + vy_cmd * tny; // 投影到切線
+    if (std::abs(v_along) < vff_min && dist_to_p2 > goal_tol) {
+        double boost = (v_along >= 0 ? (vff_min - v_along) : -(vff_min + v_along));
+        vx_cmd += boost * tnx;
+        vy_cmd += boost * tny;
     }
-  }
 
-  /// wcz_add
-  inline double clamp(double v, double lo, double hi){
-    return std::max(lo, std::min(v, hi));
-  }
+    // 飽和
+    vx_cmd = clamp(vx_cmd, vmax_cms);
+    vy_cmd = clamp(vy_cmd, vmax_cms);
+
+    // 7) 到點判定：一定走到點才切段
+    dist_to_p2 = std::hypot(p2.x - x_real_, p2.y - y_real_);
+    if (dist_to_p2 <= goal_tol) {
+        // 進到下一段
+        i_++;
+        if (i_ >= path_.size()) {
+            publishStop();
+            publishEndFlag(1);
+            timer_->cancel();
+            running_ = false;
+            return;
+        }
+        // 換段：清誤差、啟動助跑，不剎停
+        ex_prev = ey_prev = 0.0;
+        warmup_ticks_ = WARMUP_TICKS_MAX;
+
+        // >>> 立刻推一腳（kick）：朝下一個 p2 給一個小速度，避免停住
+        const auto& next_p2 = path_[i_];
+        double gx = next_p2.x - x_real_;
+        double gy = next_p2.y - y_real_;
+        double gL = std::hypot(gx, gy);
+        if (gL > 1e-6) { gx /= gL; gy /= gL; }
+        geometry_msgs::msg::Twist kick;
+        kick.linear.x = (std::max(vff_min, 20.0) / 100.0) * gx; // 12 cm/s 起步
+        kick.linear.y = (std::max(vff_min, 20.0) / 100.0) * gy;
+        kick.angular.z = 0.0;
+        pub_twist->publish(kick);
+        return; // 本 tick 結束，下一 tick 依新段正常計算
+    }
+
+    // 8) 發送（cm/s → m/s）
+    geometry_msgs::msg::Twist twist;
+    twist.linear.x = vx_cmd / 100.0;
+    twist.linear.y = vy_cmd / 100.0;
+    twist.angular.z = 0.0;
+    pub_twist->publish(twist);
+
+    // 助跑倒數
+    if (warmup_ticks_ > 0) warmup_ticks_--;
+}
 
 };
 
-int main(int argc, char * argv[])
-{
-  // Initialize ROS
-  rclcpp::init(argc, argv);
-  
-  // Create and spin the unified node
-  auto node = std::make_shared<ChassisController>();
-  
-  // Spin the node
-  rclcpp::spin(node);
-  
-  // Clean up
-  rclcpp::shutdown();
-  return 0;
-
-  ///tomorrow : STM
+int main(int argc, char* argv[]) {
+    rclcpp::init(argc, argv);
+    rclcpp::spin(std::make_shared<CurvedPathPublisher>());
+    rclcpp::shutdown();
+    return 0;
 }
